@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">Letters</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="letter_Q">Q</string>
+    <string name="letter_W">W</string>
+    <string name="letter_E">E</string>
+    <string name="letter_R">R</string>
+    <string name="letter_T">T</string>
+    <string name="letter_Y">Y</string>
+    <string name="letter_U">U</string>
+    <string name="letter_I">I</string>
+    <string name="letter_O">O</string>
+    <string name="letter_P">P</string>
+
+    <string name="letter_A">A</string>
+    <string name="letter_S">S</string>
+    <string name="letter_D">D</string>
+    <string name="letter_F">F</string>
+    <string name="letter_G">G</string>
+    <string name="letter_H">H</string>
+    <string name="letter_J">J</string>
+    <string name="letter_K">K</string>
+    <string name="letter_L">L</string>
+
+    <string name="letter_Z">Z</string>
+    <string name="letter_X">X</string>
+    <string name="letter_C">C</string>
+    <string name="letter_V">V</string>
+    <string name="letter_B">B</string>
+    <string name="letter_N">N</string>
+    <string name="letter_M">M</string>
+
+    <string name="letter_1">1</string>
+    <string name="letter_2">2</string>
+    <string name="letter_3">3</string>
+    <string name="letter_4">4</string>
+    <string name="letter_5">5</string>
+    <string name="letter_6">6</string>
+    <string name="letter_7">7</string>
+    <string name="letter_8">8</string>
+    <string name="letter_9">9</string>
+    <string name="letter_0">0</string>
+    <string name="key_delete">&#8855;</string>
+    <string name="key_menu">&#8801;</string>
+
+</resources>

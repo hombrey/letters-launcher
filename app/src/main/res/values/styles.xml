@@ -1,0 +1,33 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="keypadText" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">#ffffffff</item>
+        <item name="android:background">#06090909</item>
+    </style>
+
+    <style name="keypadDel" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#ffffffff</item>
+        <item name="android:background">#06090909</item>
+    </style>
+
+    <style name="keypadMenu" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#ffffffff</item>
+        <item name="android:background">#06090909</item>
+    </style>
+
+    <style name="typeout" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textSize">20sp</item>
+        <item name="android:background">#06090909</item>
+    </style>
+
+
+
+</resources>
