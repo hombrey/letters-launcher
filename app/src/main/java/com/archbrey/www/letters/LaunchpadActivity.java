@@ -5,15 +5,19 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.MenuItem;
-//import android.view.View;
+import android.view.View;
 import android.widget.LinearLayout;
 //import android.widget.RelativeLayout;
 import android.widget.Button;
-//import android.widget.TextView;
+import android.widget.TextView;
 import android.graphics.Color;
 import android.util.TypedValue;
 import android.content.res.Resources;
 import android.view.Gravity;
+import android.view.View.OnTouchListener;
+import android.view.MotionEvent;
+import android.support.v4.view.MotionEventCompat;
+//import android.util.Log;
 //import android.widget.EditText;
 
 public class LaunchpadActivity extends Activity {
@@ -24,16 +28,23 @@ public class LaunchpadActivity extends Activity {
     LinearLayout keypadMidRow;
     LinearLayout keypadBottomRow;
     LinearLayout keypadNumberRow;
-    //LinearLayout typeoutBox;
+    LinearLayout typeoutBox;
     Button[] keypadKeys;
     String[] keypadAssign;
     String keypadDelAssign;
     String keypadMenuAssign;
     Button keypadDelKey;
     Button keypadMenuKey;
-    //TextView typeoutText;
+    TextView typeoutView;
+
+    int keyWidth;
+    int keyHeight;
+    int[] keypadKeyX;
+    int[] keypadKeyY;
+
     //TextView typeoutText2;
     Resources r;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,17 +64,34 @@ public class LaunchpadActivity extends Activity {
 
         assignKeys();
 
-        LinearLayout.LayoutParams keypadBoxParams = new LinearLayout.LayoutParams(
+        LinearLayout.LayoutParams BoxParams = new LinearLayout.LayoutParams(
                                                         LinearLayout.LayoutParams.MATCH_PARENT,
                                                         LinearLayout.LayoutParams.WRAP_CONTENT);
                 //keypadBoxParams.gravity=Gravity.CENTER_HORIZONTAL;
 
         drawKeypadBox();
+        drawTypeoutBox();
+        setKeypadListener();
 
-        mainScreen.addView(keypadBox, keypadBoxParams);
+        mainScreen.addView(typeoutBox, BoxParams);
+        mainScreen.addView(keypadBox, BoxParams);
         setContentView(mainScreen);
 
     }// protected void onCreate(Bundle savedInstanceState)
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        getkeypadLocations();
+    } //protected void onResume()
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+
+        //getkeypadLocations();
+    } //protected void onResume()
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -86,6 +114,142 @@ public class LaunchpadActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     } //public boolean onOptionsItemSelected(MenuItem item)
+
+    String determineLetter(float TouchX, float TouchY){
+
+
+        String LetterFound="none";
+        int inc;
+        int IntTouchX=(int)TouchX;
+        int IntTouchY=(int)TouchY;
+        for (inc=0; inc<=35; inc++)
+
+        {
+
+            if( ( IntTouchX >= keypadKeyX[inc]) && (IntTouchX < (keypadKeyX[inc]+keyWidth) ) )
+                if( ( IntTouchY >= keypadKeyY[inc]) && (IntTouchY < (keypadKeyY[inc]+keyHeight) ) )
+                {LetterFound=keypadAssign[inc];}
+
+        } //for (inc=0; inc<=35; inc++)
+
+        return LetterFound;
+
+    } //string determineLetter(int TouchX, int TouchY)
+
+    void setKeypadListener() {
+
+        int inc;
+        OnTouchListener[] KeypadListener;
+        KeypadListener = new OnTouchListener[36];
+
+        for (inc=0; inc<=35; inc++) {
+            keypadKeys[inc].setOnTouchListener(
+                    KeypadListener[inc]= new OnTouchListener(){
+                        //String TouchedLetter =keypadAssign[inc]; //does not work
+                        public boolean onTouch(View v, MotionEvent event) {
+                           // Button b = (Button)v;
+                           // String TouchedLetter = b.getText().toString();
+                            float currentX=event.getRawX();
+                            float currentY=event.getRawY();
+                            if (keypadKeyY[1] == 0) //[perform only if not previously initialized
+                                {getkeypadLocations();}
+                            String TouchedLetter = determineLetter(currentX, currentY);
+
+
+                            int action = MotionEventCompat.getActionMasked(event);
+                            switch (action) {
+                                case (MotionEvent.ACTION_DOWN):
+                                    typeoutView.setText(TouchedLetter);
+                                    typeoutView.append(" DOWN");
+                                    return false;
+                                case (MotionEvent.ACTION_MOVE):
+
+                                    TouchedLetter = determineLetter(currentX, currentY);
+                                    typeoutView.setText(TouchedLetter);
+                                  //  typeoutView.append(" ");
+                                  //  typeoutView.append(TouchedLetter);
+                                    typeoutView.append(" MOVE");
+
+                                    return false;
+                                case (MotionEvent.ACTION_UP):
+                                    typeoutView.setText(TouchedLetter);
+                                    typeoutView.append(" UP");
+                                    return false;
+                                default:
+                                    return true;
+                            }//switch(action)
+                        } //public boolean onTouch(View v, MotionEvent event)
+                    } //new OnTouchListener()
+            );//keypadKeys[inc].setOnTouchListener
+
+            keypadKeys[inc].setOnLongClickListener(
+                    new Button.OnLongClickListener() {
+                        public boolean onLongClick(View v) {
+                            Button b = (Button) v;
+                            String longTouchedLetter = b.getText().toString();
+                            typeoutView.setText(longTouchedLetter);
+                            typeoutView.append("loooong press");
+                            return false;
+                        } //public void OnClick(View v)
+                    } //new Button.OnClickListener()
+
+            ); //myButtonTrigger.setOnLongClickListener
+
+
+        } //for (inc=0; inc<=35; inc++)
+
+    } //void setKeypadListener()
+
+
+    void drawTypeoutBox(){
+
+        typeoutView = new TextView(this);
+        typeoutView.setText("Hello there");
+        typeoutView.setGravity(Gravity.CENTER_HORIZONTAL);
+
+        LinearLayout.LayoutParams typeoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+            //typeoutParams.gravity=Gravity.CENTER;
+
+        typeoutBox = new LinearLayout(this);
+        typeoutBox.setOrientation(LinearLayout.HORIZONTAL);
+        //keypadTopRow.setBackgroundColor(Color.BLUE);
+        //typeoutBox.setGravity(Gravity.CENTER_HORIZONTAL);
+
+        typeoutBox.addView(typeoutView, typeoutParams);
+
+    } //drawTypeoutBox;
+
+
+    void getkeypadLocations(){
+
+        int inc;
+        int[] instanceLocation;
+        instanceLocation = new int[2];
+
+        keypadKeyX = new int[36];
+        keypadKeyY = new int[36];
+
+        for (inc=0; inc<=35; inc++) {
+
+            keyWidth = keypadKeys[inc].getWidth();
+            keyHeight = keypadKeys[inc].getHeight();
+
+            keypadKeys[inc].getLocationOnScreen(instanceLocation);
+            keypadKeyX[inc]=instanceLocation[0];
+            keypadKeyY[inc]=instanceLocation[1];
+
+            typeoutView.setText("(");
+            typeoutView.append(String.valueOf(instanceLocation[0]));
+            typeoutView.append(",");
+            typeoutView.append(String.valueOf(instanceLocation[1]));
+            typeoutView.append(")");
+
+        } //for (inc=10; inc<=19; inc++)
+
+
+    } //void getkeypadLocations();
 
 
     void drawKeypadBox(){
@@ -121,13 +285,12 @@ public class LaunchpadActivity extends Activity {
                 keypad_key_width,
                 keypad_key_height);
         keypadKeysParams.setMargins(0,0,0,0);
+        keypadKeysParams.weight=0.1f;
 
         LinearLayout.LayoutParams keypadRowParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
-
-        keypadKeysParams.weight=0.1f;
 
         keypadBox = new LinearLayout(this);
         keypadBox.setOrientation(LinearLayout.VERTICAL);
