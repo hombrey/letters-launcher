@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".LaunchpadActivity"
     >
-
+    <!--
     <fragment
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -23,6 +23,6 @@
         android:layout_above="@+id/keypad_fragment"
         android:layout_centerHorizontal="true"
         tools:layout="@layout/typeoutbox" />
-
+        -->
 
 </RelativeLayout>
