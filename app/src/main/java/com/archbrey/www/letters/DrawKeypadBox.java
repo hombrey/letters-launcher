@@ -1,7 +1,7 @@
 package com.archbrey.www.letters;
 
 
-import android.app.Activity;
+//import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -9,8 +9,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.content.res.Resources;
+//import android.widget.TextView;
 
 
 public class DrawKeypadBox  {
@@ -23,7 +22,7 @@ public class DrawKeypadBox  {
    // private Button keypadDelKey;
    // private Button keypadMenuKey;
 
-    private Resources r;
+    private Resources rDrawBox;
 
     private static KeypadButton[] keypadButton ;
     private static SideButton menuButton;
@@ -31,10 +30,10 @@ public class DrawKeypadBox  {
     Context LaunchpadContext;
 
 
-    public DrawKeypadBox(LinearLayout mainkeypadBox,Context c, Resources rexternal)
+    public DrawKeypadBox(LinearLayout mainkeypadBox,Context c, Resources r)
     {
 
-        r = rexternal;
+        rDrawBox = r;
         LaunchpadContext = c;
 
         assignKeys();
@@ -86,7 +85,7 @@ public class DrawKeypadBox  {
         for (inc=0; inc<=35; inc++) {
            keypadButton[inc].Key.setText(keypadButton[inc].Letter);
            keypadButton[inc].Key.setTextColor(Color.WHITE);
-           keypadButton[inc].Key.setBackgroundColor(r.getColor(R.color.Black_transparent));
+           keypadButton[inc].Key.setBackgroundColor(rDrawBox.getColor(R.color.Black_transparent));
         } //for (inc=0; inc<=35; inc++)
 
 
@@ -96,14 +95,14 @@ public class DrawKeypadBox  {
 
         int keypad_key_height = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP, 38,
-                r.getDisplayMetrics());
+                rDrawBox.getDisplayMetrics());
         int keypad_key_width = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP, 0,
-                r.getDisplayMetrics());
+                rDrawBox.getDisplayMetrics());
 
         int midrow_padding = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP, 19,
-                r.getDisplayMetrics());
+                rDrawBox.getDisplayMetrics());
 
         LinearLayout.LayoutParams keypadKeysParams = new LinearLayout.LayoutParams (
                 keypad_key_width,
@@ -118,7 +117,7 @@ public class DrawKeypadBox  {
 
         keypadBox.setOrientation(LinearLayout.VERTICAL);
         //keypadBox.setBackgroundColor(Color.BLUE);
-        keypadBox.setBackgroundColor(r.getColor(R.color.Black_transparent));
+        keypadBox.setBackgroundColor(rDrawBox.getColor(R.color.Black_transparent));
         keypadBox.setGravity(Gravity.BOTTOM);
 
         //==========TOP ROW=========================================================================================

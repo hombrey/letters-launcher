@@ -23,7 +23,6 @@ public class KeypadTouchListener  {
         int Y;
     }
 
-    //public KeypadTouchListener(Button[] keypadKey, String[] keypadAssign, TextView textView) {
     public KeypadTouchListener(KeypadButton[] keypad, TextView textView) {
         int inc;
         typeoutView = textView;
@@ -71,7 +70,8 @@ public class KeypadTouchListener  {
                                 case (MotionEvent.ACTION_MOVE):
                                     TouchedLetter = determineLetter(currentX, currentY);
                                     typeoutView.setText(TouchedLetter);
-                                    typeoutView.append(" MOVE");
+                                    typeoutView.append(" MOVE ");
+                                    typeoutView.append(String.valueOf(TouchedLetter.charAt(0)));
                                     return false;
                                 case (MotionEvent.ACTION_UP):
                                     typeoutView.setText(TouchedLetter);

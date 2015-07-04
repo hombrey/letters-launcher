@@ -3,8 +3,10 @@ package com.archbrey.www.letters;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
@@ -57,9 +59,7 @@ public class LaunchpadActivity extends Activity {
     private  SideButton delButton;
 
 
-
-
-    AppItem[] appItem;
+    AppItem[] appItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,8 +94,6 @@ public class LaunchpadActivity extends Activity {
         //draw app drawer
         drawerBox = LayoutInflater.from(this).inflate(R.layout.drawerbox, null);
 
-        //drawerView = (ScrollView) findViewById(R.id.letter_drawer);
-
         typeoutBox.setId(R.id.typeoutBox);
         keypadBox.setId(R.id.keypadBox);
         drawerBox.setId(R.id.drawerBox);
@@ -128,9 +126,21 @@ public class LaunchpadActivity extends Activity {
 
         setContentView(mainScreen);
 
-        get_appItems();
+        //setup initial app list
+        appItems = new GetAppList().all_appItems(basicPkgMgr, appItems);
+        appGridView = (GridView) findViewById(R.id.drawer_content);
+        new DrawDrawerBox (this, appGridView, appItems);
 
+        //setup listeners
         new KeypadTouchListener(keypadButtons, typeoutView);
+
+        //setup intents
+        IntentFilter Package_update_filter = new IntentFilter();
+        Package_update_filter.addAction(Intent.ACTION_PACKAGE_ADDED);
+        Package_update_filter.addAction(Intent.ACTION_PACKAGE_REMOVED);
+        Package_update_filter.addAction(Intent.ACTION_PACKAGE_CHANGED);
+        Package_update_filter.addDataScheme("package");
+        registerReceiver(new RefreshAppItemReceiver(), Package_update_filter);
 
     }// protected void onCreate(Bundle savedInstanceState)
 
@@ -205,43 +215,18 @@ public class LaunchpadActivity extends Activity {
 
     } //drawTypeoutBox;
 
-    public void get_appItems(){
-        final Intent pkgIntent = new Intent (Intent.ACTION_MAIN,null);
-        pkgIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        List<ResolveInfo> appPkgList = basicPkgMgr.queryIntentActivities(pkgIntent, 0);
+    public class RefreshAppItemReceiver extends BroadcastReceiver {
 
+        @Override
+        public void onReceive(Context context, Intent intent) {
 
-        appItem = new AppItem[appPkgList.size()];
+            appItems = new GetAppList().all_appItems(basicPkgMgr, appItems);
+            appGridView = (GridView) findViewById(R.id.drawer_content);
+            new DrawDrawerBox (context, appGridView, appItems);
 
-        for (int inc = 0; inc<appPkgList.size(); inc++){
-            appItem[inc] = new AppItem();
-            // appItem[inc].icon = appPkgList.get(inc).loadIcon(basicPkgMgr);
-            appItem[inc].name = appPkgList.get(inc).activityInfo.packageName;
-            appItem[inc].label = appPkgList.get(inc).loadLabel(basicPkgMgr).toString();
+        }
 
-        } //for (int inc = 0; inc<appPkgList.size(); inc++)
+    } //public class PacReceiver extends BroadcastReceiver
 
-
-        /*
-        appItem = new AppItem[5];
-
-        for (int inc = 0; inc<5; inc++){
-            appItem[inc] = new AppItem();
-            // appItem[inc].icon = appPkgList.get(inc).loadIcon(basicPkgMgr);
-            appItem[inc].name = appPkgList.get(inc).activityInfo.packageName;
-            appItem[inc].label = appPkgList.get(inc).loadLabel(basicPkgMgr).toString();
-
-        } //for (int inc = 0; inc<appPkgList.size(); inc++)*/
-
-        new SortApps().exchange_sort(appItem);
-
-        AppDrawerAdapterObject = new AppDrawerAdapter(this, appItem);
-
-        appGridView = (GridView) findViewById(R.id.drawer_content);
-        appGridView.setAdapter(AppDrawerAdapterObject);
-        //appGridView.setOnItemClickListener(new DrawerClicklistener(this, appItem, basicPkgMgr));
-        //appGridView.setOnItemLongClickListener(new DrawerLongClicklistener(this, slidingDrawer, mainScreen));
-
-    } //public void set_appItem()
 
 } //public class LaunchpadActivity
