@@ -3,5 +3,6 @@
 
     <item type="id" name="keypadBox" />
     <item type="id" name="typeoutBox" />
+    <item type="id" name="drawerBox" />
     <item type="id" name="fillerBox" />
 </resources>
