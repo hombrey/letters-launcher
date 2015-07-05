@@ -1,6 +1,7 @@
 package com.archbrey.www.letters;
 
 import android.content.Context;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ public class AppDrawerAdapter extends BaseAdapter {
 
     Context getViewContext;
     AppItem[] appItemForAdapter;
+    int drawerTextSize;
 
     public AppDrawerAdapter (Context c, AppItem passedAppItem[]){
         getViewContext = c;
@@ -44,6 +46,7 @@ public class AppDrawerAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup viewGroup) {
 
+        drawerTextSize = 17;
         ViewHolder viewHolder;
         LayoutInflater getViewInflater = (LayoutInflater) getViewContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -63,7 +66,8 @@ public class AppDrawerAdapter extends BaseAdapter {
 
         //  viewHolder.icon.setImageDrawable(appItemForAdapter[position].icon);
         viewHolder.text.setText(appItemForAdapter[position].label);
-
+        //viewHolder.text.setTextSize(R.dimen.drawer_textSize);
+        viewHolder.text.setTextSize(TypedValue.COMPLEX_UNIT_SP, drawerTextSize);
         return convertView;
 
     } //public View getView(int position, View view, ViewGroup viewGroup)

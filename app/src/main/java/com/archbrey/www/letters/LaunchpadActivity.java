@@ -9,9 +9,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Color;
 import android.os.Bundle;
 //import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,6 +42,7 @@ public class LaunchpadActivity extends Activity {
     private LinearLayout keypadBox;
     private LinearLayout typeoutBox;
     private TextView typeoutView;
+    private int typeoutTextSize;
 
     private View drawerBox ;
 
@@ -107,22 +110,23 @@ public class LaunchpadActivity extends Activity {
         RelativeLayout.LayoutParams drawerBoxParams = new RelativeLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-        drawerBoxParams.addRule(RelativeLayout.ABOVE, typeoutBox.getId());
+        drawerBoxParams.addRule(RelativeLayout.ABOVE, keypadBox.getId());
+
 
         RelativeLayout.LayoutParams typeoutBoxParams = new RelativeLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-        typeoutBoxParams.addRule(RelativeLayout.ABOVE, keypadBox.getId());
+        typeoutBoxParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 
         RelativeLayout.LayoutParams keypadBoxParams = new RelativeLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         keypadBoxParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 
-        mainScreen.addView(fillerBox, fillerBoxParams);
         mainScreen.addView(drawerBox, drawerBoxParams);
         mainScreen.addView(typeoutBox, typeoutBoxParams);
         mainScreen.addView(keypadBox, keypadBoxParams);
+        mainScreen.addView(fillerBox, fillerBoxParams);
 
         setContentView(mainScreen);
 
@@ -132,6 +136,7 @@ public class LaunchpadActivity extends Activity {
         global.setGridView(appGridView);
         global.setMainContext(this);
         global.setPackageManager(basicPkgMgr);
+        global.setFindString("");
         //global.setResources(r);
 
         //setup initial app list
@@ -141,7 +146,7 @@ public class LaunchpadActivity extends Activity {
         //appGridView.setBackgroundColor(r.getColor(R.color.Black_transparent));
 
         //setup listeners
-        new KeypadTouchListener(keypadButtons, typeoutView);
+        new KeypadTouchListener(keypadButtons,delButton, typeoutView);
 
         //setup intents
         IntentFilter Package_update_filter = new IntentFilter();
@@ -205,9 +210,12 @@ public class LaunchpadActivity extends Activity {
 
     private void drawTypeoutBox(){
 
+        typeoutTextSize = 22;
         typeoutView = new TextView(this);
         typeoutView.setText("Hello there");
         typeoutView.setGravity(Gravity.CENTER_HORIZONTAL);
+        typeoutView.setTextSize(TypedValue.COMPLEX_UNIT_SP, typeoutTextSize);
+        typeoutView.setTextColor(Color.WHITE);
 
         LinearLayout.LayoutParams typeoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -217,7 +225,7 @@ public class LaunchpadActivity extends Activity {
 
         typeoutBox = new LinearLayout(this);
         typeoutBox.setOrientation(LinearLayout.HORIZONTAL);
-        //keypadTopRow.setBackgroundColor(Color.BLUE);
+        typeoutBox.setBackgroundColor(r.getColor(R.color.Blacker_transparent));
         //typeoutBox.setGravity(Gravity.CENTER_HORIZONTAL);
 
         typeoutBox.addView(typeoutView, typeoutParams);

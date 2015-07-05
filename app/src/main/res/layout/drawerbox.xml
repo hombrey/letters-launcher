@@ -12,7 +12,6 @@
         android:layout_height="match_parent"
         android:background="@color/Blacker_transparent"
         android:numColumns="4"
-        android:gravity="bottom"
-        />
+        android:gravity="bottom" />
 
 </LinearLayout>

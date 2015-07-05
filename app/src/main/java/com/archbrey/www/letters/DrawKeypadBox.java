@@ -196,7 +196,8 @@ public class DrawKeypadBox  {
         keypadButton[35].Letter="M";
 
         menuButton.Ascii=String.valueOf(Character.toChars(8801));
-        delButton.Ascii=String.valueOf(Character.toChars(8855));
+        //delButton.Ascii=String.valueOf(Character.toChars(8855));
+        delButton.Ascii=String.valueOf(Character.toChars(8656));
 
 
     }//void assignKeys()

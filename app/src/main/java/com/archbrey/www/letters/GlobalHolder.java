@@ -4,7 +4,6 @@ package com.archbrey.www.letters;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.view.View;
 import android.widget.GridView;
 
 public class GlobalHolder {
@@ -13,13 +12,13 @@ public class GlobalHolder {
     private static Context mainContext;
     private static GridView appGridView;
     private static PackageManager pkgMgr;
-    private Resources r;
+    private static String findString;
 
-    public void setResources (Resources getR) {r = getR;
-    }// public void setResources
+    public void setFindString (String getFindString) { findString = getFindString;
+    } // public void String setFindString (String getFindString)
 
-    public Resources getResources (){ return r;
-    }//public void setResources
+    public String getFindString () { return findString;
+    } // public void String setFindString (String getFindString)
 
     public void setPackageManager (PackageManager getPkgMgr){ pkgMgr = getPkgMgr;
     }//public void setGridView (GridView getGridView)

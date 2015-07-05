@@ -3,6 +3,7 @@ package com.archbrey.www.letters;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.support.v4.view.MotionEventCompat;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,25 +22,31 @@ public class KeypadTouchListener  {
     private ButtonLocation[] buttonLocation;
     //private GetAppList getAppList;
     private GlobalHolder global;
+    private SideButton delButton;
 
     private class ButtonLocation {
         int X;
         int Y;
     }
 
-    public KeypadTouchListener(KeypadButton[] keypad, TextView textView) {
+    public KeypadTouchListener(KeypadButton[] keypad, SideButton getdelButton,TextView textView) {
+
         int inc;
         typeoutView = textView;
 
         keypadButton = new KeypadButton[36];
         buttonLocation = new ButtonLocation[36];
+        delButton = new SideButton();
 
         for (inc=0; inc<=35; inc++) {
             keypadButton[inc] = new KeypadButton();
             buttonLocation[inc] = new ButtonLocation();
-            keypadButton[inc].Key = keypad[inc].Key;
-            keypadButton[inc].Letter = keypad[inc].Letter;
+           // keypadButton[inc].Key = keypad[inc].Key;
+           // keypadButton[inc].Letter = keypad[inc].Letter;
+            keypadButton[inc] = keypad[inc];
         } //for (inc=0; inc<=35; inc++)
+
+        delButton = getdelButton;
 
        // getAppList = new GetAppList();
         setKeypadListener();
@@ -61,13 +68,17 @@ public class KeypadTouchListener  {
                             // String TouchedLetter = b.getText().toString();
                             float currentX = event.getRawX();
                             float currentY = event.getRawY();
+                            String findString;
                             AppItem[] appItems;
                             global = new GlobalHolder();
                             appItems = new AppItem[global.getAppItemSize()];
                             appItems = global.getAppItem();
                             PackageManager PkgMgr;
                             PkgMgr= global.getPackageManager();
+                            findString=global.getFindString();
+
                             String TouchedLetter = determineLetter(currentX, currentY);
+                            findString=findString+TouchedLetter;
                             appItems = evaluateAction(PkgMgr,appItems,TouchedLetter);
 
                             if (buttonLocation[1].Y == 0) //[perform only if not previously initialized
@@ -86,6 +97,9 @@ public class KeypadTouchListener  {
                                     return false;
                                 case (MotionEvent.ACTION_UP):
                                     typeoutView.setText(TouchedLetter);
+                                    typeoutView.append(" ");
+                                    global.setFindString(findString);
+                                    typeoutView.append(findString);
                                     //callListeners(PkgMgr,appItems);
                                     return false;
                                 default:
@@ -109,6 +123,40 @@ public class KeypadTouchListener  {
             ); //myButtonTrigger.setOnLongClickListener
 
         } //for (inc=0; inc<=35; inc++)
+
+ //-----------------------------   DELETE KEY ------------------------------------------------------------
+        delButton.Key.setOnClickListener(
+                new Button.OnClickListener() {
+                    public void onClick(View v) { //perform action of click
+                        GlobalHolder global;
+                        global = new GlobalHolder();
+                        String findString = global.getFindString();
+
+                        if (findString.length() > 0 && findString!=null) {
+                            findString = findString.substring(0, findString.length()-1);
+                        } //if (findString.length() > 0 && findString.charAt(findString.length()-1)=='x')
+                        typeoutView.setText(findString);
+                        global.setFindString(findString);
+                    } //public void OnClick(View v)
+                } //new Button.OnClickListener()
+        ); //delButton.Key.setOnClickListener
+
+        delButton.Key.setOnLongClickListener(
+                new Button.OnLongClickListener() {
+                    public boolean onLongClick(View v) { //perform action of click
+                        GlobalHolder global;
+                        global = new GlobalHolder();
+                        global.setFindString("");
+
+                        typeoutView.setText("");
+
+                        return true;
+                    } //public void OnClick(View v)
+                } //new Button.OnClickListener()
+
+        ); //myButtonTrigger.setOnLongClickListener
+
+
 
     } //void setKeypadListener()
 
