@@ -16,7 +16,8 @@ public class KeypadTouchListener  {
 
     private KeypadButton[] keypadButton ;
     private ButtonLocation[] buttonLocation;
-
+    private GetAppList getAppList;
+    private GlobalHolder global;
 
     private class ButtonLocation {
         int X;
@@ -37,6 +38,7 @@ public class KeypadTouchListener  {
             keypadButton[inc].Letter = keypad[inc].Letter;
         } //for (inc=0; inc<=35; inc++)
 
+        getAppList = new GetAppList();
         setKeypadListener();
 
     } //public KeypadTouchListener(Button[] keypadKey, String[] keypadAssign, TextView textView)
@@ -56,11 +58,25 @@ public class KeypadTouchListener  {
                             // String TouchedLetter = b.getText().toString();
                             float currentX = event.getRawX();
                             float currentY = event.getRawY();
+                            String TouchedLetter = determineLetter(currentX, currentY);
+
+                            AppItem[] appItems;
+                            global = new GlobalHolder();
+                            appItems = new AppItem[global.getAppItemSize()];
+                            appItems = global.getAppItem();
+
+                            GetAppList getAppList;
+                            getAppList = new GetAppList();
+                            String Search = "C";
+                            appItems = getAppList.filterByFirstChar(appItems, TouchedLetter);
+
+                            new DrawDrawerBox (global.getMainContext(), global.getGridView(), appItems);
+
                             if (buttonLocation[1].Y == 0) //[perform only if not previously initialized
                                 {
                                 getkeypadLocations();
                                 }
-                            String TouchedLetter = determineLetter(currentX, currentY);
+
                             int action = MotionEventCompat.getActionMasked(event);
                             switch (action) {
                                 case (MotionEvent.ACTION_DOWN):

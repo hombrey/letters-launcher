@@ -57,7 +57,7 @@ public class LaunchpadActivity extends Activity {
     private  KeypadButton[] keypadButtons ;
     private  SideButton menuButton;
     private  SideButton delButton;
-
+    private GlobalHolder global;
 
     AppItem[] appItems;
 
@@ -128,7 +128,23 @@ public class LaunchpadActivity extends Activity {
 
         //setup initial app list
         appItems = new GetAppList().all_appItems(basicPkgMgr, appItems);
+        //new GetAppList().all_appItems(basicPkgMgr, appItems);
+
+
+        global = new GlobalHolder();
+        /*
+        appItems = new AppItem[global.getAppItemSize()];
+        appItems = global.getAppItem();
+
+            GetAppList getAppList;
+            getAppList = new GetAppList();
+            String Search = "C";
+            appItems = getAppList.filterByFirstChar(appItems, Search);
+        */
+
         appGridView = (GridView) findViewById(R.id.drawer_content);
+        global.setGridView(appGridView);
+        global.setMainContext(this);
         new DrawDrawerBox (this, appGridView, appItems);
 
         //setup listeners
