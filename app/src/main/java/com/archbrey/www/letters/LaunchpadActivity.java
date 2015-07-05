@@ -132,12 +132,13 @@ public class LaunchpadActivity extends Activity {
         global.setGridView(appGridView);
         global.setMainContext(this);
         global.setPackageManager(basicPkgMgr);
+        //global.setResources(r);
 
         //setup initial app list
         appItems = new GetAppList().all_appItems(basicPkgMgr, appItems);
 
-
         new DrawDrawerBox (this, appGridView, appItems);
+        //appGridView.setBackgroundColor(r.getColor(R.color.Black_transparent));
 
         //setup listeners
         new KeypadTouchListener(keypadButtons, typeoutView);

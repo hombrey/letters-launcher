@@ -86,7 +86,7 @@ public class KeypadTouchListener  {
                                     return false;
                                 case (MotionEvent.ACTION_UP):
                                     typeoutView.setText(TouchedLetter);
-                                    callListeners(PkgMgr,appItems);
+                                    //callListeners(PkgMgr,appItems);
                                     return false;
                                 default:
                                     return true;
@@ -177,6 +177,7 @@ public class KeypadTouchListener  {
         return appItems;
     }// private void evaluateAction(String getCurrentLetter)
 
+    /*
     private void callListeners(PackageManager pm, AppItem[] appItems) {
 
         Context clickListenerContext;
@@ -192,8 +193,9 @@ public class KeypadTouchListener  {
         drawerAdapterObject = new AppDrawerAdapter(clickListenerContext, appItems);
         drawerGrid.setAdapter(drawerAdapterObject);
         drawerGrid.setOnItemClickListener(new DrawerClickListener(clickListenerContext, appItems, pm));
+        drawerGrid.setOnItemLongClickListener(new DrawerLongClickListener(clickListenerContext, appItems, pm));
 
-    } // public void callListeners(PackageManager pm, AppItem[] appItems)
+    } // public void callListeners(PackageManager pm, AppItem[] appItems)*/
 
 
 }//public class KeypadTouchListener

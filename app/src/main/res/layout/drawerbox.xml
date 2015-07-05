@@ -10,7 +10,7 @@
         android:id="@+id/drawer_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/Black_transparent"
+        android:background="@color/Blacker_transparent"
         android:numColumns="4"
         android:gravity="bottom"
         />
