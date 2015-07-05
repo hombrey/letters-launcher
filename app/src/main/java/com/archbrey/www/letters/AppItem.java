@@ -6,4 +6,5 @@ class AppItem {
     //Drawable icon;
     String name;
     String label;
+    String pkgname;
 } //class Pac

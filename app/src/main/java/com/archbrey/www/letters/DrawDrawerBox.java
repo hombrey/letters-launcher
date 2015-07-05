@@ -20,8 +20,8 @@ public class DrawDrawerBox extends LaunchpadActivity {
         AppDrawerAdapterObject = new AppDrawerAdapter(getViewContext, showItem);
         appGridView.setAdapter(AppDrawerAdapterObject);
 
-        //appGridView.setOnItemClickListener(new DrawerClicklistener(this, appItem, basicPkgMgr));
-        //appGridView.setOnItemLongClickListener(new DrawerLongClicklistener(this, slidingDrawer, mainScreen));
+        appGridView.setOnItemClickListener(new DrawerClickListener(getViewContext, appItem, basicPkgMgr));
+        //appGridView.setOnItemLongClickListener(new DrawerLongClicklistener(getViewContext, slidingDrawer, mainScreen));
 
     } // public DrawDrawerBox (Context c, AppItem[] appItem)
 

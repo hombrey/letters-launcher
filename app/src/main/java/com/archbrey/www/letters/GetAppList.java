@@ -32,8 +32,9 @@ public class GetAppList {
 
         for (int inc = 0; inc<appPkgList.size(); inc++){
             appItem[inc] = new AppItem();
-            appItem[inc].name = appPkgList.get(inc).activityInfo.packageName;
+            appItem[inc].pkgname = appPkgList.get(inc).activityInfo.packageName;
             appItem[inc].label = appPkgList.get(inc).loadLabel(PkgMgr).toString();
+            appItem[inc].name = appPkgList.get(inc).activityInfo.name;
 
         } //for (int inc = 0; inc<appPkgList.size(); inc++)
 

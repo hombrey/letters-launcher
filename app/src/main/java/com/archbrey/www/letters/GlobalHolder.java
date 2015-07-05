@@ -2,6 +2,7 @@ package com.archbrey.www.letters;
 
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.widget.GridView;
 
 public class GlobalHolder {
@@ -9,7 +10,14 @@ public class GlobalHolder {
     private static AppItem[] currentAppItems;
     private static Context mainContext;
     private static GridView appGridView;
+    private static PackageManager pkgMgr;
 
+
+    public void setPackageManager (PackageManager getPkgMgr){ pkgMgr = getPkgMgr;
+    }//public void setGridView (GridView getGridView)
+
+    public PackageManager getPackageManager (){ return pkgMgr;
+    }//public void setGridView (GridView getGridView)
 
     public void setGridView (GridView getGridView){ appGridView = getGridView;
     }//public void setGridView (GridView getGridView)

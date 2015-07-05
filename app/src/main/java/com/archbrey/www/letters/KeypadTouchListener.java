@@ -1,10 +1,13 @@
 package com.archbrey.www.letters;
 
 
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.support.v4.view.MotionEventCompat;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.TextView;
 
 public class KeypadTouchListener  {
@@ -16,7 +19,7 @@ public class KeypadTouchListener  {
 
     private KeypadButton[] keypadButton ;
     private ButtonLocation[] buttonLocation;
-    private GetAppList getAppList;
+    //private GetAppList getAppList;
     private GlobalHolder global;
 
     private class ButtonLocation {
@@ -38,7 +41,7 @@ public class KeypadTouchListener  {
             keypadButton[inc].Letter = keypad[inc].Letter;
         } //for (inc=0; inc<=35; inc++)
 
-        getAppList = new GetAppList();
+       // getAppList = new GetAppList();
         setKeypadListener();
 
     } //public KeypadTouchListener(Button[] keypadKey, String[] keypadAssign, TextView textView)
@@ -58,19 +61,14 @@ public class KeypadTouchListener  {
                             // String TouchedLetter = b.getText().toString();
                             float currentX = event.getRawX();
                             float currentY = event.getRawY();
-                            String TouchedLetter = determineLetter(currentX, currentY);
-
                             AppItem[] appItems;
                             global = new GlobalHolder();
                             appItems = new AppItem[global.getAppItemSize()];
                             appItems = global.getAppItem();
-
-                            GetAppList getAppList;
-                            getAppList = new GetAppList();
-                            String Search = "C";
-                            appItems = getAppList.filterByFirstChar(appItems, TouchedLetter);
-
-                            new DrawDrawerBox (global.getMainContext(), global.getGridView(), appItems);
+                            PackageManager PkgMgr;
+                            PkgMgr= global.getPackageManager();
+                            String TouchedLetter = determineLetter(currentX, currentY);
+                            appItems = evaluateAction(PkgMgr,appItems,TouchedLetter);
 
                             if (buttonLocation[1].Y == 0) //[perform only if not previously initialized
                                 {
@@ -81,17 +79,14 @@ public class KeypadTouchListener  {
                             switch (action) {
                                 case (MotionEvent.ACTION_DOWN):
                                     typeoutView.setText(TouchedLetter);
-                                    typeoutView.append(" DOWN");
                                     return false;
                                 case (MotionEvent.ACTION_MOVE):
                                     TouchedLetter = determineLetter(currentX, currentY);
                                     typeoutView.setText(TouchedLetter);
-                                    typeoutView.append(" MOVE ");
-                                    typeoutView.append(String.valueOf(TouchedLetter.charAt(0)));
                                     return false;
                                 case (MotionEvent.ACTION_UP):
                                     typeoutView.setText(TouchedLetter);
-                                    typeoutView.append(" UP");
+                                    callListeners(PkgMgr,appItems);
                                     return false;
                                 default:
                                     return true;
@@ -148,13 +143,11 @@ public class KeypadTouchListener  {
 
     private String determineLetter(float TouchX, float TouchY){
 
-
-        String LetterFound="none";
+        String LetterFound=" ";
         int inc;
         int IntTouchX=(int)TouchX;
         int IntTouchY=(int)TouchY;
         for (inc=0; inc<=35; inc++)
-
         {
 
             if( ( IntTouchX >= buttonLocation[inc].X) && (IntTouchX < (buttonLocation[inc].X+keyWidth) ) )
@@ -167,6 +160,40 @@ public class KeypadTouchListener  {
 
     } //string determineLetter(int TouchX, int TouchY)
 
+    private AppItem[] evaluateAction(PackageManager PkgMgr, AppItem[] appItems, String getCurrentLetter) {
+
+        GetAppList getAppList;
+        getAppList = new GetAppList();
+
+        if (!getCurrentLetter.equals(" ")) {
+            appItems = getAppList.filterByFirstChar(appItems, getCurrentLetter);
+        } //if (!getCurrentLetter.equals(" "))
+        else {
+            appItems = getAppList.all_appItems(PkgMgr, appItems);
+        } //else of if (!getCurrentLetter.equals(" "))
+
+        new DrawDrawerBox(global.getMainContext(), global.getGridView(), appItems);
+
+        return appItems;
+    }// private void evaluateAction(String getCurrentLetter)
+
+    private void callListeners(PackageManager pm, AppItem[] appItems) {
+
+        Context clickListenerContext;
+        GlobalHolder global;
+        GridView drawerGrid;
+
+        global = new GlobalHolder();
+        clickListenerContext = global.getMainContext();
+        drawerGrid = global.getGridView();
+
+        AppDrawerAdapter drawerAdapterObject;
+
+        drawerAdapterObject = new AppDrawerAdapter(clickListenerContext, appItems);
+        drawerGrid.setAdapter(drawerAdapterObject);
+        drawerGrid.setOnItemClickListener(new DrawerClickListener(clickListenerContext, appItems, pm));
+
+    } // public void callListeners(PackageManager pm, AppItem[] appItems)
 
 
 }//public class KeypadTouchListener
