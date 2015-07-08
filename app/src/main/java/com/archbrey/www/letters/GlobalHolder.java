@@ -4,7 +4,9 @@ package com.archbrey.www.letters;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.view.View;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 
 public class GlobalHolder {
 
@@ -13,6 +15,22 @@ public class GlobalHolder {
     private static GridView appGridView;
     private static PackageManager pkgMgr;
     private static String findString;
+    private static View drawerBox;
+    private static LinearLayout typeoutBox;
+
+
+    public void setTypeoutBox (LinearLayout getTypeoutBox) {typeoutBox = getTypeoutBox;
+    }//public void setDrawerBox (View getDrawerBox)
+
+    public LinearLayout getTypeoutBox () {return typeoutBox;
+    }//public void setDrawerBox (View getDrawerBox)
+
+
+    public void setDrawerBox (View getDrawerBox) {drawerBox = getDrawerBox;
+    }//public void setDrawerBox (View getDrawerBox)
+
+    public View getDrawerBox () {return drawerBox;
+    }//public void setDrawerBox (View getDrawerBox)
 
     public void setFindString (String getFindString) { findString = getFindString;
     } // public void String setFindString (String getFindString)

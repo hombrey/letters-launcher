@@ -61,6 +61,7 @@ public class LaunchpadActivity extends Activity {
     private  SideButton menuButton;
     private  SideButton delButton;
     private GlobalHolder global;
+    private DrawDrawerBox drawDrawerBox;
 
     AppItem[] appItems;
 
@@ -133,6 +134,8 @@ public class LaunchpadActivity extends Activity {
         //set variables to be used by other classes
         global = new GlobalHolder();
         appGridView = (GridView) findViewById(R.id.drawer_content);
+        global.setDrawerBox(drawerBox);
+        global.setTypeoutBox(typeoutBox);
         global.setGridView(appGridView);
         global.setMainContext(this);
         global.setPackageManager(basicPkgMgr);
@@ -142,7 +145,8 @@ public class LaunchpadActivity extends Activity {
         //setup initial app list
         appItems = new GetAppList().all_appItems(basicPkgMgr, appItems);
 
-        new DrawDrawerBox (this, appGridView, appItems);
+        drawDrawerBox = new DrawDrawerBox (this, appGridView, appItems);
+        drawDrawerBox.setListener();
         //appGridView.setBackgroundColor(r.getColor(R.color.Black_transparent));
 
         //setup listeners

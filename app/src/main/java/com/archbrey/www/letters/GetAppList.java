@@ -79,4 +79,37 @@ public class GetAppList {
     } // public AppItem[] filterByFirstChar (AppItem[] appItem, String Search)
 
 
+
+    public AppItem[] filterByString (AppItem[] appItem, String Search) {
+
+        int ArraySize = appItem.length;
+        int filtercount = 0;
+        String MatchValue;
+
+        AppItem[] filteredItem;
+        AppItem[] resultItem;
+        filteredItem = new AppItem[ArraySize];
+
+        for (int inc = 0; inc<ArraySize; inc++){
+           // MatchValue = String.valueOf(appItem[inc].label.charAt(0));
+           // if (Search.equals(MatchValue))
+            if (appItem[inc].label.toLowerCase().contains(Search.toLowerCase()))
+            {
+                filteredItem[filtercount] = new AppItem();
+                filteredItem[filtercount] = appItem[inc];
+                filtercount++;
+            } //(Search.equals(MatchValue))
+        } //for (int inc = 0; inc<appPkgList.size(); inc++)
+
+        resultItem = new AppItem[filtercount];
+        for (int inc = 0; inc<filtercount; inc++){
+            resultItem[inc] = new AppItem();
+            resultItem[inc] = filteredItem[inc];
+        } //for (int inc = 0; inc<filtercount; inc++)
+
+        return resultItem;
+    } // public AppItem[] filterByFirstChar (AppItem[] appItem, String Search)
+
+
+
 } //public class GetAppList
