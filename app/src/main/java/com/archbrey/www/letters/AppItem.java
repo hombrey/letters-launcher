@@ -7,4 +7,5 @@ class AppItem {
     String name;
     String label;
     String pkgname;
+
 } //class Pac

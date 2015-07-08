@@ -49,29 +49,17 @@ public class DrawKeypadBox  {
 
     } // public DrawKeypadBox(
 
-    public  LinearLayout getLayout(){
-        return keypadBox;
+    public  LinearLayout getLayout(){return keypadBox;
     }//public LinearLayout getLayout()
 
+    public  KeypadButton[] getKeypadButton(){ return keypadButton;
+    }//public  KeypadButton[] getKeypadButton
 
-    public  KeypadButton[] getKeypadButton(){
+    public  SideButton getmenuButton(){return menuButton;
+    }//public  SideButton getmenuButton()
 
-        return keypadButton;
-
-    }//public LinearLayout getLayout()
-
-    public  SideButton getmenuButton(){
-
-        return menuButton;
-
-    }//public LinearLayout getLayout()
-
-
-    public  SideButton getdelButton(){
-
-        return delButton;
-
-    }//public LinearLayout getLayout()
+    public  SideButton getdelButton(){return delButton;
+    }//SideButton getdelButton()
 
     private void drawKeypadBox(){
 
@@ -92,12 +80,11 @@ public class DrawKeypadBox  {
         menuButton.Key.setText(menuButton.Ascii);
         delButton.Key.setText(delButton.Ascii);
 
-
-        int keypad_key_height = (int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, 38,
-                rDrawBox.getDisplayMetrics());
         int keypad_key_width = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP, 0,
+                rDrawBox.getDisplayMetrics());
+        int keypad_key_height = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, 38,
                 rDrawBox.getDisplayMetrics());
 
         int midrow_padding = (int) TypedValue.applyDimension(

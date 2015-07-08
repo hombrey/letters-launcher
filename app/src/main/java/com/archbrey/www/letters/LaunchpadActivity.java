@@ -1,5 +1,6 @@
 package com.archbrey.www.letters;
 
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +42,9 @@ public class LaunchpadActivity extends Activity {
     private RelativeLayout mainScreen;
     private LinearLayout keypadBox;
     private LinearLayout typeoutBox;
+    private LinearLayout filterBox;
     private TextView typeoutView;
+
     private int typeoutTextSize;
 
     private View drawerBox ;
@@ -57,6 +60,7 @@ public class LaunchpadActivity extends Activity {
 
     private Resources r;
     DrawKeypadBox KeypadBoxHandle;
+    DrawFilterBox filterBoxHandle;
     private  KeypadButton[] keypadButtons ;
     private  SideButton menuButton;
     private  SideButton delButton;
@@ -77,20 +81,16 @@ public class LaunchpadActivity extends Activity {
        // mainScreen.setOrientation(LinearLayout.VERTICAL);
         mainScreen.setGravity(Gravity.BOTTOM);
 
-
-        keypadButtons = new KeypadButton[36];
-        for (int inc=0; inc<=35; inc++) {
-            keypadButtons[inc] = new KeypadButton();
-        } //for (inc=0; inc<=35; inc++)
-
-
         keypadBox = new LinearLayout(this);
-
         KeypadBoxHandle = new DrawKeypadBox(keypadBox,this, r);
-                typeoutBox = KeypadBoxHandle.getLayout();
+                keypadBox = KeypadBoxHandle.getLayout();
                 keypadButtons = KeypadBoxHandle.getKeypadButton();
                 menuButton = KeypadBoxHandle.getmenuButton();
                 delButton = KeypadBoxHandle.getdelButton();
+
+        filterBox = new LinearLayout(this);
+        filterBoxHandle = new DrawFilterBox(filterBox,this,r);
+                filterBox = filterBoxHandle.getLayout();
 
         drawTypeoutBox();
         drawFillerBox();
@@ -98,10 +98,11 @@ public class LaunchpadActivity extends Activity {
         //draw app drawer
         drawerBox = LayoutInflater.from(this).inflate(R.layout.drawerbox, null);
 
-        typeoutBox.setId(R.id.typeoutBox);
-        keypadBox.setId(R.id.keypadBox);
         drawerBox.setId(R.id.drawerBox);
         fillerBox.setId(R.id.fillerBox);
+        typeoutBox.setId(R.id.typeoutBox);
+        keypadBox.setId(R.id.keypadBox);
+        filterBox.setId(R.id.filterBox);
 
         RelativeLayout.LayoutParams fillerBoxParams = new RelativeLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -111,23 +112,30 @@ public class LaunchpadActivity extends Activity {
         RelativeLayout.LayoutParams drawerBoxParams = new RelativeLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-        drawerBoxParams.addRule(RelativeLayout.ABOVE, keypadBox.getId());
-
+        drawerBoxParams.addRule(RelativeLayout.ABOVE, typeoutBox.getId());
 
         RelativeLayout.LayoutParams typeoutBoxParams = new RelativeLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-        typeoutBoxParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        typeoutBoxParams.addRule(RelativeLayout.ABOVE, keypadBox.getId());
 
         RelativeLayout.LayoutParams keypadBoxParams = new RelativeLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-        keypadBoxParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+       // keypadBoxParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        keypadBoxParams.addRule(RelativeLayout.ABOVE, filterBox.getId());
 
-        mainScreen.addView(drawerBox, drawerBoxParams);
-        mainScreen.addView(typeoutBox, typeoutBoxParams);
+        RelativeLayout.LayoutParams filterBoxParams = new RelativeLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        filterBoxParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+
+        mainScreen.addView(filterBox, filterBoxParams);
         mainScreen.addView(keypadBox, keypadBoxParams);
+        mainScreen.addView(typeoutBox, typeoutBoxParams);
+        mainScreen.addView(drawerBox, drawerBoxParams);
         mainScreen.addView(fillerBox, fillerBoxParams);
+
 
         setContentView(mainScreen);
 
@@ -214,7 +222,7 @@ public class LaunchpadActivity extends Activity {
 
     private void drawTypeoutBox(){
 
-        typeoutTextSize = 22;
+        typeoutTextSize = 24;
         typeoutView = new TextView(this);
         typeoutView.setText("Hello there");
         typeoutView.setGravity(Gravity.CENTER_HORIZONTAL);
