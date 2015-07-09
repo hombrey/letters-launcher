@@ -23,6 +23,7 @@ public class KeypadTouchListener  {
     private ButtonLocation[] buttonLocation;
     //private GetAppList getAppList;
     private GlobalHolder global;
+    private LongTouchHolder longTouch;
     private SideButton delButton;
 
     private class ButtonLocation {
@@ -38,12 +39,13 @@ public class KeypadTouchListener  {
         keypadButton = new KeypadButton[36];
         buttonLocation = new ButtonLocation[36];
         delButton = new SideButton();
+        longTouch = new LongTouchHolder();
+
+        longTouch.reset();
 
         for (inc=0; inc<=35; inc++) {
             keypadButton[inc] = new KeypadButton();
             buttonLocation[inc] = new ButtonLocation();
-           // keypadButton[inc].Key = keypad[inc].Key;
-           // keypadButton[inc].Letter = keypad[inc].Letter;
             keypadButton[inc] = keypad[inc];
         } //for (inc=0; inc<=35; inc++)
 
@@ -71,36 +73,44 @@ public class KeypadTouchListener  {
                             float currentY = event.getRawY();
                             String findString;
                             AppItem[] appItems;
+                            PackageManager PkgMgr;
+
                             global = new GlobalHolder();
+                            longTouch = new LongTouchHolder();
                             appItems = new AppItem[global.getAppItemSize()];
                             appItems = global.getAppItem();
-                            PackageManager PkgMgr;
-                            PkgMgr= global.getPackageManager();
-                            findString=global.getFindString();
 
+                            PkgMgr = global.getPackageManager();
 
                             String TouchedLetter = determineLetter(currentX, currentY);
-                            findString=findString+TouchedLetter;
-                           // appItems = evaluateAction(PkgMgr,appItems,TouchedLetter);
-                            appItems = evaluateAction(PkgMgr,appItems,findString);
+
+                            findString = global.getFindString();
+                            findString = findString + TouchedLetter;
+
+                            appItems = evaluateAction(PkgMgr, appItems, findString);
+
+                            if (findString.length() == 1) isLongPress(TouchedLetter);
 
                             if (buttonLocation[1].Y == 0) //[perform only if not previously initialized
-                                {
+                            {
                                 getkeypadLocations();
-                                }
+                            }
 
                             int action = MotionEventCompat.getActionMasked(event);
                             switch (action) {
                                 case (MotionEvent.ACTION_DOWN):
                                     typeoutView.setText(findString);
+                                    if (longTouch.getStatus()) typeoutView.append("long click");
                                     return false;
                                 case (MotionEvent.ACTION_MOVE):
                                     typeoutView.setText(findString);
+                                    if (longTouch.getStatus()) typeoutView.append("long click");
                                     return false;
                                 case (MotionEvent.ACTION_UP):
                                     typeoutView.setText(findString);
                                     global.setFindString(findString);
-                                    callAppListeners(PkgMgr,appItems);
+                                    callAppListeners(PkgMgr, appItems);
+                                    longTouch.reset();
                                     return false;
                                 default:
                                     return true;
@@ -109,18 +119,31 @@ public class KeypadTouchListener  {
                     } //new OnTouchListener()
             );//keypadKeys[inc].setOnTouchListener
 
+
             keypadButton[inc].Key.setOnLongClickListener(
                     new Button.OnLongClickListener() {
                         public boolean onLongClick(View v) {
                             Button b = (Button) v;
                             String longTouchedLetter = b.getText().toString();
-                            typeoutView.setText(longTouchedLetter);
-                            typeoutView.append("loooong press");
+                            String findString;
+                            longTouch = new LongTouchHolder();
+                            global = new GlobalHolder();
+
+                            findString = global.getFindString();
+                            findString = findString + longTouchedLetter;
+                            if (findString.length()==1) {
+
+                                typeoutView.setText(findString);
+                                typeoutView.append(" long click");
+                                longTouch.setStatus(true);
+
+                            }//if (findString.length()==1)
                             return false;
                         } //public void OnClick(View v)
                     } //new Button.OnClickListener()
 
             ); //myButtonTrigger.setOnLongClickListener
+
 
         } //for (inc=0; inc<=35; inc++)
 
@@ -128,7 +151,6 @@ public class KeypadTouchListener  {
         delButton.Key.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) { //perform action of click
-                        GlobalHolder global;
                         AppItem[] appItems;
                         PackageManager PkgMgr;
 
@@ -144,8 +166,6 @@ public class KeypadTouchListener  {
                             global.setFindString(findString);
                         } //if (findString.length() > 0 && findString.charAt(findString.length()-1)=='x')
                         typeoutView.setText(findString);
-
-
                     } //public void OnClick(View v)
                 } //new Button.OnClickListener()
         ); //delButton.Key.setOnClickListener
@@ -153,16 +173,15 @@ public class KeypadTouchListener  {
         delButton.Key.setOnLongClickListener(
                 new Button.OnLongClickListener() {
                     public boolean onLongClick(View v) { //perform action of click
-                        GlobalHolder global;
                         AppItem[] appItems;
                         PackageManager PkgMgr;
 
                         global = new GlobalHolder();
-                        PkgMgr= global.getPackageManager();
+                        PkgMgr = global.getPackageManager();
                         appItems = global.getAppItem();
                         global.setFindString("");
                         appItems = evaluateAction(PkgMgr, appItems, "");
-                        callAppListeners(PkgMgr,appItems);
+                        callAppListeners(PkgMgr, appItems);
                         typeoutView.setText("");
 
                         return true;
@@ -170,7 +189,6 @@ public class KeypadTouchListener  {
                 } //new Button.OnClickListener()
 
         ); //myButtonTrigger.setOnLongClickListener
-
 
 
     } //void setKeypadListener()
@@ -223,16 +241,36 @@ public class KeypadTouchListener  {
 
     } //string determineLetter(int TouchX, int TouchY)
 
+    private boolean isLongPress (String getTouchedLetter) {
+
+        if (!getTouchedLetter.equals(longTouch.getKeyString())){
+            longTouch.setStartTime();
+            longTouch.setKeyString(getTouchedLetter);
+            longTouch.setStatus(false);
+        } //if (searchString.equals(longTouch.getKeyString()))
+        else {
+            if (longTouch.getCurentTime()-longTouch.getStartTime()>=300) {
+                longTouch.setStatus(true);
+                //typeoutView.setText(searchString);
+                // typeoutView.setText(" long click");
+            } //(longTouch.getCurentTime()-longTouch.getStartTime()>=1000)
+        } //else of if (!searchString.equals(longTouch.getKeyString()))
+
+        return longTouch.getStatus();
+    } //private boolean isLongPress(String getTouchedLetter)
+
+
     private AppItem[] evaluateAction(PackageManager PkgMgr, AppItem[] appItems, String searchString) {
 
-        GlobalHolder global;
         GetAppList getAppList;
         View drawerBox;
         LinearLayout typeoutBox;
         getAppList = new GetAppList();
         int searchLength = searchString.length();
 
+
         global = new GlobalHolder();
+        longTouch = new LongTouchHolder();
         drawerBox = global.getDrawerBox();
         typeoutBox = global.getTypeoutBox();
 
@@ -245,10 +283,10 @@ public class KeypadTouchListener  {
             drawerBox.setVisibility(View.VISIBLE);
             typeoutBox.setVisibility(View.VISIBLE);
             appItems = getAppList.filterByFirstChar(appItems, searchString);
-        } //if (!getCurrentLetter.equals(" "))
+        } //if if (searchLength == 1)
         if (searchLength > 1) {
             appItems = getAppList.filterByString(appItems, searchString);
-        } //if (!getCurrentLetter.equals(" "))
+        } //if (searchLength > 1)
 
         new DrawDrawerBox(global.getMainContext(), global.getGridView(), appItems);
 
