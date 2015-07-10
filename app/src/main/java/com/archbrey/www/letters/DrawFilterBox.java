@@ -35,7 +35,7 @@ public class DrawFilterBox {
     public  LinearLayout getLayout(){return filterBox;
     }//public LinearLayout getLayout()
 
-    public  FilterItem[] getKeypadButton(){ return filterItems;
+    public  FilterItem[] getFilterItems(){ return filterItems;
     }//public  KeypadButton[] getKeypadButton
 
     private void drawFilterBox() {
@@ -82,7 +82,7 @@ public class DrawFilterBox {
         } //for (int inc=0; inc<NumOfFilters; inc++)
 
 
-        filterItems[0].Code="All";
+        filterItems[0].Code="All";filterItems[0].Code="All";
         filterItems[1].Code="Rec";
         filterItems[2].Code="Fav";
         filterItems[3].Code="Gam";

@@ -62,6 +62,7 @@ public class LaunchpadActivity extends Activity {
     DrawKeypadBox KeypadBoxHandle;
     DrawFilterBox filterBoxHandle;
     private  KeypadButton[] keypadButtons ;
+    private FilterItem[] filterItems;
     private  SideButton menuButton;
     private  SideButton delButton;
     private GlobalHolder global;
@@ -91,6 +92,7 @@ public class LaunchpadActivity extends Activity {
         filterBox = new LinearLayout(this);
         filterBoxHandle = new DrawFilterBox(filterBox,this,r);
                 filterBox = filterBoxHandle.getLayout();
+                filterItems = filterBoxHandle.getFilterItems();
 
         drawTypeoutBox();
         drawFillerBox();
@@ -159,6 +161,7 @@ public class LaunchpadActivity extends Activity {
 
         //setup listeners
         new KeypadTouchListener(keypadButtons,delButton, typeoutView);
+        new FilterBoxTouchListener(filterItems,typeoutView);
 
         //setup intents
         IntentFilter Package_update_filter = new IntentFilter();

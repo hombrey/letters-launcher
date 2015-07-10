@@ -31,7 +31,7 @@ public class KeypadTouchListener  {
         int Y;
     }
 
-    public KeypadTouchListener(KeypadButton[] keypad, SideButton getdelButton,TextView textView) {
+    public KeypadTouchListener (KeypadButton[] keypad, SideButton getdelButton,TextView textView) {
 
         int inc;
         typeoutView = textView;
@@ -109,8 +109,13 @@ public class KeypadTouchListener  {
                                 case (MotionEvent.ACTION_UP):
                                     typeoutView.setText(findString);
                                     global.setFindString(findString);
-                                    callAppListeners(PkgMgr, appItems);
-                                    longTouch.reset();
+
+                                    if (longTouch.getStatus()) {
+                                          longTouch.reset();
+                                        } // if (longTouch.getStatus())
+                                    else {
+                                          callAppListeners(PkgMgr, appItems);
+                                        } //else of if (longTouch.getStatus())
                                     return false;
                                 default:
                                     return true;
@@ -210,11 +215,6 @@ public class KeypadTouchListener  {
             buttonLocation[inc].X=instanceLocation[0];
             buttonLocation[inc].Y=instanceLocation[1];
 
-            typeoutView.setText("(");
-            typeoutView.append(String.valueOf(instanceLocation[0]));
-            typeoutView.append(",");
-            typeoutView.append(String.valueOf(instanceLocation[1]));
-            typeoutView.append(")");
 
         } //for (inc=10; inc<=19; inc++)
 
