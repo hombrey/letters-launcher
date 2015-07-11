@@ -108,6 +108,7 @@ public class LaunchpadActivity extends Activity {
 
         //setup initial app list
         appItems = new GetAppList().all_appItems(basicPkgMgr, appItems);
+        filterBoxHandle.refreshFilterItems(appItems);
 
         drawDrawerBox = new DrawDrawerBox (this, appGridView, appItems);
         drawDrawerBox.setListener();
@@ -167,17 +168,10 @@ public class LaunchpadActivity extends Activity {
     private void assembleScreen(){
 
         drawerBox.setId(R.id.drawerBox);
-     //   fillerBox.setId(R.id.fillerBox);
         typeoutBox.setId(R.id.typeoutBox);
         keypadBox.setId(R.id.keypadBox);
         filterBox.setId(R.id.filterBox);
 
-        /*
-        RelativeLayout.LayoutParams fillerBoxParams = new RelativeLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        fillerBoxParams.addRule(RelativeLayout.ABOVE, drawerBox.getId());
-        */
 
         RelativeLayout.LayoutParams drawerBoxParams = new RelativeLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -204,7 +198,6 @@ public class LaunchpadActivity extends Activity {
         mainScreen.addView(keypadBox, keypadBoxParams);
         mainScreen.addView(typeoutBox, typeoutBoxParams);
         mainScreen.addView(drawerBox, drawerBoxParams);
-      //  mainScreen.addView(fillerBox, fillerBoxParams);
 
     } //private void assembleScreen()
 

@@ -10,6 +10,7 @@ public class FilterItem {
     Button button;
     String Code;
     String name;
-    String[] appPkgNames;
+    AppItem[] filteredPkgs;
+    int CountofPackages;
 
 }

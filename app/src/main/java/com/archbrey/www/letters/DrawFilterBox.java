@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 
 public class DrawFilterBox {
 
+    private static GlobalHolder global;
     private static LinearLayout filterBox;
     private Resources rDrawBox;
     private static FilterItem[] filterItems;
@@ -91,5 +92,49 @@ public class DrawFilterBox {
 
 
     } //private void getFilterCodes()
+
+
+    public void refreshFilterItems(AppItem[] masterAppItems){
+
+        int ArraySize = masterAppItems.length;
+        global = new GlobalHolder();
+
+        AppItem[] RecentApps;
+        GetAppList getAppListHandle;
+        getAppListHandle = new GetAppList();
+
+        RecentApps = new AppItem[10];
+        RecentApps = getAppListHandle.getRecentApps();
+
+        for (int inc=0; inc<NumOfFilters; inc++) {
+            filterItems[inc].filteredPkgs = new AppItem[ArraySize];
+
+            if (filterItems[inc].Code.equals("All")) { //assign all installed launchable apps to this special filter
+
+                filterItems[inc].filteredPkgs = masterAppItems;
+                filterItems[inc].CountofPackages = ArraySize;
+
+            } //if (filterItems[inc].Code.equals("All"))
+          /*  else if (filterItems[inc].Code.equals("Rec")) { //assign recent launchable apps to this special filter
+
+                filterItems[inc].filteredPkgs = RecentApps;
+                filterItems[inc].CountofPackages = RecentApps.length;
+
+            } //else if (filterItems[inc].Code.equals("Rec"))*/
+            else {
+
+                filterItems[inc].filteredPkgs[0] = masterAppItems[4];
+                filterItems[inc].filteredPkgs[1] = masterAppItems[8];
+                filterItems[inc].filteredPkgs[2] = masterAppItems[9];
+                filterItems[inc].CountofPackages = 3;
+
+            } //else of else if (filterItems[inc].Code.equals("Rec")
+
+        } //for (int inc=0; inc<NumOfFilters; inc++)
+
+
+    } //public void refreshFilterItems()
+
+
 
 } //public class DrawFilterBox

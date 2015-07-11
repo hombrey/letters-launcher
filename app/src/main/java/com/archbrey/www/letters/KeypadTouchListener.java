@@ -274,23 +274,25 @@ public class KeypadTouchListener  {
         int searchLength = searchString.length();
 
 
+
+
         global = new GlobalHolder();
         longTouch = new LongTouchHolder();
         drawerBox = global.getDrawerBox();
         typeoutBox = global.getTypeoutBox();
 
-        if (searchLength == 0) {
+        if  (searchLength == 0)  {
             //appItems = getAppList.all_appItems(PkgMgr, appItems);
             typeoutBoxHandle.setFindStatus (false); //stop search mode if length = 0;
             drawerBox.setVisibility(View.INVISIBLE);
             typeoutBox.setVisibility(View.INVISIBLE);
         } //else of if (!getCurrentLetter.equals(" "))
-        if (searchLength == 1) {
+        if ( (searchLength == 1) && (!typeoutBoxHandle.getFindStatus()) ) {
             drawerBox.setVisibility(View.VISIBLE);
             typeoutBox.setVisibility(View.VISIBLE);
             appItems = getAppList.filterByFirstChar(appItems, searchString);
         } //if if (searchLength == 1)
-        if (searchLength > 1) {
+        if ( (searchLength > 1) || (typeoutBoxHandle.getFindStatus()) ) {
             appItems = getAppList.filterByString(appItems, searchString);
         } //if (searchLength > 1)
 

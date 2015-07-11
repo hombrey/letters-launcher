@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class FilterBoxTouchListener {
@@ -79,7 +80,7 @@ public class FilterBoxTouchListener {
                             String TouchedFilter = determineFilter(currentX, currentY);
                             findString = global.getFindString();
 
-                           // appItems = evaluateAction(PkgMgr, appItems, filterPosition);
+                            appItems = evaluateAction(filterPosition);
 
                             if (buttonLocation[1].Y == 0) //[perform only if not previously initialized
                             {
@@ -102,8 +103,7 @@ public class FilterBoxTouchListener {
                                     return false;
                                 case (MotionEvent.ACTION_UP):
                                     typeoutView.setText(TouchedFilter);
-                                    //   callAppListeners(PkgMgr, appItems);
-
+                                    callAppListeners(PkgMgr, appItems);
                                     return false;
                                 default:
                                     return true;
@@ -158,5 +158,41 @@ public class FilterBoxTouchListener {
 
     } //string determineLetter(int TouchX, int TouchY)
 
+    private AppItem[] evaluateAction(int filterPosition) {
+
+        AppItem[] resultItems;
+
+        int ListLength =  filterItems[filterPosition].CountofPackages;
+        resultItems = new AppItem[ListLength];
+
+        for (int inc = 0; inc<ListLength; inc++){
+            resultItems[inc] = new AppItem();
+            resultItems[inc] = filterItems[filterPosition].filteredPkgs[inc];
+        } //for (int inc = 0; inc<ListLength; inc++)
+
+        new DrawDrawerBox(global.getMainContext(), global.getGridView(), resultItems);
+
+        return resultItems;
+
+    } //private AppItem[] evaluateAction(PackageManager PkgMgr, AppItem[] appItems, String searchString)
+
+    private void callAppListeners(PackageManager pm, AppItem[] appItems) {
+
+        Context clickListenerContext;
+        GlobalHolder global;
+        GridView drawerGrid;
+
+        global = new GlobalHolder();
+        clickListenerContext = global.getMainContext();
+        drawerGrid = global.getGridView();
+
+        AppDrawerAdapter drawerAdapterObject;
+
+        drawerAdapterObject = new AppDrawerAdapter(clickListenerContext, appItems);
+        drawerGrid.setAdapter(drawerAdapterObject);
+        drawerGrid.setOnItemClickListener(new DrawerClickListener(clickListenerContext, appItems, pm));
+        drawerGrid.setOnItemLongClickListener(new DrawerLongClickListener(clickListenerContext, appItems, pm));
+
+    } // public void callListeners(PackageManager pm, AppItem[] appItems)
 
 } //public class FilterBoxTouchListener

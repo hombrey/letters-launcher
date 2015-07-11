@@ -12,12 +12,29 @@ public class GetAppList {
 
     //AppItem[] appItem;
     private GlobalHolder global;
+    private static AppItem[] recentApps;
+    private static int recentAppCount;
 
     public GetAppList() {
 
         global = new GlobalHolder();
+        recentApps = new AppItem[10];
+        recentAppCount = 0;
 
     } //public GetAppList()
+
+    public AppItem[] setRecentApp (AppItem getAppItem) {
+
+        recentAppCount++;
+        recentApps[recentAppCount] = getAppItem;
+
+        return recentApps;
+    } //public AppItem[] setRecentApp (AppItem getAppItem)
+
+    public AppItem[] getRecentApps () {
+        return recentApps;
+    } //public AppItem[] getRecentApps (AppItem getAppItem)
+
 
     public AppItem[] all_appItems(PackageManager mainPkgMgr, AppItem[] appItem){
 
@@ -42,8 +59,6 @@ public class GetAppList {
 
         global.setAppItem(appItem);
 
-      //  String Search = "C";
-      //  appItem = filterByFirstChar (appItem,Search);
 
         return appItem;
 
