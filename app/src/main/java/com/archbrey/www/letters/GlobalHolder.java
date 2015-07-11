@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 public class GlobalHolder {
 
@@ -16,15 +17,23 @@ public class GlobalHolder {
     private static PackageManager pkgMgr;
     private static String findString;
     private static View drawerBox;
-    private static LinearLayout typeoutBox;
+    private static RelativeLayout typeoutBox;
+    private static LinearLayout fillerBox;
+    private static SideButton menuButton;
+    private static SideButton delButton;
 
 
-    public void setTypeoutBox (LinearLayout getTypeoutBox) {typeoutBox = getTypeoutBox;
+    public void setDelButton (SideButton getDelButton) {delButton = getDelButton;
     }//public void setDrawerBox (View getDrawerBox)
 
-    public LinearLayout getTypeoutBox () {return typeoutBox;
+    public SideButton getDelButton () {return delButton;
     }//public void setDrawerBox (View getDrawerBox)
 
+    public void setTypeoutBox (RelativeLayout getTypeoutBox) {typeoutBox = getTypeoutBox;
+    }//public void setDrawerBox (View getDrawerBox)
+
+    public RelativeLayout getTypeoutBox () {return typeoutBox;
+    }//public void setDrawerBox (View getDrawerBox)
 
     public void setDrawerBox (View getDrawerBox) {drawerBox = getDrawerBox;
     }//public void setDrawerBox (View getDrawerBox)

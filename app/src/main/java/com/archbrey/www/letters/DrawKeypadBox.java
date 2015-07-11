@@ -182,10 +182,9 @@ public class DrawKeypadBox  {
         keypadButton[29].Letter="Z";keypadButton[30].Letter="X";keypadButton[31].Letter="C";keypadButton[32].Letter="V";keypadButton[33].Letter="B";keypadButton[34].Letter="N";
         keypadButton[35].Letter="M";
 
-        menuButton.Ascii=String.valueOf(Character.toChars(8801));
+        menuButton.Ascii=String.valueOf(Character.toChars(926)); //"Xi symbol"
         //delButton.Ascii=String.valueOf(Character.toChars(8855));
-        delButton.Ascii=String.valueOf(Character.toChars(8656));
-
+        delButton.Ascii=String.valueOf(Character.toChars(8595)); //"down" button
 
     }//void assignKeys()
 

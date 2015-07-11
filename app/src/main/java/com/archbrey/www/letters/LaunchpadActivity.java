@@ -1,72 +1,59 @@
 package com.archbrey.www.letters;
 
-import java.security.Key;
-import java.util.ArrayList;
-import java.util.List;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.graphics.Color;
+//import android.content.pm.ResolveInfo;
+//import android.graphics.Color;
 import android.os.Bundle;
-//import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.LinearLayout;
-//import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 //import android.graphics.Color;
 //import android.util.TypedValue;
 import android.content.res.Resources;
 import android.view.Gravity;
-//import android.view.View.OnTouchListener;
-//import android.view.MotionEvent;
-//import android.support.v4.view.MotionEventCompat;
 import android.content.pm.ActivityInfo;
 
 //import android.util.Log;
-//import android.widget.EditText;
 
 public class LaunchpadActivity extends Activity {
 
     private RelativeLayout mainScreen;
     private LinearLayout keypadBox;
-    private LinearLayout typeoutBox;
+    private RelativeLayout typeoutBox;
     private LinearLayout filterBox;
-    private TextView typeoutView;
-
-    private int typeoutTextSize;
+    private LinearLayout fillerBox;
 
     private View drawerBox ;
 
 
-    private LinearLayout fillerBox;
-    private TextView fillerView;
-
    // private ScrollView drawerView;
     PackageManager basicPkgMgr;
-    AppDrawerAdapter AppDrawerAdapterObject;
     GridView appGridView;
 
     private Resources r;
     DrawKeypadBox KeypadBoxHandle;
     DrawFilterBox filterBoxHandle;
+    TypeOut typeoutBoxHandle;
+
     private  KeypadButton[] keypadButtons ;
     private FilterItem[] filterItems;
     private  SideButton menuButton;
     private  SideButton delButton;
     private GlobalHolder global;
     private DrawDrawerBox drawDrawerBox;
+
+    private TextView typeoutView;
 
     AppItem[] appItems;
 
@@ -94,50 +81,16 @@ public class LaunchpadActivity extends Activity {
                 filterBox = filterBoxHandle.getLayout();
                 filterItems = filterBoxHandle.getFilterItems();
 
-        drawTypeoutBox();
-        drawFillerBox();
+        typeoutBox = new RelativeLayout(this);
+        typeoutBoxHandle = new TypeOut();
+                typeoutBox = typeoutBoxHandle.DrawBox(typeoutBox,this,r);
+                typeoutView = typeoutBoxHandle.getTypeoutView();
+
 
         //draw app drawer
         drawerBox = LayoutInflater.from(this).inflate(R.layout.drawerbox, null);
 
-        drawerBox.setId(R.id.drawerBox);
-        fillerBox.setId(R.id.fillerBox);
-        typeoutBox.setId(R.id.typeoutBox);
-        keypadBox.setId(R.id.keypadBox);
-        filterBox.setId(R.id.filterBox);
-
-        RelativeLayout.LayoutParams fillerBoxParams = new RelativeLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        fillerBoxParams.addRule(RelativeLayout.ABOVE, drawerBox.getId());
-
-        RelativeLayout.LayoutParams drawerBoxParams = new RelativeLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        drawerBoxParams.addRule(RelativeLayout.ABOVE, typeoutBox.getId());
-
-        RelativeLayout.LayoutParams typeoutBoxParams = new RelativeLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        typeoutBoxParams.addRule(RelativeLayout.ABOVE, keypadBox.getId());
-
-        RelativeLayout.LayoutParams keypadBoxParams = new RelativeLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-       // keypadBoxParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        keypadBoxParams.addRule(RelativeLayout.ABOVE, filterBox.getId());
-
-        RelativeLayout.LayoutParams filterBoxParams = new RelativeLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        filterBoxParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-
-        mainScreen.addView(filterBox, filterBoxParams);
-        mainScreen.addView(keypadBox, keypadBoxParams);
-        mainScreen.addView(typeoutBox, typeoutBoxParams);
-        mainScreen.addView(drawerBox, drawerBoxParams);
-        mainScreen.addView(fillerBox, fillerBoxParams);
-
+        assembleScreen();
 
         setContentView(mainScreen);
 
@@ -150,6 +103,7 @@ public class LaunchpadActivity extends Activity {
         global.setMainContext(this);
         global.setPackageManager(basicPkgMgr);
         global.setFindString("");
+        global.setDelButton(delButton);
         //global.setResources(r);
 
         //setup initial app list
@@ -162,6 +116,7 @@ public class LaunchpadActivity extends Activity {
         //setup listeners
         new KeypadTouchListener(keypadButtons,delButton, typeoutView);
         new FilterBoxTouchListener(filterItems,typeoutView);
+        typeoutBoxHandle.setListener();
 
         //setup intents
         IntentFilter Package_update_filter = new IntentFilter();
@@ -208,44 +163,50 @@ public class LaunchpadActivity extends Activity {
         return super.onOptionsItemSelected(item);
     } //public boolean onOptionsItemSelected(MenuItem item)
 
-    private void drawFillerBox(){
 
-        fillerView = new TextView(this);
-        fillerView.setBackgroundColor(r.getColor(R.color.Black_transparent));
+    private void assembleScreen(){
 
-        LinearLayout.LayoutParams fillerParams = new LinearLayout.LayoutParams(
+        drawerBox.setId(R.id.drawerBox);
+     //   fillerBox.setId(R.id.fillerBox);
+        typeoutBox.setId(R.id.typeoutBox);
+        keypadBox.setId(R.id.keypadBox);
+        filterBox.setId(R.id.filterBox);
+
+        /*
+        RelativeLayout.LayoutParams fillerBoxParams = new RelativeLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
+        fillerBoxParams.addRule(RelativeLayout.ABOVE, drawerBox.getId());
+        */
 
-        fillerBox = new LinearLayout(this);
-        fillerBox.addView(fillerView, fillerParams);
-
-    } //drawFillerBox
-
-
-    private void drawTypeoutBox(){
-
-        typeoutTextSize = 24;
-        typeoutView = new TextView(this);
-        typeoutView.setText("Hello there");
-        typeoutView.setGravity(Gravity.CENTER_HORIZONTAL);
-        typeoutView.setTextSize(TypedValue.COMPLEX_UNIT_SP, typeoutTextSize);
-        typeoutView.setTextColor(Color.WHITE);
-
-        LinearLayout.LayoutParams typeoutParams = new LinearLayout.LayoutParams(
+        RelativeLayout.LayoutParams drawerBoxParams = new RelativeLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-            //typeoutParams.gravity=Gravity.CENTER;
+        drawerBoxParams.addRule(RelativeLayout.ABOVE, typeoutBox.getId());
 
+        RelativeLayout.LayoutParams typeoutBoxParams = new RelativeLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        typeoutBoxParams.addRule(RelativeLayout.ABOVE, keypadBox.getId());
 
-        typeoutBox = new LinearLayout(this);
-        typeoutBox.setOrientation(LinearLayout.HORIZONTAL);
-        typeoutBox.setBackgroundColor(r.getColor(R.color.Blacker_transparent));
-        //typeoutBox.setGravity(Gravity.CENTER_HORIZONTAL);
+        RelativeLayout.LayoutParams keypadBoxParams = new RelativeLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        // keypadBoxParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        keypadBoxParams.addRule(RelativeLayout.ABOVE, filterBox.getId());
 
-        typeoutBox.addView(typeoutView, typeoutParams);
+        RelativeLayout.LayoutParams filterBoxParams = new RelativeLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        filterBoxParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 
-    } //drawTypeoutBox;
+        mainScreen.addView(filterBox, filterBoxParams);
+        mainScreen.addView(keypadBox, keypadBoxParams);
+        mainScreen.addView(typeoutBox, typeoutBoxParams);
+        mainScreen.addView(drawerBox, drawerBoxParams);
+      //  mainScreen.addView(fillerBox, fillerBoxParams);
+
+    } //private void assembleScreen()
 
     public class RefreshAppItemReceiver extends BroadcastReceiver {
 

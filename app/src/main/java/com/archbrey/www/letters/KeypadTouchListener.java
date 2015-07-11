@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class KeypadTouchListener  {
@@ -25,6 +26,7 @@ public class KeypadTouchListener  {
     private GlobalHolder global;
     private LongTouchHolder longTouch;
     private SideButton delButton;
+    TypeOut typeoutBoxHandle;
 
     private class ButtonLocation {
         int X;
@@ -40,6 +42,7 @@ public class KeypadTouchListener  {
         buttonLocation = new ButtonLocation[36];
         delButton = new SideButton();
         longTouch = new LongTouchHolder();
+        typeoutBoxHandle = new TypeOut();
 
         longTouch.reset();
 
@@ -84,8 +87,12 @@ public class KeypadTouchListener  {
 
                             String TouchedLetter = determineLetter(currentX, currentY);
 
-                            findString = global.getFindString();
-                            findString = findString + TouchedLetter;
+                            if (typeoutBoxHandle.getFindStatus()) {
+                                findString = global.getFindString();
+                                findString = findString + TouchedLetter;
+                                } //if (typeoutBoxHandle.getFindStatus())
+                            else
+                                findString = TouchedLetter;
 
                             appItems = evaluateAction(PkgMgr, appItems, findString);
 
@@ -165,12 +172,12 @@ public class KeypadTouchListener  {
                         appItems = global.getAppItem();
 
                         if (findString.length() > 0 && findString!=null) {
-                            findString = findString.substring(0, findString.length()-1);
-                            appItems = evaluateAction(PkgMgr, appItems, findString);
+                            findString = findString.substring(0, findString.length() - 1);
                             callAppListeners(PkgMgr, appItems);
                             global.setFindString(findString);
                         } //if (findString.length() > 0 && findString.charAt(findString.length()-1)=='x')
                         typeoutView.setText(findString);
+                        appItems = evaluateAction(PkgMgr, appItems, findString);
                     } //public void OnClick(View v)
                 } //new Button.OnClickListener()
         ); //delButton.Key.setOnClickListener
@@ -251,8 +258,6 @@ public class KeypadTouchListener  {
         else {
             if (longTouch.getCurentTime()-longTouch.getStartTime()>=300) {
                 longTouch.setStatus(true);
-                //typeoutView.setText(searchString);
-                // typeoutView.setText(" long click");
             } //(longTouch.getCurentTime()-longTouch.getStartTime()>=1000)
         } //else of if (!searchString.equals(longTouch.getKeyString()))
 
@@ -264,7 +269,7 @@ public class KeypadTouchListener  {
 
         GetAppList getAppList;
         View drawerBox;
-        LinearLayout typeoutBox;
+        RelativeLayout typeoutBox;
         getAppList = new GetAppList();
         int searchLength = searchString.length();
 
@@ -276,6 +281,7 @@ public class KeypadTouchListener  {
 
         if (searchLength == 0) {
             //appItems = getAppList.all_appItems(PkgMgr, appItems);
+            typeoutBoxHandle.setFindStatus (false); //stop search mode if length = 0;
             drawerBox.setVisibility(View.INVISIBLE);
             typeoutBox.setVisibility(View.INVISIBLE);
         } //else of if (!getCurrentLetter.equals(" "))

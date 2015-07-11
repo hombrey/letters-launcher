@@ -6,4 +6,8 @@
     <item type="id" name="drawerBox" />
     <item type="id" name="fillerBox" />
     <item type="id" name="filterBox" />
+
+    <item type="id" name="typeoutView" />
+    <item type="id" name="editView" />
+    <item type="id" name="toggleFindView" />
 </resources>
