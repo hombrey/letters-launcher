@@ -274,8 +274,6 @@ public class KeypadTouchListener  {
         int searchLength = searchString.length();
 
 
-
-
         global = new GlobalHolder();
         longTouch = new LongTouchHolder();
         drawerBox = global.getDrawerBox();

@@ -13,23 +13,52 @@ public class GetAppList {
     //AppItem[] appItem;
     private GlobalHolder global;
     private static AppItem[] recentApps;
-    private static int recentAppCount;
+    public static int recentAppCount;
 
     public GetAppList() {
 
         global = new GlobalHolder();
-        recentApps = new AppItem[10];
-        recentAppCount = 0;
 
     } //public GetAppList()
 
-    public AppItem[] setRecentApp (AppItem getAppItem) {
+    public void initialize() {
 
-        recentAppCount++;
-        recentApps[recentAppCount] = getAppItem;
+        recentApps = new AppItem[10];
+        recentAppCount = 0;
+    }
 
+
+    public AppItem[] addRecentApp (AppItem getAppItem) {
+
+        int stopPosition;
+        boolean newItem = true;
+
+        if ((recentAppCount < 10) && newItem) recentAppCount++ ;  //limit number of recent apps to 10
+
+        //set default stop position if no existing apps exist
+        stopPosition = recentAppCount-1;
+        //determine first if app already exists in list
+        for (int inc=1; inc<recentAppCount; inc++) {
+            if (recentApps[inc-1].pkgname.equals(getAppItem.pkgname))
+            {
+                stopPosition = inc-1;
+                recentAppCount--;
+            } //if (recentApps[inc].pkgname.equals(getAppItem.pkgname))
+        }//for (int inc=0; inc<recentAppCount; inc++)
+
+
+        //insert most recent app at the start position and adjust the other apps on the list
+        for (int dec=stopPosition; dec>0; dec--) {
+                recentApps[dec] = recentApps[dec-1];
+        }//for (int inc=0; inc<recentAppCount; inc++)
+
+        recentApps[0] = getAppItem;
         return recentApps;
+
     } //public AppItem[] setRecentApp (AppItem getAppItem)
+
+
+
 
     public AppItem[] getRecentApps () {
         return recentApps;

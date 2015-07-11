@@ -115,12 +115,12 @@ public class DrawFilterBox {
                 filterItems[inc].CountofPackages = ArraySize;
 
             } //if (filterItems[inc].Code.equals("All"))
-          /*  else if (filterItems[inc].Code.equals("Rec")) { //assign recent launchable apps to this special filter
+            else if (filterItems[inc].Code.equals("Rec")) { //assign recent launchable apps to this special filter
 
                 filterItems[inc].filteredPkgs = RecentApps;
-                filterItems[inc].CountofPackages = RecentApps.length;
+                filterItems[inc].CountofPackages = getAppListHandle.recentAppCount;
 
-            } //else if (filterItems[inc].Code.equals("Rec"))*/
+            } //else if (filterItems[inc].Code.equals("Rec"))
             else {
 
                 filterItems[inc].filteredPkgs[0] = masterAppItems[4];
@@ -134,6 +134,32 @@ public class DrawFilterBox {
 
 
     } //public void refreshFilterItems()
+
+
+
+    public void refreshRecentItems(){
+
+      //  int ArraySize = masterAppItems.length;
+        global = new GlobalHolder();
+
+        AppItem[] RecentApps;
+        GetAppList getAppListHandle;
+        getAppListHandle = new GetAppList();
+
+        RecentApps = new AppItem[10];
+        RecentApps = getAppListHandle.getRecentApps();
+
+        for (int inc=0; inc<NumOfFilters; inc++) {
+            if (filterItems[inc].Code.equals("Rec")) { //assign recent launchable apps to this special filter
+
+                filterItems[inc].filteredPkgs = RecentApps;
+                filterItems[inc].CountofPackages = getAppListHandle.recentAppCount;
+            }
+
+        } //for (int inc=0; inc<NumOfFilters; inc++)
+
+
+    } //public void refresRecentItems()
 
 
 

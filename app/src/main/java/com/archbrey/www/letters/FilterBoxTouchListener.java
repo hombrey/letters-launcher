@@ -161,6 +161,13 @@ public class FilterBoxTouchListener {
     private AppItem[] evaluateAction(int filterPosition) {
 
         AppItem[] resultItems;
+        View drawerBox;
+        RelativeLayout typeoutBox;
+
+        drawerBox = global.getDrawerBox();
+        typeoutBox = global.getTypeoutBox();
+        drawerBox.setVisibility(View.VISIBLE);
+        typeoutBox.setVisibility(View.VISIBLE);
 
         int ListLength =  filterItems[filterPosition].CountofPackages;
         resultItems = new AppItem[ListLength];

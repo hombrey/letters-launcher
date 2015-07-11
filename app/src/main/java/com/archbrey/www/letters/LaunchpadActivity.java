@@ -107,6 +107,7 @@ public class LaunchpadActivity extends Activity {
         //global.setResources(r);
 
         //setup initial app list
+        new GetAppList().initialize();
         appItems = new GetAppList().all_appItems(basicPkgMgr, appItems);
         filterBoxHandle.refreshFilterItems(appItems);
 
@@ -133,6 +134,7 @@ public class LaunchpadActivity extends Activity {
     @Override
     protected void onResume(){
         super.onResume();
+        filterBoxHandle.refreshRecentItems();
 
     } //protected void onResume()
 
