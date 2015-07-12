@@ -1,15 +1,13 @@
-package com.archbrey.www.letters;
+package com.archbrey.letters;
 
 
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.support.v4.view.MotionEventCompat;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -54,7 +52,6 @@ public class KeypadTouchListener  {
 
         delButton = getdelButton;
 
-       // getAppList = new GetAppList();
         setKeypadListener();
 
     } //public KeypadTouchListener(Button[] keypadKey, String[] keypadAssign, TextView textView)

@@ -1,12 +1,7 @@
-package com.archbrey.www.letters;
+package com.archbrey.letters;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.GridView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 
 public class DrawDrawerBox extends LaunchpadActivity {

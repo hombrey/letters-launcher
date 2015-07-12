@@ -1,4 +1,4 @@
-package com.archbrey.www.letters;
+package com.archbrey.letters;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -31,9 +31,8 @@ public class GetAppList {
     public AppItem[] addRecentApp (AppItem getAppItem) {
 
         int stopPosition;
-        boolean newItem = true;
 
-        if ((recentAppCount < 10) && newItem) recentAppCount++ ;  //limit number of recent apps to 10
+        if (recentAppCount < 10) recentAppCount++ ;  //limit number of recent apps to 10
 
         //set default stop position if no existing apps exist
         stopPosition = recentAppCount-1;

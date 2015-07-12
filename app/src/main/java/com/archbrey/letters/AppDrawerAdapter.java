@@ -1,4 +1,4 @@
-package com.archbrey.www.letters;
+package com.archbrey.letters;
 
 import android.content.Context;
 import android.util.TypedValue;
@@ -6,8 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.GridView;
 import android.widget.TextView;
 
 public class AppDrawerAdapter extends BaseAdapter {

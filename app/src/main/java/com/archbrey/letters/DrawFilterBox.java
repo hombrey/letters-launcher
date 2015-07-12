@@ -1,4 +1,4 @@
-package com.archbrey.www.letters;
+package com.archbrey.letters;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -143,6 +143,7 @@ public class DrawFilterBox {
         global = new GlobalHolder();
 
         AppItem[] RecentApps;
+
         GetAppList getAppListHandle;
         getAppListHandle = new GetAppList();
 
@@ -154,6 +155,9 @@ public class DrawFilterBox {
 
                 filterItems[inc].filteredPkgs = RecentApps;
                 filterItems[inc].CountofPackages = getAppListHandle.recentAppCount;
+
+                if (filterItems[inc].CountofPackages > 2)
+                { new SortApps().exchange_sort(filterItems[inc].filteredPkgs,filterItems[inc].CountofPackages); }
             }
 
         } //for (int inc=0; inc<NumOfFilters; inc++)

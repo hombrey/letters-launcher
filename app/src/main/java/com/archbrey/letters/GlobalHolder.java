@@ -1,9 +1,8 @@
-package com.archbrey.www.letters;
+package com.archbrey.letters;
 
 
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.LinearLayout;

@@ -1,4 +1,4 @@
-package com.archbrey.www.letters;
+package com.archbrey.letters;
 
 import android.content.Context;
 import android.content.Intent;
