@@ -10,9 +10,9 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class DrawerClickListener implements OnItemClickListener  {
 
-    Context clickListenerContext;
-    AppItem[] appItemForListener;
-    PackageManager pmForListener;
+    private static Context clickListenerContext;
+    private AppItem[] appItemForListener;
+    private static PackageManager pmForListener;
 
     public DrawerClickListener (Context c, AppItem[] appItem, PackageManager pm){
         clickListenerContext = c;
@@ -24,12 +24,9 @@ public class DrawerClickListener implements OnItemClickListener  {
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
-            Intent launchIntent = new Intent(Intent.ACTION_MAIN);
-            launchIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-            ComponentName cp = new ComponentName(appItemForListener[position].pkgname, appItemForListener[position].name);
-            launchIntent.setComponent(cp);
+        Intent launchIntent = pmForListener.getLaunchIntentForPackage(appItemForListener[position].pkgname);
 
-            AppItem launched;
+        AppItem launched;
             launched = new AppItem();
             launched= appItemForListener[position];
             new GetAppList().addRecentApp (launched);

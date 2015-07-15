@@ -10,9 +10,9 @@ import android.widget.TextView;
 
 public class AppDrawerAdapter extends BaseAdapter {
 
-    Context getViewContext;
-    AppItem[] appItemForAdapter;
-    int drawerTextSize;
+    private static Context getViewContext;
+    private AppItem[] appItemForAdapter;
+    private static int drawerTextSize;
 
     public AppDrawerAdapter (Context c, AppItem passedAppItem[]){
         getViewContext = c;

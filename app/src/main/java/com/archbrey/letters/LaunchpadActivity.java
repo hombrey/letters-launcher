@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -120,6 +121,12 @@ public class LaunchpadActivity extends Activity {
         new FilterBoxTouchListener(filterItems,typeoutView);
         typeoutBoxHandle.setListener();
 
+        menuButton.Key.setOnClickListener( new Button.OnClickListener() {
+                    public void onClick(View v) {openOptionsMenu(); }
+                } //new Button.OnClickListener()
+        );// menuButton.Key.setOnClickListener
+
+
         //setup intents
         IntentFilter Package_update_filter = new IntentFilter();
         Package_update_filter.addAction(Intent.ACTION_PACKAGE_ADDED);
@@ -148,6 +155,7 @@ public class LaunchpadActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_launchpad, menu);
+
         return true;
     }//public boolean onCreateOptionsMenu(Menu menu)
 
@@ -159,11 +167,20 @@ public class LaunchpadActivity extends Activity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        switch (id) {
+            case R.id.action_sys_settings:
+                    startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS) );
+                        return true;
+            case R.id.action_launcher_settings:
+                        return true;
+            case R.id.action_wallpaper:
+                    final Intent pickWallpaper = new Intent(Intent.ACTION_SET_WALLPAPER);
+                    startActivity(Intent.createChooser(pickWallpaper, getString(R.string.chooser_wallpaper)));
+                        return true;
+            default:
+                    return super.onOptionsItemSelected(item);
+        } //switch (id)
 
-        return super.onOptionsItemSelected(item);
     } //public boolean onOptionsItemSelected(MenuItem item)
 
 

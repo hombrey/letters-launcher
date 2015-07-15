@@ -6,16 +6,19 @@ import android.widget.GridView;
 
 public class DrawDrawerBox extends LaunchpadActivity {
 
-    private Context getViewContext;
-    private AppItem[] showItem;
-    private AppDrawerAdapter AppDrawerAdapterObject;
-    private GridView appGridView;
+    private static Context getViewContext;
+    private static AppItem[] showItem;
+    private static AppDrawerAdapter AppDrawerAdapterObject;
+    private static GridView appGridView;
+    private static GlobalHolder global;
 
     public DrawDrawerBox (Context c, GridView getAppGridView, AppItem[] appItem)  {
 
         getViewContext = c;
         showItem = appItem;
         appGridView = getAppGridView;
+
+        global = new GlobalHolder();
 
 
         AppDrawerAdapterObject = new AppDrawerAdapter(getViewContext, showItem);
@@ -29,6 +32,7 @@ public class DrawDrawerBox extends LaunchpadActivity {
 
     public void setListener() {
 
+        basicPkgMgr=global.getPackageManager();
         appGridView.setOnItemClickListener(new DrawerClickListener(getViewContext, showItem, basicPkgMgr));
         appGridView.setOnItemLongClickListener(new DrawerLongClickListener(getViewContext, showItem, basicPkgMgr));
 

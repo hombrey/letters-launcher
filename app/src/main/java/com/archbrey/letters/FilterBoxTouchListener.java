@@ -13,15 +13,15 @@ public class FilterBoxTouchListener {
 
     private TextView typeoutView;
 
-    private int keyWidth;
-    private int keyHeight;
+    private static int keyWidth;
+    private static int keyHeight;
 
-    private int numofFilters;
-    private FilterItem[] filterItems ;
-    private ButtonLocation[] buttonLocation;
-    private GlobalHolder global;
-    private SettingsHolder savedSettings;
-    private int filterPosition;
+    private static int numofFilters;
+    private static FilterItem[] filterItems ;
+    private static ButtonLocation[] buttonLocation;
+    private static GlobalHolder global;
+    private static SettingsHolder savedSettings;
+    private static int filterPosition;
 
     private class ButtonLocation {
         int X;

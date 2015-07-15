@@ -1,6 +1,7 @@
 package com.archbrey.letters;
 
 
+
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.v4.view.MotionEventCompat;
@@ -15,23 +16,24 @@ public class KeypadTouchListener  {
 
     private TextView typeoutView;
 
-    private int keyWidth;
-    private int keyHeight;
+    private static int keyWidth;
+    private static int keyHeight;
 
-    private KeypadButton[] keypadButton ;
-    private ButtonLocation[] buttonLocation;
+    private static KeypadButton[] keypadButton ;
+    private static ButtonLocation[] buttonLocation;
     //private GetAppList getAppList;
-    private GlobalHolder global;
-    private LongTouchHolder longTouch;
-    private SideButton delButton;
+    private static GlobalHolder global;
+    private static LongTouchHolder longTouch;
+    private static SideButton delButton;
+    AppItem[] returnAppItems;
     TypeOut typeoutBoxHandle;
 
-    private class ButtonLocation {
+    private static class ButtonLocation {
         int X;
         int Y;
     }
 
-    public KeypadTouchListener (KeypadButton[] keypad, SideButton getdelButton,TextView textView) {
+    public KeypadTouchListener (KeypadButton[] keypad, SideButton getdelButton, TextView textView) {
 
         int inc;
         typeoutView = textView;
@@ -118,7 +120,7 @@ public class KeypadTouchListener  {
                                           longTouch.reset();
                                         } // if (longTouch.getStatus())
                                     else {
-                                          callAppListeners(PkgMgr, appItems);
+                                         // callAppListeners(PkgMgr, appItems);
                                         } //else of if (longTouch.getStatus())
                                     return false;
                                 default:
@@ -270,6 +272,7 @@ public class KeypadTouchListener  {
         getAppList = new GetAppList();
         int searchLength = searchString.length();
 
+        int filteredSize = 1;
 
         global = new GlobalHolder();
         longTouch = new LongTouchHolder();
@@ -277,23 +280,27 @@ public class KeypadTouchListener  {
         typeoutBox = global.getTypeoutBox();
 
         if  (searchLength == 0)  {
-            //appItems = getAppList.all_appItems(PkgMgr, appItems);
-            typeoutBoxHandle.setFindStatus (false); //stop search mode if length = 0;
+            typeoutBoxHandle.setFindStatus(false); //stop search mode if length = 0;
             drawerBox.setVisibility(View.INVISIBLE);
             typeoutBox.setVisibility(View.INVISIBLE);
         } //else of if (!getCurrentLetter.equals(" "))
-        if ( (searchLength == 1) && (!typeoutBoxHandle.getFindStatus()) ) {
+        else if ( (searchLength == 1) && (!typeoutBoxHandle.getFindStatus()) ) {
             drawerBox.setVisibility(View.VISIBLE);
             typeoutBox.setVisibility(View.VISIBLE);
-            appItems = getAppList.filterByFirstChar(appItems, searchString);
+            filteredSize = getAppList.filterByFirstChar(appItems, searchString);
+            returnAppItems = new AppItem[filteredSize];
         } //if if (searchLength == 1)
-        if ( (searchLength > 1) || (typeoutBoxHandle.getFindStatus()) ) {
-            appItems = getAppList.filterByString(appItems, searchString);
+        else if ( (searchLength > 1) || (typeoutBoxHandle.getFindStatus()) ) {
+            filteredSize = getAppList.filterByString(appItems, searchString);
+            returnAppItems = new AppItem[filteredSize];
         } //if (searchLength > 1)
 
-        new DrawDrawerBox(global.getMainContext(), global.getGridView(), appItems);
+        returnAppItems = getAppList.getFilteredApps();
 
-        return appItems;
+        new DrawDrawerBox(global.getMainContext(), global.getGridView(), returnAppItems);
+        callAppListeners(PkgMgr, returnAppItems);
+
+        return returnAppItems;
     }// private void evaluateAction(String getCurrentLetter)
 
 
@@ -303,9 +310,11 @@ public class KeypadTouchListener  {
         GlobalHolder global;
         GridView drawerGrid;
 
+
         global = new GlobalHolder();
         clickListenerContext = global.getMainContext();
         drawerGrid = global.getGridView();
+        pm=global.getPackageManager();
 
         AppDrawerAdapter drawerAdapterObject;
 
