@@ -120,6 +120,8 @@ public class FilterBoxTouchListener {
         int[] instanceLocation;
         instanceLocation = new int[2];
 
+
+
         for (inc=0; inc<numofFilters; inc++) {
 
             keyWidth = filterItems[inc].button.getWidth();

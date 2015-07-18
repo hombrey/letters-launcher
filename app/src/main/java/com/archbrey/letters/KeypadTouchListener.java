@@ -75,14 +75,12 @@ public class KeypadTouchListener  {
                             float currentY = event.getRawY();
                             String findString;
                             AppItem[] appItems;
-                            PackageManager PkgMgr;
 
                             global = new GlobalHolder();
                             longTouch = new LongTouchHolder();
-                            appItems = new AppItem[global.getAppItemSize()];
                             appItems = global.getAppItem();
 
-                            PkgMgr = global.getPackageManager();
+                            //PkgMgr = global.getPackageManager();
 
                             String TouchedLetter = determineLetter(currentX, currentY);
 
@@ -93,7 +91,7 @@ public class KeypadTouchListener  {
                             else
                                 findString = TouchedLetter;
 
-                            appItems = evaluateAction(PkgMgr, appItems, findString);
+                            evaluateAction(appItems, findString);
 
                             if (findString.length() == 1) isLongPress(TouchedLetter);
 
@@ -119,9 +117,6 @@ public class KeypadTouchListener  {
                                     if (longTouch.getStatus()) {
                                           longTouch.reset();
                                         } // if (longTouch.getStatus())
-                                    else {
-                                         // callAppListeners(PkgMgr, appItems);
-                                        } //else of if (longTouch.getStatus())
                                     return false;
                                 default:
                                     return true;
@@ -163,20 +158,20 @@ public class KeypadTouchListener  {
                 new Button.OnClickListener() {
                     public void onClick(View v) { //perform action of click
                         AppItem[] appItems;
-                        PackageManager PkgMgr;
+                       // PackageManager PkgMgr;
 
                         global = new GlobalHolder();
                         String findString = global.getFindString();
-                        PkgMgr= global.getPackageManager();
+                      //  PkgMgr= global.getPackageManager();
                         appItems = global.getAppItem();
 
                         if (findString.length() > 0 && findString!=null) {
                             findString = findString.substring(0, findString.length() - 1);
-                            callAppListeners(PkgMgr, appItems);
+                            callAppListeners(appItems);
                             global.setFindString(findString);
                         } //if (findString.length() > 0 && findString.charAt(findString.length()-1)=='x')
                         typeoutView.setText(findString);
-                        appItems = evaluateAction(PkgMgr, appItems, findString);
+                        evaluateAction(appItems, findString);
                     } //public void OnClick(View v)
                 } //new Button.OnClickListener()
         ); //delButton.Key.setOnClickListener
@@ -185,14 +180,14 @@ public class KeypadTouchListener  {
                 new Button.OnLongClickListener() {
                     public boolean onLongClick(View v) { //perform action of click
                         AppItem[] appItems;
-                        PackageManager PkgMgr;
+                       // PackageManager PkgMgr;
 
                         global = new GlobalHolder();
-                        PkgMgr = global.getPackageManager();
+                        //PkgMgr = global.getPackageManager();
                         appItems = global.getAppItem();
                         global.setFindString("");
-                        appItems = evaluateAction(PkgMgr, appItems, "");
-                        callAppListeners(PkgMgr, appItems);
+                        evaluateAction(appItems, "");
+                        //callAppListeners(appItems);
                         typeoutView.setText("");
 
                         return true;
@@ -264,7 +259,7 @@ public class KeypadTouchListener  {
     } //private boolean isLongPress(String getTouchedLetter)
 
 
-    private AppItem[] evaluateAction(PackageManager PkgMgr, AppItem[] appItems, String searchString) {
+    private AppItem[] evaluateAction(AppItem[] appItems, String searchString) {
 
         GetAppList getAppList;
         View drawerBox;
@@ -272,14 +267,14 @@ public class KeypadTouchListener  {
         getAppList = new GetAppList();
         int searchLength = searchString.length();
 
-        int filteredSize = 1;
+        int filteredSize;
 
         global = new GlobalHolder();
         longTouch = new LongTouchHolder();
         drawerBox = global.getDrawerBox();
         typeoutBox = global.getTypeoutBox();
 
-        if  (searchLength == 0)  {
+        if (searchLength == 0)  {
             typeoutBoxHandle.setFindStatus(false); //stop search mode if length = 0;
             drawerBox.setVisibility(View.INVISIBLE);
             typeoutBox.setVisibility(View.INVISIBLE);
@@ -295,21 +290,24 @@ public class KeypadTouchListener  {
             returnAppItems = new AppItem[filteredSize];
         } //if (searchLength > 1)
 
-        returnAppItems = getAppList.getFilteredApps();
 
-        new DrawDrawerBox(global.getMainContext(), global.getGridView(), returnAppItems);
-        callAppListeners(PkgMgr, returnAppItems);
+        if (searchLength > 0) {
+                returnAppItems = getAppList.getFilteredApps();
+                new DrawDrawerBox(global.getMainContext(), global.getGridView(), returnAppItems);
+                callAppListeners(returnAppItems);
+                }
+
 
         return returnAppItems;
     }// private void evaluateAction(String getCurrentLetter)
 
 
-    private void callAppListeners(PackageManager pm, AppItem[] appItems) {
+    private void callAppListeners(AppItem[] appItems) {
 
         Context clickListenerContext;
         GlobalHolder global;
         GridView drawerGrid;
-
+        PackageManager pm;
 
         global = new GlobalHolder();
         clickListenerContext = global.getMainContext();

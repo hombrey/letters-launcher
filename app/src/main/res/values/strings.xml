@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">Letters</string>
+    <string name="app_preferences">Launcher Prefs</string>
+
+    <string name="color_scheme">Color Scheme</string>
+    <string name="custom_filter">Filter Box</string>
+    <string name="custom_keypad">Keypad Area</string>
+
 
     <string name="hello_world">Hello world!</string>
     <string name="action_system_settings">System Settings</string>

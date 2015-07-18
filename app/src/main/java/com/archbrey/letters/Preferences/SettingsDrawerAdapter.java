@@ -1,4 +1,4 @@
-package com.archbrey.letters;
+package com.archbrey.letters.Preferences;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -9,17 +9,25 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-public class AppDrawerAdapter extends BaseAdapter {
+import com.archbrey.letters.GlobalHolder;
+import com.archbrey.letters.Preferences.*;
+import com.archbrey.letters.R;
+import com.archbrey.letters.LaunchpadActivity;
+
+
+public class SettingsDrawerAdapter extends BaseAdapter  {
 
     private static Context getViewContext;
-    private AppItem[] appItemForAdapter;
+    private String[] ItemForAdapter;
     private static int drawerTextSize;
     private static Resources rDrawer;
+    private static com.archbrey.letters.Preferences.SettingsHolder holder;
     private static GlobalHolder global;
 
-    public AppDrawerAdapter (Context c, AppItem passedAppItem[]){
+    public SettingsDrawerAdapter(Context c, String passedAppItem[]){
         getViewContext = c;
-        appItemForAdapter = passedAppItem;
+        ItemForAdapter = passedAppItem;
+        holder = new com.archbrey.letters.Preferences.SettingsHolder();
         global = new GlobalHolder();
     }
 
@@ -27,7 +35,7 @@ public class AppDrawerAdapter extends BaseAdapter {
     @Override
     public int getCount() {
 
-        return appItemForAdapter.length;
+        return ItemForAdapter.length;
     }
 
     @Override
@@ -40,40 +48,38 @@ public class AppDrawerAdapter extends BaseAdapter {
         return 0;
     }
 
-    static class ViewHolder{
-        TextView text;
-        // ImageView icon;
-    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup viewGroup) {
 
         drawerTextSize = 17;
+      //  rDrawer = holder.getResources();
         rDrawer = global.getResources();
-        ViewHolder viewHolder;
-        LayoutInflater getViewInflater = (LayoutInflater) getViewContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
+        TextView viewHolder;
+        LayoutInflater getViewInflater = (LayoutInflater) getViewContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if (convertView==null){
             convertView = getViewInflater.inflate(R.layout.drawer_item, null);
 
-            viewHolder = new ViewHolder();
-            viewHolder.text= (TextView)convertView.findViewById(R.id.icon_text);
+            viewHolder = new TextView(getViewContext);
+            viewHolder= (TextView)convertView.findViewById(R.id.icon_text);
             // viewHolder.icon= (ImageView)convertView.findViewById(R.id.icon_image);
 
             convertView.setTag(viewHolder);
         } //if (convertView==null)
         else
-            viewHolder = (ViewHolder) convertView.getTag();
+            viewHolder = (TextView) convertView.getTag();
 
 
-        //  viewHolder.icon.setImageDrawable(appItemForAdapter[position].icon);
-        viewHolder.text.setText(appItemForAdapter[position].label);
-        //viewHolder.text.setTextSize(R.dimen.drawer_textSize);
-        viewHolder.text.setTextSize(TypedValue.COMPLEX_UNIT_SP, drawerTextSize);
-        viewHolder.text.setTextColor(LaunchpadActivity.textColor);
+        viewHolder.setText(ItemForAdapter[position]);
+        viewHolder.setTextSize(TypedValue.COMPLEX_UNIT_SP, drawerTextSize);
+        viewHolder.setTextColor(LaunchpadActivity.textColor);
+
         return convertView;
 
     } //public View getView(int position, View view, ViewGroup viewGroup)
 
-} //public class AppDrawerAdapter extends BaseAdapter
+
+
+} //public class SettingsDrawerAdapter extends BaseAdapter

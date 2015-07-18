@@ -37,10 +37,9 @@ public class LaunchpadActivity extends Activity {
 
     private View drawerBox ;
 
-
    // private ScrollView drawerView;
     PackageManager basicPkgMgr;
-    GridView appGridView;
+    public static GridView appGridView;
 
     private Resources r;
     DrawKeypadBox KeypadBoxHandle;
@@ -56,15 +55,22 @@ public class LaunchpadActivity extends Activity {
 
     private TextView typeoutView;
 
+    public static int textColor;
+    public static int backColor;
+    public static int backerColor;
+
     AppItem[] appItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //keep layout in portrait
-
+        global = new GlobalHolder();
         r = getResources();
         basicPkgMgr = getPackageManager();
+
+
+        setColorTheme();
 
         mainScreen = new RelativeLayout(this);
        // mainScreen.setOrientation(LinearLayout.VERTICAL);
@@ -84,7 +90,7 @@ public class LaunchpadActivity extends Activity {
 
         typeoutBox = new RelativeLayout(this);
         typeoutBoxHandle = new TypeOut();
-                typeoutBox = typeoutBoxHandle.DrawBox(typeoutBox,this,r);
+                typeoutBox = typeoutBoxHandle.DrawBox(typeoutBox, this, r);
                 typeoutView = typeoutBoxHandle.getTypeoutView();
 
 
@@ -95,8 +101,9 @@ public class LaunchpadActivity extends Activity {
 
         setContentView(mainScreen);
 
+
         //set variables to be used by other classes
-        global = new GlobalHolder();
+
         appGridView = (GridView) findViewById(R.id.drawer_content);
         global.setDrawerBox(drawerBox);
         global.setTypeoutBox(typeoutBox);
@@ -105,11 +112,11 @@ public class LaunchpadActivity extends Activity {
         global.setPackageManager(basicPkgMgr);
         global.setFindString("");
         global.setDelButton(delButton);
-        //global.setResources(r);
+        global.setResources(r);
 
         //setup initial app list
         new GetAppList().initialize();
-        appItems = new GetAppList().all_appItems(basicPkgMgr, appItems);
+        appItems = new GetAppList().all_appItems(basicPkgMgr);
         filterBoxHandle.refreshFilterItems(appItems);
 
         drawDrawerBox = new DrawDrawerBox (this, appGridView, appItems);
@@ -139,8 +146,13 @@ public class LaunchpadActivity extends Activity {
 
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
+
+        drawerBox.setVisibility(View.INVISIBLE);
+        typeoutBox.setVisibility(View.INVISIBLE);
+        global.setFindString("");
+        typeoutBoxHandle.setFindStatus(false); //stop search mode if length = 0;
         filterBoxHandle.refreshRecentItems();
 
     } //protected void onResume()
@@ -172,6 +184,8 @@ public class LaunchpadActivity extends Activity {
                     startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS) );
                         return true;
             case R.id.action_launcher_settings:
+                    final Intent launcherSettings = new Intent("com.archbrey.letters.Preferences.SettingsActivity");
+                    startActivity(launcherSettings);
                         return true;
             case R.id.action_wallpaper:
                     final Intent pickWallpaper = new Intent(Intent.ACTION_SET_WALLPAPER);
@@ -183,6 +197,13 @@ public class LaunchpadActivity extends Activity {
 
     } //public boolean onOptionsItemSelected(MenuItem item)
 
+    private void setColorTheme(){
+
+        textColor = r.getColor(R.color.white);
+        backColor = r.getColor(R.color.Black_transparent);
+        backerColor = r.getColor(R.color.Blacker_transparent);
+
+    } //private void setColorTheme()
 
     private void assembleScreen(){
 
@@ -225,7 +246,7 @@ public class LaunchpadActivity extends Activity {
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            appItems = new GetAppList().all_appItems(basicPkgMgr, appItems);
+            appItems = new GetAppList().all_appItems(basicPkgMgr);
             appGridView = (GridView) findViewById(R.id.drawer_content);
             new DrawDrawerBox (context, appGridView, appItems);
 

@@ -70,10 +70,11 @@ public class GetAppList {
     } //public AppItem[] getRecentApps (AppItem getAppItem)
 
 
-    public AppItem[] all_appItems(PackageManager mainPkgMgr, AppItem[] appItem){
+    public AppItem[] all_appItems(PackageManager mainPkgMgr){
 
         PackageManager PkgMgr;
         PkgMgr = mainPkgMgr;
+        AppItem[] appItem;
 
         final Intent pkgIntent = new Intent (Intent.ACTION_MAIN,null);
         pkgIntent.addCategory(Intent.CATEGORY_LAUNCHER);
@@ -132,21 +133,17 @@ public class GetAppList {
 
         int ArraySize = appItem.length;
         int filtercount = 0;
-        String MatchValue;
 
         AppItem[] filteredItem;
-        AppItem[] resultItem;
         filteredItem = new AppItem[ArraySize];
 
         for (int inc = 0; inc<ArraySize; inc++){
-           // MatchValue = String.valueOf(appItem[inc].label.charAt(0));
-           // if (Search.equals(MatchValue))
             if (appItem[inc].label.toLowerCase().contains(Search.toLowerCase()))
             {
                 filteredItem[filtercount] = new AppItem();
                 filteredItem[filtercount] = appItem[inc];
                 filtercount++;
-            } //(Search.equals(MatchValue))
+            } //if (appItem[inc].label.toLowerCase().contains(Search.toLowerCase()))
         } //for (int inc = 0; inc<appPkgList.size(); inc++)
 
         filteredApps = new AppItem[filtercount];

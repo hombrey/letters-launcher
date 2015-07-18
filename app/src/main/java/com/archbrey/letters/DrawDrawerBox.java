@@ -2,6 +2,7 @@ package com.archbrey.letters;
 
 import android.content.Context;
 import android.widget.GridView;
+//import android.widget.RelativeLayout;
 
 
 public class DrawDrawerBox extends LaunchpadActivity {
@@ -14,18 +15,17 @@ public class DrawDrawerBox extends LaunchpadActivity {
 
     public DrawDrawerBox (Context c, GridView getAppGridView, AppItem[] appItem)  {
 
+
         getViewContext = c;
         showItem = appItem;
         appGridView = getAppGridView;
 
         global = new GlobalHolder();
 
-
         AppDrawerAdapterObject = new AppDrawerAdapter(getViewContext, showItem);
         appGridView.setAdapter(AppDrawerAdapterObject);
+        appGridView.setBackgroundColor(LaunchpadActivity.backerColor);
 
-       // appGridView.setOnItemClickListener(new DrawerClickListener(getViewContext, appItem, basicPkgMgr));
-       // appGridView.setOnItemLongClickListener(new DrawerLongClickListener(getViewContext, appItem, basicPkgMgr));
 
     } // public DrawDrawerBox (Context c, AppItem[] appItem)
 

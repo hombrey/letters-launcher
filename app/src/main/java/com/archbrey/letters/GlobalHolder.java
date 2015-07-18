@@ -3,9 +3,10 @@ package com.archbrey.letters;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.view.View;
 import android.widget.GridView;
-import android.widget.LinearLayout;
+//import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 public class GlobalHolder {
@@ -17,9 +18,17 @@ public class GlobalHolder {
     private static String findString;
     private static View drawerBox;
     private static RelativeLayout typeoutBox;
-    private static LinearLayout fillerBox;
-    private static SideButton menuButton;
+   // private static LinearLayout fillerBox;
+    //private static SideButton menuButton;
     private static SideButton delButton;
+    private static Resources rMain;
+
+
+    public void setResources (Resources getR) {rMain = getR;
+    }//public void setResources
+
+    public Resources getResources () {return rMain;
+    }//public void setDrawerBox (View getDrawerBox)
 
 
     public void setDelButton (SideButton getDelButton) {delButton = getDelButton;
@@ -65,6 +74,7 @@ public class GlobalHolder {
     } //public void getMainContext (Context getContext)
 
 
+
     public void setAppItem(AppItem[] appItems) {
 
         int ArraySize = appItems.length;
@@ -79,15 +89,10 @@ public class GlobalHolder {
     } // public void setAppItem(AppItem[] appItems)
 
 
-    public int getAppItemSize() {
-
-        int appItemSize = currentAppItems.length;
-        return appItemSize;
-
+    public int getAppItemSize() { return currentAppItems.length;
     } //public AppItem[] getAppItem()
 
-    public AppItem[] getAppItem() {
-            return currentAppItems;
+    public AppItem[] getAppItem() { return currentAppItems;
     } //public AppItem[] getAppItem()
 
 

@@ -2,7 +2,7 @@ package com.archbrey.letters;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
+//import android.graphics.Color;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -122,22 +122,22 @@ public class TypeOut {
         typeoutTextSize = 24;
         findToggleTextSize = 15;
         typeoutView = new TextView(mainContext);
-        typeoutView.setText("Hello there");
+        typeoutView.setText(" ");
         typeoutView.setGravity(Gravity.CENTER_HORIZONTAL);
         typeoutView.setTextSize(TypedValue.COMPLEX_UNIT_SP, typeoutTextSize);
-        typeoutView.setTextColor(Color.WHITE);
+        typeoutView.setTextColor(LaunchpadActivity.textColor);
 
         editView = new TextView(mainContext);
         editView.setText(String.valueOf(Character.toChars(177)));
         editView.setGravity(Gravity.CENTER_HORIZONTAL);
         editView.setTextSize(TypedValue.COMPLEX_UNIT_SP, typeoutTextSize);
-        editView.setTextColor(Color.WHITE);
+        editView.setTextColor(LaunchpadActivity.textColor);
 
         findToggleView = new TextView(mainContext);
         findToggleView.setText("find");
         findToggleView.setGravity(Gravity.CENTER_HORIZONTAL);
         findToggleView.setTextSize(TypedValue.COMPLEX_UNIT_SP, findToggleTextSize);
-        findToggleView.setTextColor(Color.WHITE);
+        findToggleView.setTextColor(LaunchpadActivity.textColor);
 
 
         RelativeLayout.LayoutParams typeoutParams = new RelativeLayout.LayoutParams(
@@ -164,7 +164,7 @@ public class TypeOut {
         findToggleParams.setMargins(horizontal_margin, vertical_margin, 0, vertical_margin);
 
         typeoutBox = new RelativeLayout(mainContext);
-        typeoutBox.setBackgroundColor(rTypeout.getColor(R.color.Blacker_transparent));
+        typeoutBox.setBackgroundColor(LaunchpadActivity.backerColor);
 
         typeoutBox.addView(editView, editViewParams);
         typeoutBox.addView(findToggleView, findToggleParams);

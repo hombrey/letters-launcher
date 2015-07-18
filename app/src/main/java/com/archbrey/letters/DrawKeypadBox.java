@@ -4,7 +4,7 @@ package com.archbrey.letters;
 //import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
+//import android.graphics.Color;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.Button;
@@ -72,8 +72,9 @@ public class DrawKeypadBox  {
         int inc;
         for (inc=0; inc<=35; inc++) {
            keypadButton[inc].Key.setText(keypadButton[inc].Letter);
-           keypadButton[inc].Key.setTextColor(Color.WHITE);
-           keypadButton[inc].Key.setBackgroundColor(rDrawBox.getColor(R.color.Black_transparent));
+           //keypadButton[inc].Key.setTextColor(rDrawBox.getColor(R.color.text_color));
+           keypadButton[inc].Key.setTextColor(LaunchpadActivity.textColor);
+           keypadButton[inc].Key.setBackgroundColor(LaunchpadActivity.backColor);
         } //for (inc=0; inc<=35; inc++)
 
 
@@ -104,7 +105,7 @@ public class DrawKeypadBox  {
 
         keypadBox.setOrientation(LinearLayout.VERTICAL);
         //keypadBox.setBackgroundColor(Color.BLUE);
-        keypadBox.setBackgroundColor(rDrawBox.getColor(R.color.Black_transparent));
+        keypadBox.setBackgroundColor(LaunchpadActivity.backColor);
         keypadBox.setGravity(Gravity.BOTTOM);
 
         //==========TOP ROW=========================================================================================
@@ -128,7 +129,6 @@ public class DrawKeypadBox  {
 
         keypadBottomRow = new LinearLayout(LaunchpadContext);
         keypadBottomRow.setOrientation(LinearLayout.HORIZONTAL);
-        //keypadTopRow.setBackgroundColor(Color.BLUE);
         keypadBottomRow.setGravity(Gravity.CENTER);
 
         keypadBottomRow.addView(menuButton.Key, keypadKeysParams);

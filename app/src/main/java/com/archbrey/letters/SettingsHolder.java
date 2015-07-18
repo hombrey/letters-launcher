@@ -1,9 +1,5 @@
 package com.archbrey.letters;
 
-
-/**
- * Created by archbrey on 7/10/15.
- */
 public class SettingsHolder {
 
     private static int numOfFilters;

@@ -1,6 +1,5 @@
 package com.archbrey.letters;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -26,8 +25,7 @@ public class DrawerClickListener implements OnItemClickListener  {
 
         Intent launchIntent = pmForListener.getLaunchIntentForPackage(appItemForListener[position].pkgname);
 
-        AppItem launched;
-            launched = new AppItem();
+            AppItem launched;
             launched= appItemForListener[position];
             new GetAppList().addRecentApp (launched);
 

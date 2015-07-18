@@ -46,9 +46,9 @@ public class DrawFilterBox {
         for (int inc=0; inc<NumOfFilters; inc++) { //change '3' to the number of actual buttons
             filterItems[inc].button = new Button(mainContext);
             filterItems[inc].button.setText(filterItems[inc].Code);
-            filterItems[inc].button.setTextColor(Color.WHITE);
+            filterItems[inc].button.setTextColor(LaunchpadActivity.textColor);
             filterItems[inc].button.setTextSize(TypedValue.COMPLEX_UNIT_SP, filterTextSize);
-            filterItems[inc].button.setBackgroundColor(rDrawBox.getColor(R.color.Black_transparent));
+            filterItems[inc].button.setBackgroundColor(LaunchpadActivity.backColor);
         } //for (inc=0; inc<=NumOfFilters; inc++)
 
         int filter_button_width = (int) TypedValue.applyDimension(
@@ -66,7 +66,7 @@ public class DrawFilterBox {
 
 
         filterBox.setOrientation(LinearLayout.HORIZONTAL);
-        filterBox.setBackgroundColor(rDrawBox.getColor(R.color.Blacker_transparent));
+        filterBox.setBackgroundColor(LaunchpadActivity.backerColor);
         filterBox.setGravity(Gravity.BOTTOM);
 
 
