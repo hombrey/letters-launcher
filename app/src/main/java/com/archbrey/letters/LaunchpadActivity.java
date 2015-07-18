@@ -5,9 +5,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-//import android.content.pm.ResolveInfo;
-//import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -19,11 +18,11 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-//import android.graphics.Color;
-//import android.util.TypedValue;
 import android.content.res.Resources;
 import android.view.Gravity;
 import android.content.pm.ActivityInfo;
+
+import com.archbrey.letters.Preferences.SettingsActivity;
 
 //import android.util.Log;
 
@@ -33,7 +32,7 @@ public class LaunchpadActivity extends Activity {
     private LinearLayout keypadBox;
     private RelativeLayout typeoutBox;
     private LinearLayout filterBox;
-    private LinearLayout fillerBox;
+
 
     private View drawerBox ;
 
@@ -59,51 +58,37 @@ public class LaunchpadActivity extends Activity {
     public static int backColor;
     public static int backerColor;
 
+    public static Context Cfirst;
+
+    private static RefreshAppItemReceiver appUpdater;
     AppItem[] appItems;
+
+    public static SharedPreferences prefs;
+    public static String prefName = "LettersPrefs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //keep layout in portrait
         global = new GlobalHolder();
+        prefs = getSharedPreferences(prefName, MODE_PRIVATE);
         r = getResources();
         basicPkgMgr = getPackageManager();
+        Cfirst = this;
 
 
         setColorTheme();
 
         mainScreen = new RelativeLayout(this);
-       // mainScreen.setOrientation(LinearLayout.VERTICAL);
         mainScreen.setGravity(Gravity.BOTTOM);
 
-        keypadBox = new LinearLayout(this);
-        KeypadBoxHandle = new DrawKeypadBox(keypadBox,this, r);
-                keypadBox = KeypadBoxHandle.getLayout();
-                keypadButtons = KeypadBoxHandle.getKeypadButton();
-                menuButton = KeypadBoxHandle.getmenuButton();
-                delButton = KeypadBoxHandle.getdelButton();
-
-        filterBox = new LinearLayout(this);
-        filterBoxHandle = new DrawFilterBox(filterBox,this,r);
-                filterBox = filterBoxHandle.getLayout();
-                filterItems = filterBoxHandle.getFilterItems();
-
-        typeoutBox = new RelativeLayout(this);
-        typeoutBoxHandle = new TypeOut();
-                typeoutBox = typeoutBoxHandle.DrawBox(typeoutBox, this, r);
-                typeoutView = typeoutBoxHandle.getTypeoutView();
-
-
-        //draw app drawer
-        drawerBox = LayoutInflater.from(this).inflate(R.layout.drawerbox, null);
-
+        drawBoxes();
         assembleScreen();
 
         setContentView(mainScreen);
 
 
         //set variables to be used by other classes
-
         appGridView = (GridView) findViewById(R.id.drawer_content);
         global.setDrawerBox(drawerBox);
         global.setTypeoutBox(typeoutBox);
@@ -140,7 +125,10 @@ public class LaunchpadActivity extends Activity {
         Package_update_filter.addAction(Intent.ACTION_PACKAGE_REMOVED);
         Package_update_filter.addAction(Intent.ACTION_PACKAGE_CHANGED);
         Package_update_filter.addDataScheme("package");
-        registerReceiver(new RefreshAppItemReceiver(), Package_update_filter);
+
+        appUpdater = new RefreshAppItemReceiver();
+        //registerReceiver(new RefreshAppItemReceiver(), Package_update_filter);
+        registerReceiver(appUpdater, Package_update_filter);
 
     }// protected void onCreate(Bundle savedInstanceState)
 
@@ -148,7 +136,6 @@ public class LaunchpadActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-
         drawerBox.setVisibility(View.INVISIBLE);
         typeoutBox.setVisibility(View.INVISIBLE);
         global.setFindString("");
@@ -160,6 +147,14 @@ public class LaunchpadActivity extends Activity {
     @Override
     protected void onStart(){
         super.onStart();
+
+    } //protected void onStart()
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+
+        unregisterReceiver(appUpdater);
 
     } //protected void onStart()
 
@@ -184,12 +179,10 @@ public class LaunchpadActivity extends Activity {
                     startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS) );
                         return true;
             case R.id.action_launcher_settings:
+                    SettingsActivity.menuArea="MainSettings";
                     final Intent launcherSettings = new Intent("com.archbrey.letters.Preferences.SettingsActivity");
-                    startActivity(launcherSettings);
-                        return true;
-            case R.id.action_wallpaper:
-                    final Intent pickWallpaper = new Intent(Intent.ACTION_SET_WALLPAPER);
-                    startActivity(Intent.createChooser(pickWallpaper, getString(R.string.chooser_wallpaper)));
+                  startActivityForResult(launcherSettings, 100);
+                  //  startActivity(launcherSettings);
                         return true;
             default:
                     return super.onOptionsItemSelected(item);
@@ -197,13 +190,57 @@ public class LaunchpadActivity extends Activity {
 
     } //public boolean onOptionsItemSelected(MenuItem item)
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); //force on destroy
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //on create at portrait
+        //startActivityForResult(new Intent(this, LaunchpadActivity.class), 0);
+
+    } //protected void onActivityResult(int requestCode, int resultCode, Intent data)
+
+
+
     private void setColorTheme(){
+
+        String colorScheme = prefs.getString("colorscheme","");
 
         textColor = r.getColor(R.color.white);
         backColor = r.getColor(R.color.Black_transparent);
         backerColor = r.getColor(R.color.Blacker_transparent);
 
+        if (colorScheme.equals("white")) {
+            textColor = r.getColor(R.color.black);
+            backColor = r.getColor(R.color.White_transparent);
+            backerColor = r.getColor(R.color.Whiter_transparent);
+        } //if if colorScheme.equals("white")
+
     } //private void setColorTheme()
+
+    private void drawBoxes(){
+
+        keypadBox = new LinearLayout(this);
+        KeypadBoxHandle = new DrawKeypadBox(keypadBox,this, r);
+        keypadBox = KeypadBoxHandle.getLayout();
+        keypadButtons = KeypadBoxHandle.getKeypadButton();
+        menuButton = KeypadBoxHandle.getmenuButton();
+        delButton = KeypadBoxHandle.getdelButton();
+
+        filterBox = new LinearLayout(this);
+        filterBoxHandle = new DrawFilterBox(filterBox,this,r);
+        filterBox = filterBoxHandle.getLayout();
+        filterItems = filterBoxHandle.getFilterItems();
+
+        typeoutBox = new RelativeLayout(this);
+        typeoutBoxHandle = new TypeOut();
+        typeoutBox = typeoutBoxHandle.DrawBox(typeoutBox, this, r);
+        typeoutView = typeoutBoxHandle.getTypeoutView();
+
+
+        //draw app drawer
+        drawerBox = LayoutInflater.from(this).inflate(R.layout.drawerbox, null);
+
+    } //private void drawBoxes()
 
     private void assembleScreen(){
 

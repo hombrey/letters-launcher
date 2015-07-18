@@ -5,6 +5,10 @@
     <string name="color_scheme">Color Scheme</string>
     <string name="custom_filter">Filter Box</string>
     <string name="custom_keypad">Keypad Area</string>
+    <string name="set_wallpaper">Change Wallpaper</string>
+
+    <string name="dark_scheme">Dark Scheme</string>
+    <string name="light_scheme">Light Scheme</string>
 
 
     <string name="hello_world">Hello world!</string>

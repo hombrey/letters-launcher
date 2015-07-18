@@ -7,11 +7,13 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.content.SharedPreferences;
 
 import com.archbrey.letters.LaunchpadActivity;
 import com.archbrey.letters.R;
@@ -22,7 +24,9 @@ public class SettingsActivity extends Activity {
     private Resources r;
     private static LinearLayout settingsScreen;
 
-    private static LinearLayout infoBox;
+    public static LinearLayout infoBox;
+    public static TextView infoView;
+
     private View drawerBox ;
 
     private static GridView gridDrawer;
@@ -30,13 +34,24 @@ public class SettingsActivity extends Activity {
     //private LinearLayout setColorsBox;
     private com.archbrey.letters.Preferences.SettingsHolder holder;
 
+    public static int menuLevel;
+    public static String menuArea;
+
+    public static SharedPreferences.Editor prefsEditor;
+    public static SharedPreferences prefs;
+    public static String prefName = "LettersPrefs";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //keep layout in portrait
 
+        prefs = getSharedPreferences(prefName, MODE_PRIVATE);
+        prefsEditor = prefs.edit();
+
         r = getResources();
         C = this;
+        menuLevel = 0;
         holder = new com.archbrey.letters.Preferences.SettingsHolder();
         holder.setSettingsContext(this);
         holder.setResources(r);
@@ -53,8 +68,11 @@ public class SettingsActivity extends Activity {
         setContentView(settingsScreen);
 
         gridDrawer = (GridView) findViewById(R.id.drawer_content);
+
+
         mainsettingsHandle = new MainSettings();
         mainsettingsHandle.DrawBox(gridDrawer, this, r);
+
 
     } // protected void onCreate(Bundle savedInstanceState)
 
@@ -71,6 +89,21 @@ public class SettingsActivity extends Activity {
 
     } //protected void onStart()
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if( (keyCode == KeyEvent.KEYCODE_BACK) && (menuLevel>0) ) {
+            if (menuLevel ==1) {
+                //mainsettingsHandle = new MainSettings();
+                mainsettingsHandle.DrawBox(gridDrawer, this, r);
+                menuLevel --;
+                return true;
+                 } //if (menuLevel ==1)
+
+          // onBackPressed();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 
     private void assembleScreen(){
 
@@ -78,7 +111,7 @@ public class SettingsActivity extends Activity {
         infoBox = new LinearLayout(this);
         infoBox.setOrientation(LinearLayout.VERTICAL);
         infoBox.setBackgroundColor(LaunchpadActivity.backerColor);
-        TextView infoView;
+
         infoView = new TextView(this);
         infoView.setText("Settings");
         infoView.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -88,8 +121,8 @@ public class SettingsActivity extends Activity {
         LinearLayout.LayoutParams infoViewParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, //width
                 LinearLayout.LayoutParams.WRAP_CONTENT); //height
-                infoViewParams.setMargins(0,20,0,20);
-        infoBox.addView(infoView,infoViewParams);
+                infoViewParams.setMargins(0, 20, 0, 20);
+        infoBox.addView(infoView, infoViewParams);
 
         /*
         setColorsBox = new LinearLayout(this);
