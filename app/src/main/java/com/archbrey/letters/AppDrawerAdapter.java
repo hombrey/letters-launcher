@@ -9,11 +9,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.archbrey.letters.Preferences.SettingsActivity;
+
 public class AppDrawerAdapter extends BaseAdapter {
 
     private static Context getViewContext;
     private AppItem[] appItemForAdapter;
-    private static int drawerTextSize;
+   // private static int drawerTextSize;
     private static Resources rDrawer;
     private static GlobalHolder global;
 
@@ -48,7 +50,7 @@ public class AppDrawerAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup viewGroup) {
 
-        drawerTextSize = 17;
+       // drawerTextSize = 17;
         rDrawer = global.getResources();
         ViewHolder viewHolder;
         LayoutInflater getViewInflater = (LayoutInflater) getViewContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -70,8 +72,9 @@ public class AppDrawerAdapter extends BaseAdapter {
         //  viewHolder.icon.setImageDrawable(appItemForAdapter[position].icon);
         viewHolder.text.setText(appItemForAdapter[position].label);
         //viewHolder.text.setTextSize(R.dimen.drawer_textSize);
-        viewHolder.text.setTextSize(TypedValue.COMPLEX_UNIT_SP, drawerTextSize);
-        viewHolder.text.setTextColor(LaunchpadActivity.textColor);
+        viewHolder.text.setTextSize(TypedValue.COMPLEX_UNIT_SP, SettingsActivity.drawerTextSize);
+        viewHolder.text.setTextColor(SettingsActivity.textColor);
+
         return convertView;
 
     } //public View getView(int position, View view, ViewGroup viewGroup)

@@ -1,6 +1,5 @@
 package com.archbrey.letters.Preferences;
 
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.view.View;
@@ -9,7 +8,7 @@ import android.widget.GridView;
 
 import com.archbrey.letters.R;
 
-public class ColorSettings {
+public class ColumnSettings {
 
     private static GridView mainMenuBox;
     private static Context settingsContext;
@@ -20,17 +19,18 @@ public class ColorSettings {
 
     public GridView DrawBox (GridView getgridBox,Context c,Resources getR) {
 
-        SettingsActivity.infoView.setText(getR.getString(R.string.color_scheme));
-        SettingsActivity.menuArea = getR.getString(R.string.color_scheme);
+        SettingsActivity.infoView.setText(getR.getString(R.string.change_columns));
+        SettingsActivity.menuArea = getR.getString(R.string.change_columns);
         SettingsActivity.menuLevel=1;
         mainMenuBox = getgridBox;
         settingsContext = c;
         rMainSettings = getR;
         holder = new com.archbrey.letters.Preferences.SettingsHolder();
 
-        menuItems = new String[2];
-        menuItems[0] =getR.getString(R.string.dark_scheme);
-        menuItems[1] =getR.getString(R.string.light_scheme);
+        menuItems = new String[3];
+        menuItems[0] =getR.getString(R.string.two);
+        menuItems[1] =getR.getString(R.string.three);
+        menuItems[2] =getR.getString(R.string.four);
 
         new SettingsDrawer(settingsContext, mainMenuBox, menuItems);
         setListener();
@@ -48,26 +48,23 @@ public class ColorSettings {
             //noinspection SimplifiableIfStatement
             switch (position) {
                 case 0:
-                    SettingsActivity.textColor = rMainSettings.getColor(R.color.white);
-                    SettingsActivity.backColor = rMainSettings.getColor(R.color.Black_transparent);
-                    SettingsActivity.backerColor = rMainSettings.getColor(R.color.Blacker_transparent);
-                    SettingsActivity.prefsEditor.putString ("colorscheme","black");
+                    SettingsActivity.drawerColumns = 2;
                     break;
                 case 1:
-                    SettingsActivity.textColor = rMainSettings.getColor(R.color.black);
-                    SettingsActivity.backColor = rMainSettings.getColor(R.color.White_transparent);
-                    SettingsActivity.backerColor = rMainSettings.getColor(R.color.Whiter_transparent);
-                    SettingsActivity.prefsEditor.putString ("colorscheme","white");
+                    SettingsActivity.drawerColumns = 3;
+                    break;
+                case 2:
+                    SettingsActivity.drawerColumns = 4;
                     break;
                 default:
+                    SettingsActivity.drawerColumns = 4;
                     break;
             } //switch (position)
 
 
+            SettingsActivity.prefsEditor.putInt ("column_num",SettingsActivity.drawerColumns);
             SettingsActivity.prefsEditor.commit();
             DrawBox(mainMenuBox, settingsContext, rMainSettings);
-            SettingsActivity.infoBox.setBackgroundColor(SettingsActivity.backerColor);
-            SettingsActivity.infoView.setTextColor(SettingsActivity.textColor);
 
         }// public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
     } //private class MenuClickListener implements AdapterView.OnItemClickListener
@@ -75,4 +72,5 @@ public class ColorSettings {
 
 
 
-} //public class ColorSettings
+
+} //public class ColumnSettings

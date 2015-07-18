@@ -71,13 +71,12 @@ public class LaunchpadActivity extends Activity {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //keep layout in portrait
         global = new GlobalHolder();
-        prefs = getSharedPreferences(prefName, MODE_PRIVATE);
         r = getResources();
         basicPkgMgr = getPackageManager();
         Cfirst = this;
 
-
-        setColorTheme();
+        prefs = getSharedPreferences(prefName, MODE_PRIVATE);
+        getPreferences();
 
         mainScreen = new RelativeLayout(this);
         mainScreen.setGravity(Gravity.BOTTOM);
@@ -201,19 +200,25 @@ public class LaunchpadActivity extends Activity {
 
 
 
-    private void setColorTheme(){
+    private void getPreferences(){
 
         String colorScheme = prefs.getString("colorscheme","");
+        Integer columns = prefs.getInt("column_num", 4);
+        Integer textSize = prefs.getInt ("drawerTextSize",17);
 
-        textColor = r.getColor(R.color.white);
-        backColor = r.getColor(R.color.Black_transparent);
-        backerColor = r.getColor(R.color.Blacker_transparent);
+
+        SettingsActivity.textColor = r.getColor(R.color.white);
+        SettingsActivity.backColor = r.getColor(R.color.Black_transparent);
+        SettingsActivity.backerColor = r.getColor(R.color.Blacker_transparent);
 
         if (colorScheme.equals("white")) {
-            textColor = r.getColor(R.color.black);
-            backColor = r.getColor(R.color.White_transparent);
-            backerColor = r.getColor(R.color.Whiter_transparent);
+            SettingsActivity.textColor = r.getColor(R.color.black);
+            SettingsActivity.backColor = r.getColor(R.color.White_transparent);
+            SettingsActivity.backerColor = r.getColor(R.color.Whiter_transparent);
         } //if if colorScheme.equals("white")
+
+        SettingsActivity.drawerColumns = columns;
+        SettingsActivity.drawerTextSize = textSize;
 
     } //private void setColorTheme()
 

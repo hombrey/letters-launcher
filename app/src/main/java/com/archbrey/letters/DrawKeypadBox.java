@@ -9,6 +9,8 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.Button;
 import android.widget.LinearLayout;
+
+import com.archbrey.letters.Preferences.SettingsActivity;
 //import android.widget.TextView;
 
 
@@ -73,8 +75,8 @@ public class DrawKeypadBox  {
         for (inc=0; inc<=35; inc++) {
            keypadButton[inc].Key.setText(keypadButton[inc].Letter);
            //keypadButton[inc].Key.setTextColor(rDrawBox.getColor(R.color.text_color));
-           keypadButton[inc].Key.setTextColor(LaunchpadActivity.textColor);
-           keypadButton[inc].Key.setBackgroundColor(LaunchpadActivity.backColor);
+           keypadButton[inc].Key.setTextColor(SettingsActivity.textColor);
+           keypadButton[inc].Key.setBackgroundColor(SettingsActivity.backColor);
         } //for (inc=0; inc<=35; inc++)
 
 
@@ -105,7 +107,7 @@ public class DrawKeypadBox  {
 
         keypadBox.setOrientation(LinearLayout.VERTICAL);
         //keypadBox.setBackgroundColor(Color.BLUE);
-        keypadBox.setBackgroundColor(LaunchpadActivity.backColor);
+        keypadBox.setBackgroundColor(SettingsActivity.backColor);
         keypadBox.setGravity(Gravity.BOTTOM);
 
         //==========TOP ROW=========================================================================================

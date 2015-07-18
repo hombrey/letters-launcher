@@ -19,7 +19,7 @@ public class SettingsDrawerAdapter extends BaseAdapter  {
 
     private static Context getViewContext;
     private String[] ItemForAdapter;
-    private static int drawerTextSize;
+   // private static int drawerTextSize;
     private static Resources rDrawer;
     private static com.archbrey.letters.Preferences.SettingsHolder holder;
     private static GlobalHolder global;
@@ -52,9 +52,8 @@ public class SettingsDrawerAdapter extends BaseAdapter  {
     @Override
     public View getView(int position, View convertView, ViewGroup viewGroup) {
 
-        drawerTextSize = 17;
-      //  rDrawer = holder.getResources();
         rDrawer = global.getResources();
+
 
         TextView viewHolder;
         LayoutInflater getViewInflater = (LayoutInflater) getViewContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -64,7 +63,6 @@ public class SettingsDrawerAdapter extends BaseAdapter  {
 
             viewHolder = new TextView(getViewContext);
             viewHolder= (TextView)convertView.findViewById(R.id.icon_text);
-            // viewHolder.icon= (ImageView)convertView.findViewById(R.id.icon_image);
 
             convertView.setTag(viewHolder);
         } //if (convertView==null)
@@ -73,8 +71,8 @@ public class SettingsDrawerAdapter extends BaseAdapter  {
 
 
         viewHolder.setText(ItemForAdapter[position]);
-        viewHolder.setTextSize(TypedValue.COMPLEX_UNIT_SP, drawerTextSize);
-        viewHolder.setTextColor(LaunchpadActivity.textColor);
+        viewHolder.setTextSize(TypedValue.COMPLEX_UNIT_SP, SettingsActivity.drawerTextSize);
+        viewHolder.setTextColor(SettingsActivity.textColor);
 
         return convertView;
 

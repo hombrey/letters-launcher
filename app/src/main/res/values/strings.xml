@@ -3,13 +3,25 @@
     <string name="app_preferences">Launcher Prefs</string>
 
     <string name="color_scheme">Color Scheme</string>
+    <string name="change_columns">Drawer Columns</string>
+    <string name="drawer_textsize">Drawer Text Size</string>
     <string name="custom_filter">Filter Box</string>
     <string name="custom_keypad">Keypad Area</string>
-    <string name="set_wallpaper">Change Wallpaper</string>
+    <string name="set_wallpaper">Wallpaper</string>
 
     <string name="dark_scheme">Dark Scheme</string>
     <string name="light_scheme">Light Scheme</string>
 
+    <string name="two">two</string>
+    <string name="three">three</string>
+    <string name="four">four</string>
+
+    <string name="fifteen">fifteen</string>
+    <string name="seventeen">seventeen</string>
+    <string name="nineteen">nineteen</string>
+    <string name="twentyone">twenty one</string>
+    <string name="twentythree">twenty three</string>
+    <string name="twentyfive">twenty five</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_system_settings">System Settings</string>

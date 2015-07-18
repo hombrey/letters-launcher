@@ -27,17 +27,20 @@ public class MainSettings {
 
     public GridView DrawBox (GridView getgridBox,Context c,Resources getR) {
 
+        SettingsActivity.infoView.setText("Settings");
         SettingsActivity.menuArea = "MainSettings";
         mainMenuBox = getgridBox;
         settingsContext = c;
         rMainSettings = getR;
         holder = new com.archbrey.letters.Preferences.SettingsHolder();
 
-        menuItems = new String[4];
-        menuItems[0] =getR.getString(R.string.color_scheme);
-        menuItems[1] =getR.getString(R.string.custom_filter);
-        menuItems[2] =getR.getString(R.string.custom_keypad);
-        menuItems[3] =getR.getString(R.string.set_wallpaper);
+        menuItems = new String[6];
+        menuItems[0]=getR.getString(R.string.color_scheme);
+        menuItems[1]=getR.getString(R.string.change_columns);
+        menuItems[2]=getR.getString(R.string.drawer_textsize);
+        menuItems[3] =getR.getString(R.string.custom_filter);
+        menuItems[4] =getR.getString(R.string.custom_keypad);
+        menuItems[5] =getR.getString(R.string.set_wallpaper);
 
         new SettingsDrawer(settingsContext, mainMenuBox, menuItems);
         setListener();
@@ -52,17 +55,28 @@ public class MainSettings {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
-            ColorSettings colorsettingsHandle;
+
 
             switch (position) {
                 case 0:
+                    ColorSettings colorsettingsHandle;
                     colorsettingsHandle = new ColorSettings();
                     colorsettingsHandle.DrawBox(mainMenuBox, settingsContext, rMainSettings);
                     break;
                 case 1:
-                    settingsContext.startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
+                    ColumnSettings columnsettingsHandle;
+                    columnsettingsHandle = new ColumnSettings();
+                    columnsettingsHandle.DrawBox(mainMenuBox, settingsContext, rMainSettings);
+                    break;
+                case 2:
+                    DrawerTextSize textSizeHandle;
+                    textSizeHandle = new DrawerTextSize();
+                    textSizeHandle.DrawBox(mainMenuBox, settingsContext, rMainSettings);
                     break;
                 case 3:
+                    settingsContext.startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
+                    break;
+                case 5:
                     final Intent pickWallpaper = new Intent(Intent.ACTION_SET_WALLPAPER);
                     settingsContext.startActivity(Intent.createChooser(pickWallpaper, settingsContext.getString(R.string.chooser_wallpaper)));
                     break;

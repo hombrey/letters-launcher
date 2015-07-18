@@ -2,6 +2,8 @@ package com.archbrey.letters;
 
 import android.content.Context;
 import android.widget.GridView;
+
+import com.archbrey.letters.Preferences.SettingsActivity;
 //import android.widget.RelativeLayout;
 
 
@@ -24,7 +26,9 @@ public class DrawDrawerBox extends LaunchpadActivity {
 
         AppDrawerAdapterObject = new AppDrawerAdapter(getViewContext, showItem);
         appGridView.setAdapter(AppDrawerAdapterObject);
-        appGridView.setBackgroundColor(LaunchpadActivity.backerColor);
+        appGridView.setBackgroundColor(SettingsActivity.backerColor);
+        appGridView.setNumColumns(SettingsActivity.drawerColumns);
+        //appGridView.setVerticalSpacing(5);
 
 
     } // public DrawDrawerBox (Context c, AppItem[] appItem)

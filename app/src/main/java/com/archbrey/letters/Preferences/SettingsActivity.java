@@ -41,6 +41,14 @@ public class SettingsActivity extends Activity {
     public static SharedPreferences prefs;
     public static String prefName = "LettersPrefs";
 
+    public static int textColor;
+    public static int backColor;
+    public static int backerColor;
+    public static int textSelectColor;
+    public static int backSelectColor;
+    public static int drawerColumns;
+    public static int drawerTextSize;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,13 +118,13 @@ public class SettingsActivity extends Activity {
 
         infoBox = new LinearLayout(this);
         infoBox.setOrientation(LinearLayout.VERTICAL);
-        infoBox.setBackgroundColor(LaunchpadActivity.backerColor);
+        infoBox.setBackgroundColor(SettingsActivity.backerColor);
 
         infoView = new TextView(this);
         infoView.setText("Settings");
         infoView.setGravity(Gravity.CENTER_HORIZONTAL);
         infoView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
-        infoView.setTextColor(LaunchpadActivity.textColor);
+        infoView.setTextColor(SettingsActivity.textColor);
 
         LinearLayout.LayoutParams infoViewParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, //width

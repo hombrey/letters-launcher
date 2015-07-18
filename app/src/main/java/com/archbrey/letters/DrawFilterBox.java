@@ -8,6 +8,8 @@ import android.view.Gravity;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.archbrey.letters.Preferences.SettingsActivity;
+
 
 public class DrawFilterBox {
 
@@ -46,9 +48,9 @@ public class DrawFilterBox {
         for (int inc=0; inc<NumOfFilters; inc++) { //change '3' to the number of actual buttons
             filterItems[inc].button = new Button(mainContext);
             filterItems[inc].button.setText(filterItems[inc].Code);
-            filterItems[inc].button.setTextColor(LaunchpadActivity.textColor);
+            filterItems[inc].button.setTextColor(SettingsActivity.textColor);
             filterItems[inc].button.setTextSize(TypedValue.COMPLEX_UNIT_SP, filterTextSize);
-            filterItems[inc].button.setBackgroundColor(LaunchpadActivity.backColor);
+            filterItems[inc].button.setBackgroundColor(SettingsActivity.backColor);
         } //for (inc=0; inc<=NumOfFilters; inc++)
 
         int filter_button_width = (int) TypedValue.applyDimension(
@@ -66,7 +68,7 @@ public class DrawFilterBox {
 
 
         filterBox.setOrientation(LinearLayout.HORIZONTAL);
-        filterBox.setBackgroundColor(LaunchpadActivity.backerColor);
+        filterBox.setBackgroundColor(SettingsActivity.backerColor);
         filterBox.setGravity(Gravity.BOTTOM);
 
 

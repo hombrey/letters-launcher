@@ -24,7 +24,9 @@ public class SettingsDrawer extends SettingsActivity {
 
         menuDrawerAdapter = new SettingsDrawerAdapter(settingsContext, showItem);
         settingsGridView.setAdapter(menuDrawerAdapter);
-        settingsGridView.setBackgroundColor(LaunchpadActivity.backerColor);
+        settingsGridView.setBackgroundColor(SettingsActivity.backerColor);
+        settingsGridView.setNumColumns(SettingsActivity.drawerColumns);
+        //settingsGridView.setVerticalSpacing(5);
 
 
     } //public SettingsDrawer (Context c, GridView getAppGridView, String[] showItem)

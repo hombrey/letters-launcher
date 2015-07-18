@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.archbrey.letters.Preferences.SettingsActivity;
+
 
 public class TypeOut {
 
@@ -125,19 +127,19 @@ public class TypeOut {
         typeoutView.setText(" ");
         typeoutView.setGravity(Gravity.CENTER_HORIZONTAL);
         typeoutView.setTextSize(TypedValue.COMPLEX_UNIT_SP, typeoutTextSize);
-        typeoutView.setTextColor(LaunchpadActivity.textColor);
+        typeoutView.setTextColor(SettingsActivity.textColor);
 
         editView = new TextView(mainContext);
         editView.setText(String.valueOf(Character.toChars(177)));
         editView.setGravity(Gravity.CENTER_HORIZONTAL);
         editView.setTextSize(TypedValue.COMPLEX_UNIT_SP, typeoutTextSize);
-        editView.setTextColor(LaunchpadActivity.textColor);
+        editView.setTextColor(SettingsActivity.textColor);
 
         findToggleView = new TextView(mainContext);
         findToggleView.setText("find");
         findToggleView.setGravity(Gravity.CENTER_HORIZONTAL);
         findToggleView.setTextSize(TypedValue.COMPLEX_UNIT_SP, findToggleTextSize);
-        findToggleView.setTextColor(LaunchpadActivity.textColor);
+        findToggleView.setTextColor(SettingsActivity.textColor);
 
 
         RelativeLayout.LayoutParams typeoutParams = new RelativeLayout.LayoutParams(
@@ -164,7 +166,7 @@ public class TypeOut {
         findToggleParams.setMargins(horizontal_margin, vertical_margin, 0, vertical_margin);
 
         typeoutBox = new RelativeLayout(mainContext);
-        typeoutBox.setBackgroundColor(LaunchpadActivity.backerColor);
+        typeoutBox.setBackgroundColor(SettingsActivity.backerColor);
 
         typeoutBox.addView(editView, editViewParams);
         typeoutBox.addView(findToggleView, findToggleParams);
