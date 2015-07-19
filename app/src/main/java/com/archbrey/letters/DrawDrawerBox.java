@@ -17,7 +17,6 @@ public class DrawDrawerBox extends LaunchpadActivity {
 
     public DrawDrawerBox (Context c, GridView getAppGridView, AppItem[] appItem)  {
 
-
         getViewContext = c;
         showItem = appItem;
         appGridView = getAppGridView;
@@ -28,7 +27,7 @@ public class DrawDrawerBox extends LaunchpadActivity {
         appGridView.setAdapter(AppDrawerAdapterObject);
         appGridView.setBackgroundColor(SettingsActivity.backerColor);
         appGridView.setNumColumns(SettingsActivity.drawerColumns);
-        //appGridView.setVerticalSpacing(5);
+
 
 
     } // public DrawDrawerBox (Context c, AppItem[] appItem)

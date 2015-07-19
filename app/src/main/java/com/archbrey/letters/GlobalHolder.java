@@ -11,7 +11,7 @@ import android.widget.RelativeLayout;
 
 public class GlobalHolder {
 
-    private static AppItem[] currentAppItems;
+    private static AppItem[] installedAppItems;
     private static Context mainContext;
     private static GridView appGridView;
     private static PackageManager pkgMgr;
@@ -75,24 +75,24 @@ public class GlobalHolder {
 
 
 
-    public void setAppItem(AppItem[] appItems) {
+    public void setAllAppItems(AppItem[] appItems) {
 
         int ArraySize = appItems.length;
 
-        currentAppItems = new AppItem[ArraySize];
+        installedAppItems = new AppItem[ArraySize];
 
         for (int inc = 0; inc<ArraySize; inc++){
-            currentAppItems[inc] = new AppItem();
-            currentAppItems[inc] = appItems[inc];
+            installedAppItems[inc] = new AppItem();
+            installedAppItems[inc] = appItems[inc];
         } //for (int inc = 0; inc<ArraySize; inc++)
 
     } // public void setAppItem(AppItem[] appItems)
 
 
-    public int getAppItemSize() { return currentAppItems.length;
+    public int getAppItemSize() { return installedAppItems.length;
     } //public AppItem[] getAppItem()
 
-    public AppItem[] getAppItem() { return currentAppItems;
+    public AppItem[] getAllAppItems() { return installedAppItems;
     } //public AppItem[] getAppItem()
 
 

@@ -22,6 +22,8 @@ public class FilterBoxTouchListener {
     private static GlobalHolder global;
     private static SettingsHolder savedSettings;
     private static int filterPosition;
+    private static AppItem[] appItems;
+    private static PackageManager PkgMgr;
 
     private class ButtonLocation {
         int X;
@@ -30,6 +32,8 @@ public class FilterBoxTouchListener {
 
 
     public FilterBoxTouchListener (FilterItem[] getFilterItems, TextView getTextView) {
+
+        global = new GlobalHolder();
 
         typeoutView = getTextView;
         savedSettings = new SettingsHolder();
@@ -46,6 +50,10 @@ public class FilterBoxTouchListener {
             filterItems[inc] = getFilterItems[inc];
         } //for (int inc=0; inc<numofFilters; inc++ )
 
+
+        appItems = new AppItem[global.getAppItemSize()];
+        appItems = global.getAllAppItems();
+        PkgMgr = global.getPackageManager();
         setFilterBoxListener();
 
     } // public FilterBoxTouchListener (FilterItem[] getFilterItems, TextView getTextView)
@@ -64,18 +72,14 @@ public class FilterBoxTouchListener {
 
                             float currentX = event.getRawX();
                             float currentY = event.getRawY();
-                            String findString;
-                            AppItem[] appItems;
-                            PackageManager PkgMgr;
+                            //String findString;
 
-                            global = new GlobalHolder();
+                           // PackageManager PkgMgr;
                             global.setFindString(""); //set the search string back to null whenever a filter box item is touched
-                            appItems = new AppItem[global.getAppItemSize()];
-                            appItems = global.getAppItem();
+                            LaunchpadActivity.hideDrawerAllApps = true;
 
-                            PkgMgr = global.getPackageManager();
                             String TouchedFilter = determineFilter(currentX, currentY);
-                            findString = global.getFindString();
+                            //findString = global.getFindString();
 
                             appItems = evaluateAction(filterPosition);
 
@@ -100,7 +104,7 @@ public class FilterBoxTouchListener {
                                     return false;
                                 case (MotionEvent.ACTION_UP):
                                     typeoutView.setText(TouchedFilter);
-                                    callAppListeners(PkgMgr, appItems);
+                                    callAppListeners(appItems);
                                     return false;
                                 default:
                                     return true;
@@ -183,7 +187,7 @@ public class FilterBoxTouchListener {
 
     } //private AppItem[] evaluateAction(PackageManager PkgMgr, AppItem[] appItems, String searchString)
 
-    private void callAppListeners(PackageManager pm, AppItem[] appItems) {
+    public void callAppListeners(AppItem[] appItems) {
 
         Context clickListenerContext;
         GlobalHolder global;
@@ -197,8 +201,8 @@ public class FilterBoxTouchListener {
 
         drawerAdapterObject = new AppDrawerAdapter(clickListenerContext, appItems);
         drawerGrid.setAdapter(drawerAdapterObject);
-        drawerGrid.setOnItemClickListener(new DrawerClickListener(clickListenerContext, appItems, pm));
-        drawerGrid.setOnItemLongClickListener(new DrawerLongClickListener(clickListenerContext, appItems, pm));
+        drawerGrid.setOnItemClickListener(new DrawerClickListener(clickListenerContext, appItems, PkgMgr));
+        drawerGrid.setOnItemLongClickListener(new DrawerLongClickListener(clickListenerContext, appItems, PkgMgr));
 
     } // public void callListeners(PackageManager pm, AppItem[] appItems)
 

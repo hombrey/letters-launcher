@@ -25,7 +25,8 @@ public class KeypadTouchListener  {
     private static GlobalHolder global;
     private static LongTouchHolder longTouch;
     private static SideButton delButton;
-    AppItem[] returnAppItems;
+    private static AppItem[] returnAppItems;
+    private static AppItem[] appItems;
     TypeOut typeoutBoxHandle;
 
     private static class ButtonLocation {
@@ -37,6 +38,7 @@ public class KeypadTouchListener  {
 
         int inc;
         typeoutView = textView;
+        global = new GlobalHolder();
 
         keypadButton = new KeypadButton[36];
         buttonLocation = new ButtonLocation[36];
@@ -44,6 +46,7 @@ public class KeypadTouchListener  {
         longTouch = new LongTouchHolder();
         typeoutBoxHandle = new TypeOut();
 
+        appItems = global.getAllAppItems();
         longTouch.reset();
 
         for (inc=0; inc<=35; inc++) {
@@ -74,11 +77,9 @@ public class KeypadTouchListener  {
                             float currentX = event.getRawX();
                             float currentY = event.getRawY();
                             String findString;
-                            AppItem[] appItems;
+                            LaunchpadActivity.hideDrawerAllApps = true;
 
-                            global = new GlobalHolder();
                             longTouch = new LongTouchHolder();
-                            appItems = global.getAppItem();
 
                             //PkgMgr = global.getPackageManager();
 
@@ -157,13 +158,13 @@ public class KeypadTouchListener  {
         delButton.Key.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) { //perform action of click
-                        AppItem[] appItems;
+                     //   AppItem[] appItems;
                        // PackageManager PkgMgr;
 
                         global = new GlobalHolder();
                         String findString = global.getFindString();
                       //  PkgMgr= global.getPackageManager();
-                        appItems = global.getAppItem();
+                       // appItems = global.getAppItem();
 
                         if (findString.length() > 0 && findString!=null) {
                             findString = findString.substring(0, findString.length() - 1);
@@ -179,12 +180,12 @@ public class KeypadTouchListener  {
         delButton.Key.setOnLongClickListener(
                 new Button.OnLongClickListener() {
                     public boolean onLongClick(View v) { //perform action of click
-                        AppItem[] appItems;
+                    //    AppItem[] appItems;
                        // PackageManager PkgMgr;
 
                         global = new GlobalHolder();
                         //PkgMgr = global.getPackageManager();
-                        appItems = global.getAppItem();
+                    //    appItems = global.getAppItem();
                         global.setFindString("");
                         evaluateAction(appItems, "");
                         //callAppListeners(appItems);

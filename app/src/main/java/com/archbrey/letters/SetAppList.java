@@ -23,11 +23,13 @@ public class SetAppList {
 
           if (TypeOut.editMode == 1) {
               //perform actions
+              ShortcutSelect();
               TypeOut.editMode = 11;
 
           }//if (TypeOut.editMode==1)
           else if (TypeOut.editMode == 2) {
               //perform actions
+              FilterItemsSelect();
               TypeOut.editMode = 12;
           }//if (TypeOut.editMode==2)
 
@@ -48,5 +50,15 @@ public class SetAppList {
 
     } // public void SelectMode()
 
+
+    private void ShortcutSelect() {
+
+
+    } //private void ShortcutSelect ()
+
+
+    private void FilterItemsSelect(){
+
+    } //private void FilterItemsSelect()
 
 } //public class SetAppList

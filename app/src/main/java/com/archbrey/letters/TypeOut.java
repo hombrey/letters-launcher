@@ -61,8 +61,8 @@ public class TypeOut {
             if (!findStatus){
                 findToggleView.setText("find");
                 findToggleTextSize = 15;
-                drawerBox.setVisibility(View.INVISIBLE);
-                typeoutBox.setVisibility(View.INVISIBLE);
+              //  drawerBox.setVisibility(View.INVISIBLE);
+              //  typeoutBox.setVisibility(View.INVISIBLE);
                 delButton.Key.setText(String.valueOf(Character.toChars(8595)));//"down" button
             } // if (!findStatus)
 

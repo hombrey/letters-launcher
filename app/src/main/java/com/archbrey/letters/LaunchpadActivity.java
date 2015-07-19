@@ -9,6 +9,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +23,7 @@ import android.widget.TextView;
 import android.content.res.Resources;
 import android.view.Gravity;
 import android.content.pm.ActivityInfo;
+import android.widget.Toast;
 
 import com.archbrey.letters.Preferences.SettingsActivity;
 
@@ -53,14 +56,13 @@ public class LaunchpadActivity extends Activity {
 
     private TextView typeoutView;
 
-
     private static RefreshAppItemReceiver appUpdater;
-    AppItem[] appItems;
+    private static AppItem[] allAppItems;
 
     public static SharedPreferences prefs;
     public static String prefName = "LettersPrefs";
 
-
+    public static boolean hideDrawerAllApps;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +70,7 @@ public class LaunchpadActivity extends Activity {
         global = new GlobalHolder();
         r = getResources();
         basicPkgMgr = getPackageManager();
+        hideDrawerAllApps = true;
 
         prefs = getSharedPreferences(prefName, MODE_PRIVATE);
         getPreferences();
@@ -94,12 +97,12 @@ public class LaunchpadActivity extends Activity {
 
         //setup initial app list
         new GetAppList().initialize();
-        appItems = new GetAppList().all_appItems(basicPkgMgr);
-        filterBoxHandle.refreshFilterItems(appItems);
+        allAppItems = new GetAppList().all_appItems(basicPkgMgr);
+        filterBoxHandle.refreshFilterItems(allAppItems);
 
-        drawDrawerBox = new DrawDrawerBox (this, appGridView, appItems);
+        drawDrawerBox = new DrawDrawerBox (this, appGridView, allAppItems);
         drawDrawerBox.setListener();
-        //appGridView.setBackgroundColor(r.getColor(R.color.Black_transparent));
+
 
         //setup listeners
         new KeypadTouchListener(keypadButtons,delButton, typeoutView);
@@ -123,14 +126,45 @@ public class LaunchpadActivity extends Activity {
         //registerReceiver(new RefreshAppItemReceiver(), Package_update_filter);
         registerReceiver(appUpdater, Package_update_filter);
 
+
+
     }// protected void onCreate(Bundle savedInstanceState)
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_HOME)) {
+            Toast.makeText(this, "You pressed the home button!", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        LaunchpadActivity.keypadBox.setVisibility(View.VISIBLE);
+        LaunchpadActivity.filterBox.setVisibility(View.VISIBLE);
+        TypeOut.findToggleView.setVisibility(View.VISIBLE);
+        TypeOut.editView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TypeOut.TextSize);
+        TypeOut.editView.setText(String.valueOf(Character.toChars(177)));
+        LaunchpadActivity.drawerBox.setVisibility(View.INVISIBLE);
+        TypeOut.typeoutBox.setVisibility(View.INVISIBLE);
+        typeoutBoxHandle.setFindStatus(false);
+        TypeOut.typeoutView.setText("");
+    }
+
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        drawerBox.setVisibility(View.INVISIBLE);
-        typeoutBox.setVisibility(View.INVISIBLE);
+
+        if (hideDrawerAllApps) {
+            drawerBox.setVisibility(View.INVISIBLE);
+            typeoutBox.setVisibility(View.INVISIBLE);
+        } // if (hideDrawerAllApps)
+
         global.setFindString("");
         typeoutBoxHandle.setFindStatus(false); //stop search mode if length = 0;
         filterBoxHandle.refreshRecentItems();
@@ -205,6 +239,48 @@ public class LaunchpadActivity extends Activity {
 
        */
     } //protected void onActivityResult(int requestCode, int resultCode, Intent data)
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (Intent.ACTION_MAIN.equals(intent.getAction())) {
+           // Log.i("MyLauncher", "onNewIntent: HOME Key");
+
+            LaunchpadActivity.keypadBox.setVisibility(View.VISIBLE);
+            LaunchpadActivity.filterBox.setVisibility(View.VISIBLE);
+            TypeOut.findToggleView.setVisibility(View.VISIBLE);
+            TypeOut.editView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TypeOut.TextSize);
+            TypeOut.editView.setText(String.valueOf(Character.toChars(177)));
+         //   LaunchpadActivity.drawerBox.setVisibility(View.INVISIBLE);
+         //   TypeOut.typeoutBox.setVisibility(View.INVISIBLE);
+            typeoutBoxHandle.setFindStatus(false);
+            TypeOut.typeoutView.setText("");
+            toggleHideAllApps();
+        } //if (Intent.ACTION_MAIN.equals(intent.getAction()))
+
+    } //protected void onNewIntent(Intent intent)
+
+    private void toggleHideAllApps(){
+
+        if (hideDrawerAllApps) { hideDrawerAllApps = false;}
+        else {hideDrawerAllApps = true; }
+
+        if (hideDrawerAllApps==false) {
+
+            LaunchpadActivity.typeoutBox.setVisibility(View.VISIBLE);
+            LaunchpadActivity.drawerBox.setVisibility(View.VISIBLE);
+            appGridView = (GridView) findViewById(R.id.drawer_content);
+            new DrawDrawerBox (this, appGridView, allAppItems);
+            drawDrawerBox.setListener();
+
+        } //if (hideDrawerAllApps=false)
+        else {
+            LaunchpadActivity.typeoutBox.setVisibility(View.INVISIBLE);
+            LaunchpadActivity.drawerBox.setVisibility(View.INVISIBLE);
+        } //else of if (hideDrawerAllApps=false)
+
+
+    } //private void toggleHideAllApps()
 
 
 
@@ -295,9 +371,9 @@ public class LaunchpadActivity extends Activity {
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            appItems = new GetAppList().all_appItems(basicPkgMgr);
+            allAppItems = new GetAppList().all_appItems(basicPkgMgr);
             appGridView = (GridView) findViewById(R.id.drawer_content);
-            new DrawDrawerBox (context, appGridView, appItems);
+            new DrawDrawerBox (context, appGridView, allAppItems);
 
         }
 

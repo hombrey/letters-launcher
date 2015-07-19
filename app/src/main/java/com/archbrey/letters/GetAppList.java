@@ -92,7 +92,7 @@ public class GetAppList {
 
         new SortApps().exchange_sort(appItem);
 
-        global.setAppItem(appItem);
+        global.setAllAppItems(appItem);
 
         return appItem;
 
