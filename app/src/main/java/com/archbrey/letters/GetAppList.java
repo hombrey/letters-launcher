@@ -15,6 +15,7 @@ public class GetAppList {
     private static AppItem[] recentApps;
     private static AppItem[] filteredApps;
     public static int recentAppCount;
+    private static AppItem[] allAppItems;
 
     public GetAppList() {
 
@@ -74,33 +75,33 @@ public class GetAppList {
 
         PackageManager PkgMgr;
         PkgMgr = mainPkgMgr;
-        AppItem[] appItem;
+
 
         final Intent pkgIntent = new Intent (Intent.ACTION_MAIN,null);
         pkgIntent.addCategory(Intent.CATEGORY_LAUNCHER);
         List<ResolveInfo> appPkgList = PkgMgr.queryIntentActivities(pkgIntent, 0);
 
-        appItem = new AppItem[appPkgList.size()];
+        allAppItems = new AppItem[appPkgList.size()];
 
         for (int inc = 0; inc<appPkgList.size(); inc++){
-            appItem[inc] = new AppItem();
-            appItem[inc].pkgname = appPkgList.get(inc).activityInfo.packageName;
-            appItem[inc].label = appPkgList.get(inc).loadLabel(PkgMgr).toString();
-            appItem[inc].name = appPkgList.get(inc).activityInfo.name;
+            allAppItems[inc] = new AppItem();
+            allAppItems[inc].pkgname = appPkgList.get(inc).activityInfo.packageName;
+            allAppItems[inc].label = appPkgList.get(inc).loadLabel(PkgMgr).toString();
+            allAppItems[inc].name = appPkgList.get(inc).activityInfo.name;
 
         } //for (int inc = 0; inc<appPkgList.size(); inc++)
 
-        new SortApps().exchange_sort(appItem);
+        new SortApps().exchange_sort(allAppItems);
 
-        global.setAllAppItems(appItem);
+        global.setAllAppItems(allAppItems);
 
-        return appItem;
+        return allAppItems;
 
     } //public AppItem[] all_appItems(PackageManager mainPkgMgr, AppItem[] appItem)
 
-    public int filterByFirstChar (AppItem[] appItem, String Search) {
-
-        int ArraySize = appItem.length;
+    //public int filterByFirstChar (AppItem[] appItem, String Search) {
+    public int filterByFirstChar (String Search) {
+        int ArraySize = allAppItems.length;
         int filtercount = 0;
         String MatchValue;
 
@@ -109,11 +110,11 @@ public class GetAppList {
         filteredItem = new AppItem[ArraySize];
 
         for (int inc = 0; inc<ArraySize; inc++){
-            MatchValue = String.valueOf(appItem[inc].label.charAt(0)).toLowerCase();
+            MatchValue = String.valueOf(allAppItems[inc].label.charAt(0)).toLowerCase();
             if (Search.toLowerCase().equals(MatchValue))
             {
                 filteredItem[filtercount] = new AppItem();
-                filteredItem[filtercount] = appItem[inc];
+                filteredItem[filtercount] = allAppItems[inc];
                 filtercount++;
             } //(Search.equals(MatchValue))
         } //for (int inc = 0; inc<appPkgList.size(); inc++)
@@ -128,20 +129,19 @@ public class GetAppList {
     } // public AppItem[] filterByFirstChar (AppItem[] appItem, String Search)
 
 
-
-    public int filterByString (AppItem[] appItem, String Search) {
-
-        int ArraySize = appItem.length;
+    //public int filterByString (AppItem[] appItem, String Search) {
+    public int filterByString (String Search) {
+        int ArraySize = allAppItems.length;
         int filtercount = 0;
 
         AppItem[] filteredItem;
         filteredItem = new AppItem[ArraySize];
 
         for (int inc = 0; inc<ArraySize; inc++){
-            if (appItem[inc].label.toLowerCase().contains(Search.toLowerCase()))
+            if (allAppItems[inc].label.toLowerCase().contains(Search.toLowerCase()))
             {
                 filteredItem[filtercount] = new AppItem();
-                filteredItem[filtercount] = appItem[inc];
+                filteredItem[filtercount] = allAppItems[inc];
                 filtercount++;
             } //if (appItem[inc].label.toLowerCase().contains(Search.toLowerCase()))
         } //for (int inc = 0; inc<appPkgList.size(); inc++)

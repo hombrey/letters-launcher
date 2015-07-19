@@ -30,7 +30,7 @@ public class KeypadTouchListener  {
     private static SideButton delButton;
     private static AppItem[] returnAppItems;
     private static AppItem[] appItems;
-    TypeOut typeoutBoxHandle;
+    private static TypeOut typeoutBoxHandle;
 
     private static class ButtonLocation {
         int X;
@@ -52,6 +52,7 @@ public class KeypadTouchListener  {
         pmForListener = global.getPackageManager();
         appItems = global.getAllAppItems();
         longTouch.reset();
+
 
         for (inc=0; inc<=35; inc++) {
             keypadButton[inc] = new KeypadButton();
@@ -201,7 +202,6 @@ public class KeypadTouchListener  {
                         evaluateAction(appItems, "");
                         //callAppListeners(appItems);
                         typeoutView.setText("");
-
                         return true;
                     } //public void OnClick(View v)
                 } //new Button.OnClickListener()
@@ -297,13 +297,13 @@ public class KeypadTouchListener  {
         else if ( (searchLength == 1) && (!typeoutBoxHandle.getFindStatus()) ) {
             drawerBox.setVisibility(View.VISIBLE);
             typeoutBox.setVisibility(View.VISIBLE);
-            filteredSize = getAppList.filterByFirstChar(appItems, searchString);
+            filteredSize = getAppList.filterByFirstChar(searchString);
             TypeOut.editView.setVisibility(View.VISIBLE);
             TypeOut.editMode= 1;
             returnAppItems = new AppItem[filteredSize];
         } //if if (searchLength == 1)
         else if ( (searchLength > 1) || (typeoutBoxHandle.getFindStatus()) ) {
-            filteredSize = getAppList.filterByString(appItems, searchString);
+            filteredSize = getAppList.filterByString(searchString);
             TypeOut.editView.setVisibility(View.GONE);
             TypeOut.editMode= 0;
             returnAppItems = new AppItem[filteredSize];
@@ -322,7 +322,7 @@ public class KeypadTouchListener  {
 
     private void launchShortcut(){
 
-      if(keypadButton[SelectedKeyButton].ShortcutPackage.length()>1) { //check if keypad has assigned shortcut
+      if (keypadButton[SelectedKeyButton].ShortcutPackage.length()>1) { //check if keypad has assigned shortcut
 
           Intent launchIntent = pmForListener.getLaunchIntentForPackage(keypadButton[SelectedKeyButton].ShortcutPackage);
 
