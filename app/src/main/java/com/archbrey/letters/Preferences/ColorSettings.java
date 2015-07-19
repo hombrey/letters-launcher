@@ -16,8 +16,6 @@ public class ColorSettings {
     private static Resources rMainSettings;
 
 
-
-
     public GridView DrawBox (GridView getgridBox,Context c,Resources getR) {
 
         //com.archbrey.letters.Preferences.SettingsHolder holder;
@@ -43,6 +41,8 @@ public class ColorSettings {
     } //public LinearLayout DrawBox ()
 
     public void setListener() {mainMenuBox.setOnItemClickListener(new MenuClickListener());}
+
+
     private class MenuClickListener implements AdapterView.OnItemClickListener{
 
         @Override

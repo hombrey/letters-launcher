@@ -17,17 +17,11 @@ import com.archbrey.letters.Preferences.SettingsActivity;
 public class DrawKeypadBox  {
 
     private static LinearLayout keypadBox;
-    //private Button[] keypadKeys;
-    //private String[] keypadAssign;
-    //private String keypadDelAssign;
-    //private String keypadMenuAssign;
-   // private Button keypadDelKey;
-   // private Button keypadMenuKey;
 
     private Resources rDrawBox;
 
-    private static KeypadButton[] keypadButton ;
-    private static SideButton menuButton;
+    public static KeypadButton[] keypadButton ;
+    public static SideButton menuButton;
     private static SideButton delButton;
     Context LaunchpadContext;
 
@@ -48,6 +42,10 @@ public class DrawKeypadBox  {
         } //for (inc=0; inc<=35; inc++)
 
         drawKeypadBox();
+
+        GlobalHolder global;
+        global = new GlobalHolder();
+        global.setDelButton(delButton);
 
     } // public DrawKeypadBox(
 
@@ -169,6 +167,9 @@ public class DrawKeypadBox  {
 
         for (int inc=0; inc<=35; inc++) {
             keypadButton[inc] = new KeypadButton();
+            keypadButton[inc].ShortcutPackage =" ";
+            keypadButton[inc].ShortcutLabel = " ";
+
            // keypadButton[inc].Letter = new String();
         } //for (inc=0; inc<=35; inc++)
 

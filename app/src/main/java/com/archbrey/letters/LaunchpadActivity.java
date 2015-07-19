@@ -10,7 +10,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.TypedValue;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,7 +22,7 @@ import android.widget.TextView;
 import android.content.res.Resources;
 import android.view.Gravity;
 import android.content.pm.ActivityInfo;
-import android.widget.Toast;
+
 
 import com.archbrey.letters.Preferences.SettingsActivity;
 
@@ -47,10 +46,9 @@ public class LaunchpadActivity extends Activity {
     DrawFilterBox filterBoxHandle;
     TypeOut typeoutBoxHandle;
 
-    private  KeypadButton[] keypadButtons ;
+   // private  KeypadButton[] keypadButtons ;
     private FilterItem[] filterItems;
-    private  SideButton menuButton;
-    private  SideButton delButton;
+    //private  SideButton menuButton;
     private GlobalHolder global;
     private DrawDrawerBox drawDrawerBox;
 
@@ -63,6 +61,7 @@ public class LaunchpadActivity extends Activity {
     public static String prefName = "LettersPrefs";
 
     public static boolean hideDrawerAllApps;
+    private static boolean isForeground;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,7 +91,6 @@ public class LaunchpadActivity extends Activity {
         global.setMainContext(this);
         global.setPackageManager(basicPkgMgr);
         global.setFindString("");
-        global.setDelButton(delButton);
         global.setResources(r);
 
         //setup initial app list
@@ -105,11 +103,11 @@ public class LaunchpadActivity extends Activity {
 
 
         //setup listeners
-        new KeypadTouchListener(keypadButtons,delButton, typeoutView);
+        new KeypadTouchListener(typeoutView);
         new FilterBoxTouchListener(filterItems,typeoutView);
         typeoutBoxHandle.setListener();
 
-        menuButton.Key.setOnClickListener( new Button.OnClickListener() {
+        DrawKeypadBox.menuButton.Key.setOnClickListener( new Button.OnClickListener() {
                     public void onClick(View v) {openOptionsMenu(); }
                 } //new Button.OnClickListener()
         );// menuButton.Key.setOnClickListener
@@ -130,15 +128,6 @@ public class LaunchpadActivity extends Activity {
 
     }// protected void onCreate(Bundle savedInstanceState)
 
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((keyCode == KeyEvent.KEYCODE_HOME)) {
-            Toast.makeText(this, "You pressed the home button!", Toast.LENGTH_LONG).show();
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
 
     @Override
     public void onBackPressed() {
@@ -168,6 +157,7 @@ public class LaunchpadActivity extends Activity {
         global.setFindString("");
         typeoutBoxHandle.setFindStatus(false); //stop search mode if length = 0;
         filterBoxHandle.refreshRecentItems();
+        isForeground = true;
 
     } //protected void onResume()
 
@@ -176,6 +166,15 @@ public class LaunchpadActivity extends Activity {
         super.onStart();
 
     } //protected void onStart()
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+
+        isForeground = false;
+
+    } //protected void onStart()
+
 
     @Override
     protected void onDestroy(){
@@ -209,7 +208,6 @@ public class LaunchpadActivity extends Activity {
                     SettingsActivity.menuArea="MainSettings";
                     final Intent launcherSettings = new Intent("com.archbrey.letters.Preferences.SettingsActivity");
                    //startActivityForResult(launcherSettings, 421);
-                    //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); //force on destroy
                     startActivity(launcherSettings);
                     finish(); //force finish launcher activity
                     return true;
@@ -222,28 +220,13 @@ public class LaunchpadActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    /*
-      //  if ((requestCode == 421) && (resultCode == RESULT_OK)) {
-        if (requestCode == 421)  {
-        //returnString = data.getExtras().getString("returnData");
-        //if (SettingsActivity.returnString.equals("ReDraw")) {
-            try {
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); //force on destroy
-                Thread.sleep(50);
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //on create at portrait
-            } catch (InterruptedException e) {e.printStackTrace();}
 
-       // } //if (returnString.equals("ReDraw"))
-
-        }//if ((requestCode == 421) && (resultCode == RESULT_OK))
-
-       */
     } //protected void onActivityResult(int requestCode, int resultCode, Intent data)
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        if (Intent.ACTION_MAIN.equals(intent.getAction())) {
+        if (Intent.ACTION_MAIN.equals(intent.getAction())&&isForeground) {
            // Log.i("MyLauncher", "onNewIntent: HOME Key");
 
             LaunchpadActivity.keypadBox.setVisibility(View.VISIBLE);
@@ -251,8 +234,6 @@ public class LaunchpadActivity extends Activity {
             TypeOut.findToggleView.setVisibility(View.VISIBLE);
             TypeOut.editView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TypeOut.TextSize);
             TypeOut.editView.setText(String.valueOf(Character.toChars(177)));
-         //   LaunchpadActivity.drawerBox.setVisibility(View.INVISIBLE);
-         //   TypeOut.typeoutBox.setVisibility(View.INVISIBLE);
             typeoutBoxHandle.setFindStatus(false);
             TypeOut.typeoutView.setText("");
             toggleHideAllApps();
@@ -265,10 +246,11 @@ public class LaunchpadActivity extends Activity {
         if (hideDrawerAllApps) { hideDrawerAllApps = false;}
         else {hideDrawerAllApps = true; }
 
-        if (hideDrawerAllApps==false) {
+        if (!hideDrawerAllApps) {
 
             LaunchpadActivity.typeoutBox.setVisibility(View.VISIBLE);
             LaunchpadActivity.drawerBox.setVisibility(View.VISIBLE);
+            TypeOut.editView.setVisibility(View.GONE);
             appGridView = (GridView) findViewById(R.id.drawer_content);
             new DrawDrawerBox (this, appGridView, allAppItems);
             drawDrawerBox.setListener();
@@ -290,15 +272,17 @@ public class LaunchpadActivity extends Activity {
         Integer columns = prefs.getInt("column_num", 4);
         Integer textSize = prefs.getInt ("drawerTextSize",17);
 
-
         SettingsActivity.textColor = r.getColor(R.color.white);
         SettingsActivity.backColor = r.getColor(R.color.Black_transparent);
         SettingsActivity.backerColor = r.getColor(R.color.Blacker_transparent);
+        SettingsActivity.backSelectColor = r.getColor(R.color.grey50);
+
 
         if (colorScheme.equals("white")) {
             SettingsActivity.textColor = r.getColor(R.color.black);
             SettingsActivity.backColor = r.getColor(R.color.White_transparent);
             SettingsActivity.backerColor = r.getColor(R.color.Whiter_transparent);
+            SettingsActivity.backSelectColor = r.getColor(R.color.grey50);
         } //if if colorScheme.equals("white")
 
         SettingsActivity.drawerColumns = columns;
@@ -311,9 +295,6 @@ public class LaunchpadActivity extends Activity {
         keypadBox = new LinearLayout(this);
         KeypadBoxHandle = new DrawKeypadBox(keypadBox,this, r);
         keypadBox = KeypadBoxHandle.getLayout();
-        keypadButtons = KeypadBoxHandle.getKeypadButton();
-        menuButton = KeypadBoxHandle.getmenuButton();
-        delButton = KeypadBoxHandle.getdelButton();
 
         filterBox = new LinearLayout(this);
         filterBoxHandle = new DrawFilterBox(filterBox,this,r);

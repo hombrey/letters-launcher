@@ -48,12 +48,12 @@ public class TypeOut {
 
     public void setFindStatus (boolean getFindStatus) {
 
-        View drawerBox ;
+       // View drawerBox ;
         SideButton delButton;
 
         int findToggleTextSize = 24;
         global = new GlobalHolder();
-        drawerBox = global.getDrawerBox();
+       // drawerBox = global.getDrawerBox();
         delButton = global.getDelButton();
 
             findStatus=getFindStatus;
@@ -198,19 +198,65 @@ public class TypeOut {
         editView.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) { //perform action of click
-                        SetAppList setApps;
-                        setApps = new SetAppList();
+                       //  SetAppList setApps;
+                       //  setApps = new SetAppList();
                         //toggleFindStatus();
-                        setApps.SelectMode();
+                        SelectMode();
                     } //public void OnClick(View v)
                 } //new Button.OnClickListener()
         ); //findToggleView.Key.setOnClickListener
 
 
-
-
-
     } //public void setListener()
+
+
+    private void SelectMode() {
+
+      //  AppItem allApps[];
+
+        if (TypeOut.editMode<10) {
+
+            LaunchpadActivity.keypadBox.setVisibility(View.GONE);
+            LaunchpadActivity.filterBox.setVisibility(View.INVISIBLE);
+            TypeOut.findToggleView.setVisibility(View.GONE);
+           // TypeOut.editView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+           // TypeOut.typeoutView.append(" - Select");
+           // TypeOut.editView.setText("Done");
+          //  allApps = global.getAllAppItems();
+          //  new DrawDrawerBox (mainContext, LaunchpadActivity.appGridView,allApps);
+
+            if (TypeOut.editMode == 1) {
+               // ShortcutSelect();
+                KeypadShortcuts keypadShortcustHandle;
+                keypadShortcustHandle = new KeypadShortcuts();
+                keypadShortcustHandle.DrawBox(mainContext);
+                editMode = 11;
+            }//if (TypeOut.editMode==1)
+
+            else if (TypeOut.editMode == 2) {
+               // FilterItemsSelect();
+                editMode = 12;
+            }//if (TypeOut.editMode==2)
+
+        } //if (TypeOut.editMode<10)
+
+        else { //This returns the main screen to normal mode after performinc according to  edit modes 1 or 2
+
+            LaunchpadActivity.keypadBox.setVisibility(View.VISIBLE);
+            LaunchpadActivity.filterBox.setVisibility(View.VISIBLE);
+            TypeOut.findToggleView.setVisibility(View.VISIBLE);
+            TypeOut.editView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TypeOut.TextSize);
+            TypeOut.editView.setText(String.valueOf(Character.toChars(177)));
+            LaunchpadActivity.drawerBox.setVisibility(View.INVISIBLE);
+            TypeOut.typeoutBox.setVisibility(View.INVISIBLE);
+            TypeOut.typeoutView.setText("");
+
+        } //else of /if (TypeOut.editMode<10)
+
+    } // public void SelectMode()
+
+
+
 
 
 } //public class TypeOut
