@@ -2,6 +2,7 @@ package com.archbrey.letters.Preferences;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -15,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.content.SharedPreferences;
 
-import com.archbrey.letters.LaunchpadActivity;
 import com.archbrey.letters.R;
 
 public class SettingsActivity extends Activity {
@@ -32,7 +32,7 @@ public class SettingsActivity extends Activity {
     private static GridView gridDrawer;
     private static MainSettings mainsettingsHandle;
     //private LinearLayout setColorsBox;
-    private com.archbrey.letters.Preferences.SettingsHolder holder;
+
 
     public static int menuLevel;
     public static String menuArea;
@@ -54,6 +54,7 @@ public class SettingsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //keep layout in portrait
 
+        com.archbrey.letters.Preferences.SettingsHolder holder;
         prefs = getSharedPreferences(prefName, MODE_PRIVATE);
         prefsEditor = prefs.edit();
 
@@ -63,6 +64,7 @@ public class SettingsActivity extends Activity {
         holder = new com.archbrey.letters.Preferences.SettingsHolder();
         holder.setSettingsContext(this);
         holder.setResources(r);
+
 
         settingsScreen = new LinearLayout(this);
         settingsScreen.setOrientation(LinearLayout.VERTICAL);
@@ -106,12 +108,27 @@ public class SettingsActivity extends Activity {
                 menuLevel --;
                 return true;
                  } //if (menuLevel ==1)
+            if (menuLevel == 0) finish();
 
           // onBackPressed();
         }
         return super.onKeyDown(keyCode, event);
     }
 
+
+    public void finish() {
+        //Intent data = new Intent();
+        //data.putExtra("returnData", returnString);
+        //setResult(RESULT_OK, data);
+
+        //restart launcher after finishing with settings;
+        Intent startMain = new Intent(Intent.ACTION_MAIN);
+        startMain.addCategory(Intent.CATEGORY_HOME);
+        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(startMain);
+
+        super.finish();
+    }
 
     private void assembleScreen(){
 
@@ -131,25 +148,7 @@ public class SettingsActivity extends Activity {
                 LinearLayout.LayoutParams.WRAP_CONTENT); //height
                 infoViewParams.setMargins(0, 20, 0, 20);
         infoBox.addView(infoView, infoViewParams);
-
-        /*
-        setColorsBox = new LinearLayout(this);
-        setColorsBox.setOrientation(LinearLayout.HORIZONTAL);
-        setColorsBox.setBackgroundColor(LaunchpadActivity.backerColor);
-        TextView dummyText;
-        dummyText = new TextView(this);
-        dummyText.setText("this is a dummy");
-        dummyText.setGravity(Gravity.CENTER);
-        dummyText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 50);
-        dummyText.setTextColor(LaunchpadActivity.textColor);
-        setColorsBox.addView(dummyText);*/
-
-        /*
-        drawerBox.setId(R.id.settingsDrawer);
-        setColorsBox.setId(R.id.setColorsBox);
-        infoBox.setId(R.id.bottomRowBox);*/
-
-
+        
         settingsScreen.addView(drawerBox);
         settingsScreen.addView(infoBox);
 

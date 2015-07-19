@@ -14,11 +14,13 @@ public class DrawerTextSize {
     private static GridView mainMenuBox;
     private static Context settingsContext;
     private static Resources rMainSettings;
-    private static com.archbrey.letters.Preferences.SettingsHolder holder;
-    private static String[] menuItems;
+
 
 
     public GridView DrawBox (GridView getgridBox,Context c,Resources getR) {
+
+        //com.archbrey.letters.Preferences.SettingsHolder holder;
+        String[] menuItems;
 
         SettingsActivity.infoView.setText(getR.getString(R.string.drawer_textsize));
         SettingsActivity.menuArea = getR.getString(R.string.drawer_textsize);
@@ -26,7 +28,7 @@ public class DrawerTextSize {
         mainMenuBox = getgridBox;
         settingsContext = c;
         rMainSettings = getR;
-        holder = new com.archbrey.letters.Preferences.SettingsHolder();
+       // holder = new com.archbrey.letters.Preferences.SettingsHolder();
 
         menuItems = new String[6];
         menuItems[0] =getR.getString(R.string.fifteen);

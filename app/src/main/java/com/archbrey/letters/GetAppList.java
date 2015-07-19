@@ -109,8 +109,8 @@ public class GetAppList {
         filteredItem = new AppItem[ArraySize];
 
         for (int inc = 0; inc<ArraySize; inc++){
-            MatchValue = String.valueOf(appItem[inc].label.charAt(0));
-            if (Search.equals(MatchValue))
+            MatchValue = String.valueOf(appItem[inc].label.charAt(0)).toLowerCase();
+            if (Search.toLowerCase().equals(MatchValue))
             {
                 filteredItem[filtercount] = new AppItem();
                 filteredItem[filtercount] = appItem[inc];

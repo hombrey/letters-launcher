@@ -177,7 +177,8 @@ public class FilterBoxTouchListener {
         } //for (int inc = 0; inc<ListLength; inc++)
 
         new DrawDrawerBox(global.getMainContext(), global.getGridView(), resultItems);
-
+        TypeOut.editView.setVisibility(View.VISIBLE);
+        TypeOut.editMode= 2;
         return resultItems;
 
     } //private AppItem[] evaluateAction(PackageManager PkgMgr, AppItem[] appItems, String searchString)

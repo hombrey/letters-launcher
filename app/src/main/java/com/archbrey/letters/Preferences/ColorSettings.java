@@ -14,11 +14,14 @@ public class ColorSettings {
     private static GridView mainMenuBox;
     private static Context settingsContext;
     private static Resources rMainSettings;
-    private static com.archbrey.letters.Preferences.SettingsHolder holder;
-    private static String[] menuItems;
+
+
 
 
     public GridView DrawBox (GridView getgridBox,Context c,Resources getR) {
+
+        //com.archbrey.letters.Preferences.SettingsHolder holder;
+        String[] menuItems;
 
         SettingsActivity.infoView.setText(getR.getString(R.string.color_scheme));
         SettingsActivity.menuArea = getR.getString(R.string.color_scheme);
@@ -26,7 +29,7 @@ public class ColorSettings {
         mainMenuBox = getgridBox;
         settingsContext = c;
         rMainSettings = getR;
-        holder = new com.archbrey.letters.Preferences.SettingsHolder();
+       // holder = new com.archbrey.letters.Preferences.SettingsHolder();
 
         menuItems = new String[2];
         menuItems[0] =getR.getString(R.string.dark_scheme);
@@ -68,6 +71,7 @@ public class ColorSettings {
             DrawBox(mainMenuBox, settingsContext, rMainSettings);
             SettingsActivity.infoBox.setBackgroundColor(SettingsActivity.backerColor);
             SettingsActivity.infoView.setTextColor(SettingsActivity.textColor);
+
 
         }// public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
     } //private class MenuClickListener implements AdapterView.OnItemClickListener

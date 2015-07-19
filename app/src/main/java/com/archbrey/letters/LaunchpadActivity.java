@@ -28,13 +28,12 @@ import com.archbrey.letters.Preferences.SettingsActivity;
 
 public class LaunchpadActivity extends Activity {
 
-    private RelativeLayout mainScreen;
-    private LinearLayout keypadBox;
-    private RelativeLayout typeoutBox;
-    private LinearLayout filterBox;
+    private static RelativeLayout mainScreen;
+    public static  LinearLayout keypadBox;
+    public static RelativeLayout typeoutBox;
+    public static LinearLayout filterBox;
 
-
-    private View drawerBox ;
+    public static View drawerBox ;
 
    // private ScrollView drawerView;
     PackageManager basicPkgMgr;
@@ -54,17 +53,13 @@ public class LaunchpadActivity extends Activity {
 
     private TextView typeoutView;
 
-    public static int textColor;
-    public static int backColor;
-    public static int backerColor;
-
-    public static Context Cfirst;
 
     private static RefreshAppItemReceiver appUpdater;
     AppItem[] appItems;
 
     public static SharedPreferences prefs;
     public static String prefName = "LettersPrefs";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +68,6 @@ public class LaunchpadActivity extends Activity {
         global = new GlobalHolder();
         r = getResources();
         basicPkgMgr = getPackageManager();
-        Cfirst = this;
 
         prefs = getSharedPreferences(prefName, MODE_PRIVATE);
         getPreferences();
@@ -180,22 +174,36 @@ public class LaunchpadActivity extends Activity {
             case R.id.action_launcher_settings:
                     SettingsActivity.menuArea="MainSettings";
                     final Intent launcherSettings = new Intent("com.archbrey.letters.Preferences.SettingsActivity");
-                  startActivityForResult(launcherSettings, 100);
-                  //  startActivity(launcherSettings);
-                        return true;
+                   //startActivityForResult(launcherSettings, 421);
+                    //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); //force on destroy
+                    startActivity(launcherSettings);
+                    finish(); //force finish launcher activity
+                    return true;
             default:
                     return super.onOptionsItemSelected(item);
         } //switch (id)
 
     } //public boolean onOptionsItemSelected(MenuItem item)
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    /*
+      //  if ((requestCode == 421) && (resultCode == RESULT_OK)) {
+        if (requestCode == 421)  {
+        //returnString = data.getExtras().getString("returnData");
+        //if (SettingsActivity.returnString.equals("ReDraw")) {
+            try {
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); //force on destroy
+                Thread.sleep(50);
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //on create at portrait
+            } catch (InterruptedException e) {e.printStackTrace();}
 
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); //force on destroy
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //on create at portrait
-        //startActivityForResult(new Intent(this, LaunchpadActivity.class), 0);
+       // } //if (returnString.equals("ReDraw"))
 
+        }//if ((requestCode == 421) && (resultCode == RESULT_OK))
+
+       */
     } //protected void onActivityResult(int requestCode, int resultCode, Intent data)
 
 
@@ -268,7 +276,6 @@ public class LaunchpadActivity extends Activity {
         RelativeLayout.LayoutParams keypadBoxParams = new RelativeLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-        // keypadBoxParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         keypadBoxParams.addRule(RelativeLayout.ABOVE, filterBox.getId());
 
         RelativeLayout.LayoutParams filterBoxParams = new RelativeLayout.LayoutParams(

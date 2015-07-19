@@ -17,8 +17,7 @@ public class MainSettings {
     private static GridView mainMenuBox;
     private static Context settingsContext;
     private static Resources rMainSettings;
-    private static com.archbrey.letters.Preferences.SettingsHolder holder;
-    private static String[] menuItems;
+
 
     public MainSettings(){
 
@@ -27,12 +26,15 @@ public class MainSettings {
 
     public GridView DrawBox (GridView getgridBox,Context c,Resources getR) {
 
+        //com.archbrey.letters.Preferences.SettingsHolder holder;
+        String[] menuItems;
+
         SettingsActivity.infoView.setText("Settings");
         SettingsActivity.menuArea = "MainSettings";
         mainMenuBox = getgridBox;
         settingsContext = c;
         rMainSettings = getR;
-        holder = new com.archbrey.letters.Preferences.SettingsHolder();
+        //holder = new com.archbrey.letters.Preferences.SettingsHolder();
 
         menuItems = new String[6];
         menuItems[0]=getR.getString(R.string.color_scheme);

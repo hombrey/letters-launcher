@@ -10,9 +10,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.archbrey.letters.GlobalHolder;
-import com.archbrey.letters.Preferences.*;
+//import com.archbrey.letters.Preferences.*;
 import com.archbrey.letters.R;
-import com.archbrey.letters.LaunchpadActivity;
+//import com.archbrey.letters.LaunchpadActivity;
 
 
 public class SettingsDrawerAdapter extends BaseAdapter  {

@@ -14,11 +14,11 @@ import com.archbrey.letters.Preferences.SettingsActivity;
 
 public class TypeOut {
 
-    private static RelativeLayout typeoutBox;
+    public static RelativeLayout typeoutBox;
 
-    private static TextView typeoutView;
-    private static TextView editView;
-    private static TextView findToggleView;
+    public static TextView typeoutView;
+    public static TextView editView;
+    public static TextView findToggleView;
 
     private static Context mainContext;
     private static Resources rTypeout;
@@ -26,7 +26,9 @@ public class TypeOut {
     private GlobalHolder global;
 
 
+    public static int TextSize = 24;
     public static boolean findStatus;
+    public static int editMode;
 
     public TypeOut() {
 
@@ -93,6 +95,7 @@ public class TypeOut {
             findToggleView.setText(String.valueOf(Character.toChars(215)));
             findToggleTextSize = 24;
             delButton.Key.setText(String.valueOf(Character.toChars(8656)));//back button
+            editView.setVisibility(View.GONE);
         } //else of if (findStatus==true)
 
         findToggleView.setTextSize(TypedValue.COMPLEX_UNIT_SP, findToggleTextSize);
@@ -121,18 +124,18 @@ public class TypeOut {
                TypedValue.COMPLEX_UNIT_DIP, 50,
                getR.getDisplayMetrics());
 
-        typeoutTextSize = 24;
+
         findToggleTextSize = 15;
         typeoutView = new TextView(mainContext);
         typeoutView.setText(" ");
         typeoutView.setGravity(Gravity.CENTER_HORIZONTAL);
-        typeoutView.setTextSize(TypedValue.COMPLEX_UNIT_SP, typeoutTextSize);
+        typeoutView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TextSize);
         typeoutView.setTextColor(SettingsActivity.textColor);
 
         editView = new TextView(mainContext);
         editView.setText(String.valueOf(Character.toChars(177)));
         editView.setGravity(Gravity.CENTER_HORIZONTAL);
-        editView.setTextSize(TypedValue.COMPLEX_UNIT_SP, typeoutTextSize);
+        editView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TextSize);
         editView.setTextColor(SettingsActivity.textColor);
 
         findToggleView = new TextView(mainContext);
@@ -171,6 +174,8 @@ public class TypeOut {
         typeoutBox.addView(editView, editViewParams);
         typeoutBox.addView(findToggleView, findToggleParams);
         typeoutBox.addView(typeoutView, typeoutParams);
+
+       editView.setVisibility(View.GONE);
         return typeoutBox;
 
     } //public void DrawBox(LinearLayout getTypeoutBox,Context c,Resources getR)
@@ -187,9 +192,25 @@ public class TypeOut {
 
                     } //public void OnClick(View v)
                 } //new Button.OnClickListener()
-        ); //delButton.Key.setOnClickListener
+        ); //findToggleView.Key.setOnClickListener
+
+
+        editView.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) { //perform action of click
+                        SetAppList setApps;
+                        setApps = new SetAppList();
+                        //toggleFindStatus();
+                        setApps.SelectMode();
+                    } //public void OnClick(View v)
+                } //new Button.OnClickListener()
+        ); //findToggleView.Key.setOnClickListener
+
+
+
 
 
     } //public void setListener()
+
 
 } //public class TypeOut

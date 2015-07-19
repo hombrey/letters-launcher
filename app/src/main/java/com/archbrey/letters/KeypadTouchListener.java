@@ -278,15 +278,20 @@ public class KeypadTouchListener  {
             typeoutBoxHandle.setFindStatus(false); //stop search mode if length = 0;
             drawerBox.setVisibility(View.INVISIBLE);
             typeoutBox.setVisibility(View.INVISIBLE);
+            TypeOut.editView.setVisibility(View.GONE);
         } //else of if (!getCurrentLetter.equals(" "))
         else if ( (searchLength == 1) && (!typeoutBoxHandle.getFindStatus()) ) {
             drawerBox.setVisibility(View.VISIBLE);
             typeoutBox.setVisibility(View.VISIBLE);
             filteredSize = getAppList.filterByFirstChar(appItems, searchString);
+            TypeOut.editView.setVisibility(View.VISIBLE);
+            TypeOut.editMode= 1;
             returnAppItems = new AppItem[filteredSize];
         } //if if (searchLength == 1)
         else if ( (searchLength > 1) || (typeoutBoxHandle.getFindStatus()) ) {
             filteredSize = getAppList.filterByString(appItems, searchString);
+            TypeOut.editView.setVisibility(View.GONE);
+            TypeOut.editMode= 0;
             returnAppItems = new AppItem[filteredSize];
         } //if (searchLength > 1)
 
