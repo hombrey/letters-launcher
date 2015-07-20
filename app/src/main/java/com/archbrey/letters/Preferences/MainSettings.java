@@ -78,6 +78,11 @@ public class MainSettings {
                 case 3:
                     settingsContext.startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
                     break;
+                case 4:
+                    HeightSettings heightHandle;
+                    heightHandle = new HeightSettings();
+                    heightHandle.DrawBox(mainMenuBox, settingsContext, rMainSettings);
+                    break;
                 case 5:
                     final Intent pickWallpaper = new Intent(Intent.ACTION_SET_WALLPAPER);
                     settingsContext.startActivity(Intent.createChooser(pickWallpaper, settingsContext.getString(R.string.chooser_wallpaper)));

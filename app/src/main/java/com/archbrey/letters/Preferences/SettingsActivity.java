@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -13,26 +14,32 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.content.SharedPreferences;
 
+import com.archbrey.letters.DrawKeypadBox;
 import com.archbrey.letters.R;
 
 public class SettingsActivity extends Activity {
 
     public Context C;
     private Resources r;
-    private static LinearLayout settingsScreen;
+    public static RelativeLayout settingsScreen;
 
     public static LinearLayout infoBox;
     public static TextView infoView;
 
-    private View drawerBox ;
+    public static DrawKeypadBox viewpadBoxHandle;
+
+    public static  LinearLayout viewpadBox;
+    public static  TextView viewSample;
+
+    public static View sdrawerBox ;
 
     private static GridView gridDrawer;
     private static MainSettings mainsettingsHandle;
     //private LinearLayout setColorsBox;
-
 
     public static int menuLevel;
     public static String menuArea;
@@ -44,10 +51,14 @@ public class SettingsActivity extends Activity {
     public static int textColor;
     public static int backColor;
     public static int backerColor;
-    public static int textSelectColor;
+
     public static int backSelectColor;
     public static int drawerColumns;
     public static int drawerTextSize;
+
+    public static int keyboardHeight;
+    public static int filterHeight;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,12 +77,12 @@ public class SettingsActivity extends Activity {
         holder.setResources(r);
 
 
-        settingsScreen = new LinearLayout(this);
-        settingsScreen.setOrientation(LinearLayout.VERTICAL);
+        settingsScreen = new RelativeLayout(this);
+        //settingsScreen.setOrientation(LinearLayout.VERTICAL);
         settingsScreen.setGravity(Gravity.BOTTOM);
 
         //draw menu drawer
-        drawerBox = LayoutInflater.from(this).inflate(R.layout.drawerbox, null);
+        sdrawerBox = LayoutInflater.from(this).inflate(R.layout.drawerbox, null);
 
         assembleScreen();
 
@@ -105,6 +116,7 @@ public class SettingsActivity extends Activity {
             if (menuLevel ==1) {
                 //mainsettingsHandle = new MainSettings();
                 mainsettingsHandle.DrawBox(gridDrawer, this, r);
+                settingsScreen.removeView(viewpadBox);
                 menuLevel --;
                 return true;
                  } //if (menuLevel ==1)
@@ -114,6 +126,15 @@ public class SettingsActivity extends Activity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+
+        //kill activity when not visible to force onCreate() when settings is called again
+        finish();
+    } //protected void onStart()
 
 
     public void finish() {
@@ -132,7 +153,6 @@ public class SettingsActivity extends Activity {
 
     private void assembleScreen(){
 
-
         infoBox = new LinearLayout(this);
         infoBox.setOrientation(LinearLayout.VERTICAL);
         infoBox.setBackgroundColor(SettingsActivity.backerColor);
@@ -148,10 +168,35 @@ public class SettingsActivity extends Activity {
                 LinearLayout.LayoutParams.WRAP_CONTENT); //height
                 infoViewParams.setMargins(0, 20, 0, 20);
         infoBox.addView(infoView, infoViewParams);
-        
-        settingsScreen.addView(drawerBox);
-        settingsScreen.addView(infoBox);
 
+        sdrawerBox.setId(R.id.settingsdrawerBox);
+        infoBox.setId(R.id.infoBox);
+
+        RelativeLayout.LayoutParams sdrawerParams = new RelativeLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        sdrawerParams.addRule(RelativeLayout.ABOVE, infoBox.getId());
+
+        RelativeLayout.LayoutParams infoBoxParams = new RelativeLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        infoBoxParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+
+        viewpadBox = new LinearLayout(this);
+        viewSample = new TextView(this);
+        viewSample.setText(R.string.sample_height);
+        viewSample.setTypeface(null, Typeface.ITALIC);
+        viewSample.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
+        viewSample.setTextColor(SettingsActivity.textColor);
+        viewSample.setGravity(Gravity.CENTER);
+
+        RelativeLayout.LayoutParams viewSampleParams = new RelativeLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        SettingsActivity.viewpadBox.addView(SettingsActivity.viewSample, viewSampleParams);
+
+        settingsScreen.addView(sdrawerBox, sdrawerParams);
+        settingsScreen.addView(infoBox,infoBoxParams);
 
 
     }

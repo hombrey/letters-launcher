@@ -92,7 +92,7 @@ public class TypeOut {
             findStatus = true;
             global.setFindString(""); //delete currently viewed letter before searching
             typeoutView.setText("");
-            findToggleView.setText(String.valueOf(Character.toChars(215)));
+            findToggleView.setText(String.valueOf(Character.toChars(215))); //x button
             findToggleTextSize = 24;
             delButton.Key.setText(String.valueOf(Character.toChars(8656)));//back button
             editView.setVisibility(View.GONE);

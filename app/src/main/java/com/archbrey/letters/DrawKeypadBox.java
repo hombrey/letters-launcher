@@ -16,6 +16,11 @@ import com.archbrey.letters.Preferences.SettingsActivity;
 
 public class DrawKeypadBox  {
 
+    LinearLayout keypadTopRow;
+    LinearLayout keypadMidRow;
+    LinearLayout keypadBottomRow;
+    LinearLayout keypadNumberRow;
+
     private static LinearLayout keypadBox;
 
     private Resources rDrawBox;
@@ -41,7 +46,7 @@ public class DrawKeypadBox  {
             keypadButton[inc].Key = new Button(LaunchpadContext);
         } //for (inc=0; inc<=35; inc++)
 
-        drawKeypadBox();
+       // drawKeypadBox();
 
         GlobalHolder global;
         global = new GlobalHolder();
@@ -61,12 +66,7 @@ public class DrawKeypadBox  {
     public  SideButton getdelButton(){return delButton;
     }//SideButton getdelButton()
 
-    private void drawKeypadBox(){
-
-        LinearLayout keypadTopRow;
-        LinearLayout keypadMidRow;
-        LinearLayout keypadBottomRow;
-        LinearLayout keypadNumberRow;
+    public void drawKeypadBox(){
 
         //keypadKeys = new Button[36];
         int inc;
@@ -85,7 +85,7 @@ public class DrawKeypadBox  {
                 TypedValue.COMPLEX_UNIT_DIP, 0,
                 rDrawBox.getDisplayMetrics());
         int keypad_key_height = (int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, 38,
+                TypedValue.COMPLEX_UNIT_DIP, SettingsActivity.keyboardHeight,
                 rDrawBox.getDisplayMetrics());
 
         int midrow_padding = (int) TypedValue.applyDimension(
@@ -147,6 +147,7 @@ public class DrawKeypadBox  {
 
         //==========ASSEMBLE ALL ROWS ================================================================================
 
+
         keypadBox.addView(keypadTopRow, keypadRowParams);
         keypadBox.addView(keypadMidRow, keypadRowParams);
         keypadBox.addView(keypadBottomRow, keypadRowParams);
@@ -154,6 +155,15 @@ public class DrawKeypadBox  {
 
 
     } // void drawKeypadBox(void)
+
+    public void removebox(){
+
+        keypadBox.removeView(keypadTopRow);
+        keypadBox.removeView(keypadMidRow);
+        keypadBox.removeView(keypadBottomRow);
+        keypadBox.removeView(keypadNumberRow);
+
+    } // public void removebox()
 
     private void assignKeys(){
 

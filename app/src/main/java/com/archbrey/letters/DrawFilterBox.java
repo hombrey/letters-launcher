@@ -57,7 +57,7 @@ public class DrawFilterBox {
                 TypedValue.COMPLEX_UNIT_DIP, 0,
                 rDrawBox.getDisplayMetrics());
         int filter_button_height = (int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, 45,
+                TypedValue.COMPLEX_UNIT_DIP, SettingsActivity.filterHeight,
                 rDrawBox.getDisplayMetrics());
 
         LinearLayout.LayoutParams filterButtonParams = new LinearLayout.LayoutParams (

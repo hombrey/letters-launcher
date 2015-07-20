@@ -62,6 +62,7 @@ public class LaunchpadActivity extends Activity {
 
     public static boolean hideDrawerAllApps;
     private static boolean isForeground;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +83,6 @@ public class LaunchpadActivity extends Activity {
 
         setContentView(mainScreen);
 
-
         //set variables to be used by other classes
         appGridView = (GridView) findViewById(R.id.drawer_content);
         global.setDrawerBox(drawerBox);
@@ -101,7 +101,6 @@ public class LaunchpadActivity extends Activity {
         drawDrawerBox = new DrawDrawerBox (this, appGridView, allAppItems);
         drawDrawerBox.setListener();
 
-
         //setup listeners
         new KeypadTouchListener(typeoutView);
         new FilterBoxTouchListener(filterItems,typeoutView);
@@ -111,7 +110,6 @@ public class LaunchpadActivity extends Activity {
                     public void onClick(View v) {openOptionsMenu(); }
                 } //new Button.OnClickListener()
         );// menuButton.Key.setOnClickListener
-
 
         //setup intents
         IntentFilter Package_update_filter = new IntentFilter();
@@ -132,12 +130,24 @@ public class LaunchpadActivity extends Activity {
     @Override
     public void onBackPressed() {
 
-        LaunchpadActivity.keypadBox.setVisibility(View.VISIBLE);
-        LaunchpadActivity.filterBox.setVisibility(View.VISIBLE);
-        TypeOut.findToggleView.setVisibility(View.VISIBLE);
-        TypeOut.editView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TypeOut.TextSize);
-        TypeOut.editView.setText(String.valueOf(Character.toChars(177)));
-        LaunchpadActivity.drawerBox.setVisibility(View.INVISIBLE);
+        if (TypeOut.editMode > 10) {
+            keypadBox.setVisibility(View.VISIBLE);
+            filterBox.setVisibility(View.VISIBLE);
+            TypeOut.findToggleView.setVisibility(View.VISIBLE);
+            TypeOut.editView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TypeOut.TextSize);
+            TypeOut.editView.setText(String.valueOf(Character.toChars(177)));
+            drawerBox.setVisibility(View.INVISIBLE);
+            TypeOut.typeoutBox.setVisibility(View.INVISIBLE);
+          //  TypeOut.typeoutView.setText("");
+        } //if (TypeOut.editMode > 10)
+
+        //keypadBox.setVisibility(View.VISIBLE);
+        //filterBox.setVisibility(View.VISIBLE);
+        //TypeOut.findToggleView.setVisibility(View.VISIBLE);
+        //TypeOut.editView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TypeOut.TextSize);
+        //TypeOut.editView.setText(String.valueOf(Character.toChars(177)));
+
+        drawerBox.setVisibility(View.INVISIBLE);
         TypeOut.typeoutBox.setVisibility(View.INVISIBLE);
         typeoutBoxHandle.setFindStatus(false);
         TypeOut.typeoutView.setText("");
@@ -158,6 +168,8 @@ public class LaunchpadActivity extends Activity {
         typeoutBoxHandle.setFindStatus(false); //stop search mode if length = 0;
         filterBoxHandle.refreshRecentItems();
         isForeground = true;
+
+
 
     } //protected void onResume()
 
@@ -237,6 +249,7 @@ public class LaunchpadActivity extends Activity {
             typeoutBoxHandle.setFindStatus(false);
             TypeOut.typeoutView.setText("");
             toggleHideAllApps();
+
         } //if (Intent.ACTION_MAIN.equals(intent.getAction()))
 
     } //protected void onNewIntent(Intent intent)
@@ -270,13 +283,15 @@ public class LaunchpadActivity extends Activity {
 
         String colorScheme = prefs.getString("colorscheme","");
         Integer columns = prefs.getInt("column_num", 4);
-        Integer textSize = prefs.getInt ("drawerTextSize",17);
+        Integer textSize = prefs.getInt("drawerTextSize", 17);
+
+        Integer keyHeight = prefs.getInt("keyboardHeight",38);
+        Integer fltHeight = prefs.getInt("filterHeight",45);
 
         SettingsActivity.textColor = r.getColor(R.color.white);
         SettingsActivity.backColor = r.getColor(R.color.Black_transparent);
         SettingsActivity.backerColor = r.getColor(R.color.Blacker_transparent);
         SettingsActivity.backSelectColor = r.getColor(R.color.grey50);
-
 
         if (colorScheme.equals("white")) {
             SettingsActivity.textColor = r.getColor(R.color.black);
@@ -287,13 +302,15 @@ public class LaunchpadActivity extends Activity {
 
         SettingsActivity.drawerColumns = columns;
         SettingsActivity.drawerTextSize = textSize;
-
+        SettingsActivity.keyboardHeight = keyHeight;
+        SettingsActivity.filterHeight = fltHeight;
     } //private void setColorTheme()
 
     private void drawBoxes(){
 
         keypadBox = new LinearLayout(this);
         KeypadBoxHandle = new DrawKeypadBox(keypadBox,this, r);
+        KeypadBoxHandle.drawKeypadBox();
         keypadBox = KeypadBoxHandle.getLayout();
 
         filterBox = new LinearLayout(this);

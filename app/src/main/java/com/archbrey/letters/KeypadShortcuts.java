@@ -24,7 +24,7 @@ public class KeypadShortcuts {
 
         TypeOut.editView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
         TypeOut.typeoutView.append(" - Select");
-        TypeOut.editView.setText("Done");
+        TypeOut.editView.setText(String.valueOf(Character.toChars(215))); //x button
         allApps = global.getAllAppItems();
         new DrawDrawerBox (getContext, LaunchpadActivity.appGridView,allApps);
 

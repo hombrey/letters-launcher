@@ -6,7 +6,7 @@
     <string name="change_columns">Drawer Columns</string>
     <string name="drawer_textsize">Drawer Text Size</string>
     <string name="custom_filter">Filter Box</string>
-    <string name="custom_keypad">Keypad Area</string>
+    <string name="custom_keypad">Keypad Height</string>
     <string name="set_wallpaper">Wallpaper</string>
 
     <string name="dark_scheme">Dark Scheme</string>
@@ -15,6 +15,12 @@
     <string name="two">two</string>
     <string name="three">three</string>
     <string name="four">four</string>
+
+    <string name="sample_height">Sample Keyboard Height</string>
+    <string name="small">small</string>
+    <string name="medium">medium</string>
+    <string name="large">large</string>
+    <string name="extralarge">extra large</string>
 
     <string name="fifteen">fifteen</string>
     <string name="seventeen">seventeen</string>

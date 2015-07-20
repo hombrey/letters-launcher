@@ -73,7 +73,8 @@ public class AppDrawerAdapter extends BaseAdapter {
         viewHolder.text.setText(appItemForAdapter[position].label);
         //viewHolder.text.setTextSize(R.dimen.drawer_textSize);
         viewHolder.text.setTextSize(TypedValue.COMPLEX_UNIT_SP, SettingsActivity.drawerTextSize);
-        viewHolder.text.setTextColor(SettingsActivity.textColor);
+
+            viewHolder.text.setTextColor(SettingsActivity.textColor);
 
         return convertView;
 

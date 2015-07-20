@@ -7,6 +7,10 @@
     <item type="id" name="fillerBox" />
     <item type="id" name="filterBox" />
 
+    <item type="id" name="settingsdrawerBox" />
+    <item type="id" name="viewpadBox" />
+    <item type="id" name="infoBox" />
+
     <item type="id" name="settingsDrawer" />
     <item type="id" name="bottomRowBox" />
     <item type="id" name="settingsFillerBox" />
