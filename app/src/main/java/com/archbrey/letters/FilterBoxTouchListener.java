@@ -2,6 +2,7 @@ package com.archbrey.letters;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.support.v4.view.MotionEventCompat;
 import android.view.MotionEvent;
 import android.view.View;
@@ -92,6 +93,7 @@ public class FilterBoxTouchListener {
                             switch (action) {
                                 case (MotionEvent.ACTION_DOWN):
                                     typeoutView.setText(TouchedFilter);
+                                    typeoutView.setTypeface(null, Typeface.NORMAL);
                                     typeoutView.append(" ");
                                     typeoutView.append(String.valueOf(filterPosition));
 
