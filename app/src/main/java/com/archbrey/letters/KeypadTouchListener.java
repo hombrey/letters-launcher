@@ -124,15 +124,6 @@ public class KeypadTouchListener  {
                             {
                                 getkeypadLocations();
                             }
-                            typeoutView.setText(findString);
-                            typeoutView.setTypeface(null, Typeface.NORMAL);
-
-                            if (keypadButton[SelectedKeyButton].ShortcutPackage.length() > 1) {
-                                typeoutView.append(" - ");
-                                typeoutView.append(keypadButton[SelectedKeyButton].ShortcutLabel);
-                                //      if (longTouch.getStatus())
-                                //         global.getDrawerBox().setVisibility(View.INVISIBLE);
-                            } //if (keypadButton[SelectedKeyButton].ShortcutPackage.length()>1))
 
                             int action = MotionEventCompat.getActionMasked(event);
                             switch (action) {
@@ -251,7 +242,17 @@ public class KeypadTouchListener  {
     private boolean isLongPress (String getTouchedLetter) {
 
         if (!getTouchedLetter.equals(longTouch.getKeyString())){
-            longTouch.setStartTime();
+            typeoutView.setText(getTouchedLetter);
+            typeoutView.setTypeface(null, Typeface.NORMAL);
+
+            if (keypadButton[SelectedKeyButton].ShortcutPackage.length() > 1) {
+                typeoutView.append(" - ");
+                typeoutView.append(keypadButton[SelectedKeyButton].ShortcutLabel);
+                //      if (longTouch.getStatus())
+                //         global.getDrawerBox().setVisibility(View.INVISIBLE);
+            } //if (keypadButton[SelectedKeyButton].ShortcutPackage.length()>1))
+
+            //longTouch.setStartTime();
             longTouch.setKeyString(getTouchedLetter);
             longTouch.setStatus(false);
             handler.removeCallbacks(mLongPressed);

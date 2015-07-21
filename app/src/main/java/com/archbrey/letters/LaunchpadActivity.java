@@ -141,11 +141,6 @@ public class LaunchpadActivity extends Activity {
           //  TypeOut.typeoutView.setText("");
         } //if (TypeOut.editMode > 10)
 
-        //keypadBox.setVisibility(View.VISIBLE);
-        //filterBox.setVisibility(View.VISIBLE);
-        //TypeOut.findToggleView.setVisibility(View.VISIBLE);
-        //TypeOut.editView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TypeOut.TextSize);
-        //TypeOut.editView.setText(String.valueOf(Character.toChars(177)));
 
         drawerBox.setVisibility(View.INVISIBLE);
         TypeOut.typeoutBox.setVisibility(View.INVISIBLE);
