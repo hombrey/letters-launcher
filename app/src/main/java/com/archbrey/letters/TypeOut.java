@@ -218,6 +218,7 @@ public class TypeOut {
 
         if (TypeOut.editMode<10) {
 
+            LaunchpadActivity.drawerBox.setVisibility(View.VISIBLE);
             LaunchpadActivity.keypadBox.setVisibility(View.GONE);
             LaunchpadActivity.filterBox.setVisibility(View.INVISIBLE);
             TypeOut.findToggleView.setVisibility(View.GONE);
