@@ -1,6 +1,8 @@
 package com.archbrey.letters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 //import android.graphics.Color;
 import android.util.TypedValue;
@@ -186,6 +188,7 @@ public class TypeOut {
     public void setListener() {
 
 
+
         findToggleView.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) { //perform action of click
@@ -204,6 +207,34 @@ public class TypeOut {
                        //  setApps = new SetAppList();
                         //toggleFindStatus();
                         SelectMode();
+                    } //public void OnClick(View v)
+                } //new Button.OnClickListener()
+        ); //findToggleView.Key.setOnClickListener
+
+
+
+        typeoutView.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) { //perform action of click
+
+                        PackageManager pmForListener;
+                        pmForListener = global.getPackageManager();
+
+                        if ((DrawKeypadBox.keypadButton[KeypadTouchListener.SelectedKeyButton].ShortcutPackage.length() > 1)  &&
+                                editMode==1) { //check if keypad has assigned shortcut
+
+                            Intent launchIntent = pmForListener.getLaunchIntentForPackage(DrawKeypadBox.keypadButton[KeypadTouchListener.SelectedKeyButton].ShortcutPackage);
+
+                            global.getMainContext().startActivity(launchIntent);
+
+                            AppItem launched;
+                            launched = new AppItem();
+                            launched.pkgname = DrawKeypadBox.keypadButton[KeypadTouchListener.SelectedKeyButton].ShortcutPackage;
+                            launched.label = DrawKeypadBox.keypadButton[KeypadTouchListener.SelectedKeyButton].ShortcutLabel;
+                            launched.name = "blank";
+                            new GetAppList().addRecentApp(launched);
+
+                        } //if(keypadButton[SelectedKeyButton].ShortcutPackage.length()>1)
                     } //public void OnClick(View v)
                 } //new Button.OnClickListener()
         ); //findToggleView.Key.setOnClickListener
