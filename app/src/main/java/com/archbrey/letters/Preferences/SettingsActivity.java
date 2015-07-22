@@ -102,6 +102,8 @@ public class SettingsActivity extends Activity {
     protected void onResume() {
         super.onResume();
 
+        //if (menuLevel == 0){mainsettingsHandle.DrawBox(gridDrawer, this, r);} //if (menuLevel == 0)
+
     } //protected void onResume()
 
     @Override
@@ -133,11 +135,12 @@ public class SettingsActivity extends Activity {
         super.onStop();
 
         //kill activity when not visible to force onCreate() when settings is called again
-        finish();
+        if (menuLevel > 0) finish();
     } //protected void onStart()
 
 
     public void finish() {
+
         //Intent data = new Intent();
         //data.putExtra("returnData", returnString);
         //setResult(RESULT_OK, data);
@@ -150,6 +153,15 @@ public class SettingsActivity extends Activity {
 
         super.finish();
     }
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        //if (Intent.ACTION_MAIN.equals(intent.getAction()) ) {SettingsActivity.menuLevel=0;}
+
+    } //protected void onNewIntent(Intent intent)
 
     private void assembleScreen(){
 

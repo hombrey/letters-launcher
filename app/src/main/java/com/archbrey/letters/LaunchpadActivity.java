@@ -122,6 +122,7 @@ public class LaunchpadActivity extends Activity {
         //registerReceiver(new RefreshAppItemReceiver(), Package_update_filter);
         registerReceiver(appUpdater, Package_update_filter);
 
+        new KeypadShortcuts().RetrieveSavedShortcuts(this);
 
 
     }// protected void onCreate(Bundle savedInstanceState)
@@ -244,8 +245,10 @@ public class LaunchpadActivity extends Activity {
             typeoutBoxHandle.setFindStatus(false);
             TypeOut.typeoutView.setText("");
             toggleHideAllApps();
+            SettingsActivity.menuLevel=0;
 
         } //if (Intent.ACTION_MAIN.equals(intent.getAction()))
+
 
     } //protected void onNewIntent(Intent intent)
 
@@ -367,6 +370,7 @@ public class LaunchpadActivity extends Activity {
             allAppItems = new GetAppList().all_appItems(basicPkgMgr);
             appGridView = (GridView) findViewById(R.id.drawer_content);
             new DrawDrawerBox (context, appGridView, allAppItems);
+            new KeypadShortcuts().RetrieveSavedShortcuts(context);
 
         }
 

@@ -129,12 +129,12 @@ public class KeypadTouchListener  {
                             switch (action) {
                                 case (MotionEvent.ACTION_DOWN):
                                     typeoutView.setText(findString);
+                                    handler.removeCallbacks(mLongPressed);
                                     if (keypadButton[SelectedKeyButton].ShortcutPackage.length() > 1) {
                                         typeoutView.append(" - ");
                                         typeoutView.append(keypadButton[SelectedKeyButton].ShortcutLabel);
+                                        handler.postDelayed(mLongPressed, 500);
                                     } //if (keypadButton[SelectedKeyButton].ShortcutPackage.length()>1))
-                                    handler.removeCallbacks(mLongPressed);
-                                    handler.postDelayed(mLongPressed, 400);
                                     return false;
                              //   case (MotionEvent.ACTION_MOVE):
                              //       return false;
@@ -254,7 +254,7 @@ public class KeypadTouchListener  {
             longTouch.setKeyString(getTouchedLetter);
             longTouch.setStatus(false);
             handler.removeCallbacks(mLongPressed);
-            handler.postDelayed(mLongPressed, 400);
+            if (keypadButton[SelectedKeyButton].ShortcutPackage.length() > 1) handler.postDelayed(mLongPressed, 500);
         } //if (searchString.equals(longTouch.getKeyString()))
 
         return longTouch.getStatus();

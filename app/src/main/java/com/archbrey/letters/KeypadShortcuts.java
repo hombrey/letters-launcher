@@ -50,17 +50,44 @@ public class KeypadShortcuts {
             DrawKeypadBox.keypadButton[KeyPosition].ShortcutPackage = allApps[position].pkgname;
             DrawKeypadBox.keypadButton[KeyPosition].ShortcutLabel = allApps[position].label;
             DrawBox(mainContext);
-            //TypeOut.typeoutView.append(" - ");
-            //TypeOut.typeoutView.append(DrawKeypadBox.keypadButton[KeyPosition].ShortcutLabel);
 
-            //view.setBackgroundColor(SettingsActivity.backSelectColor);
+            DBHelper dbHandler = new DBHelper(mainContext);
+            dbHandler.AssignShorcut(KeyPosition, allApps[position].pkgname);
 
         }// public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
-
 
 
     } //private class ClickSelectListener implements AdapterView.OnItemClickListener
 
 
+    public void RetrieveSavedShortcuts (Context getContext) {
+
+        allApps = global.getAllAppItems();
+        mainContext = getContext;
+        DBHelper dbHandler = new DBHelper(mainContext);
+
+     for (int inc=0; inc<=35; inc++) {
+
+         String shortcutFound = dbHandler.RetrievePackage(inc);
+
+            for (int appInc=0; appInc<allApps.length; appInc++) {
+
+                if (shortcutFound.equals(allApps[appInc].pkgname)  ){
+                    DrawKeypadBox.keypadButton[inc].ShortcutLabel = allApps[appInc].label;
+                    DrawKeypadBox.keypadButton[inc].ShortcutPackage = allApps[appInc].pkgname;
+                    break;
+                    } //if (DrawKeypadBox.keypadButton[inc].ShortcutPackage.equals(allApps[appInc].pkgname)  )
+                else //assign " " to keypad shortcut if package does not exist anymore
+                    {
+                        DrawKeypadBox.keypadButton[inc].ShortcutPackage = " ";
+                        DrawKeypadBox.keypadButton[inc].ShortcutLabel = " ";
+                     }
+
+            } //for (int appInc=0; appInc<=35; appInc++)
+
+        } //for (inc=0; inc<=35; inc++)
+
+
+    } // public class RetrieveSavedShortcuts ()
 
 } //public class KeypadShortcuts
