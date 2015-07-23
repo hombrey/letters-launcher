@@ -130,7 +130,8 @@ public class KeypadTouchListener  {
                                 case (MotionEvent.ACTION_DOWN):
                                     typeoutView.setText(findString);
                                     handler.removeCallbacks(mLongPressed);
-                                    if (keypadButton[SelectedKeyButton].ShortcutPackage.length() > 1) {
+                                    if ((keypadButton[SelectedKeyButton].ShortcutPackage.length() > 1) &&
+                                            (!typeoutBoxHandle.getFindStatus()) ) {
                                         typeoutView.append(" - ");
                                         typeoutView.append(keypadButton[SelectedKeyButton].ShortcutLabel);
                                         handler.postDelayed(mLongPressed, 500);
@@ -140,6 +141,7 @@ public class KeypadTouchListener  {
                              //       return false;
                                 case (MotionEvent.ACTION_UP):
                                     handler.removeCallbacks(mLongPressed);
+                                    global.setFindString(findString);
                                  //   typeoutView.setText(findString);
                                  //   global.setFindString(findString);
                                     if (longTouch.getStatus()) {
@@ -245,7 +247,8 @@ public class KeypadTouchListener  {
             typeoutView.setTypeface(null, Typeface.NORMAL);
             drawerBox.setVisibility(View.VISIBLE);
              typeoutBox.setVisibility(View.VISIBLE);
-            if (keypadButton[SelectedKeyButton].ShortcutPackage.length() > 1) {
+            if ((keypadButton[SelectedKeyButton].ShortcutPackage.length() > 1) &&
+                    (!typeoutBoxHandle.getFindStatus()) ) {
                 typeoutView.append(" - ");
                 typeoutView.append(keypadButton[SelectedKeyButton].ShortcutLabel);
             } //if (keypadButton[SelectedKeyButton].ShortcutPackage.length()>1))

@@ -136,7 +136,9 @@ public class LaunchpadActivity extends Activity {
             filterBox.setVisibility(View.VISIBLE);
             TypeOut.findToggleView.setVisibility(View.VISIBLE);
             TypeOut.editView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TypeOut.TextSize);
-            TypeOut.editView.setText(String.valueOf(Character.toChars(177)));
+            TypeOut.editView.setText("  "); //spacer to make the tap target larger
+            TypeOut.editView.append(String.valueOf(Character.toChars(177))); //plus minus button
+            TypeOut.editView.append("  "); //x button
             drawerBox.setVisibility(View.INVISIBLE);
             TypeOut.typeoutBox.setVisibility(View.INVISIBLE);
           //  TypeOut.typeoutView.setText("");
@@ -241,7 +243,9 @@ public class LaunchpadActivity extends Activity {
             LaunchpadActivity.filterBox.setVisibility(View.VISIBLE);
             TypeOut.findToggleView.setVisibility(View.VISIBLE);
             TypeOut.editView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TypeOut.TextSize);
-            TypeOut.editView.setText(String.valueOf(Character.toChars(177)));
+            TypeOut.editView.setText("  "); //spacer to make the tap target larger
+            TypeOut.editView.append(String.valueOf(Character.toChars(177))); //plus minus button
+            TypeOut.editView.append("  "); //spacer to make the tap target larger
             typeoutBoxHandle.setFindStatus(false);
             TypeOut.typeoutView.setText("");
             toggleHideAllApps();

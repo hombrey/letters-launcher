@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-//import android.graphics.Color;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -63,7 +62,7 @@ public class TypeOut {
             findStatus=getFindStatus;
 
             if (!findStatus){
-                findToggleView.setText("find");
+                findToggleView.setText(" find  ");
                 findToggleTextSize = 15;
               //  drawerBox.setVisibility(View.INVISIBLE);
               //  typeoutBox.setVisibility(View.INVISIBLE);
@@ -86,7 +85,7 @@ public class TypeOut {
 
         if (findStatus) {
             findStatus = false;
-            findToggleView.setText("find");
+            findToggleView.setText(" find  ");
             findToggleTextSize = 15;
             drawerBox.setVisibility(View.INVISIBLE);
             typeoutBox.setVisibility(View.INVISIBLE);
@@ -96,7 +95,9 @@ public class TypeOut {
             findStatus = true;
             global.setFindString(""); //delete currently viewed letter before searching
             typeoutView.setText("");
-            findToggleView.setText(String.valueOf(Character.toChars(215))); //x button
+            findToggleView.setText(" "); //x button
+            findToggleView.append(String.valueOf(Character.toChars(215))); //x button
+            findToggleView.append("  "); //x button
             findToggleTextSize = 24;
             delButton.Key.setText(String.valueOf(Character.toChars(8656)));//back button
             editView.setVisibility(View.GONE);
@@ -137,13 +138,15 @@ public class TypeOut {
         typeoutView.setTextColor(SettingsActivity.textColor);
 
         editView = new TextView(mainContext);
-        editView.setText(String.valueOf(Character.toChars(177)));
+        editView.setText("  "); //spacer to make the tap target larger
+        editView.append(String.valueOf(Character.toChars(177))); //plus minus button
+        editView.append("  "); //x button
         editView.setGravity(Gravity.CENTER_HORIZONTAL);
         editView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TextSize);
         editView.setTextColor(SettingsActivity.textColor);
 
         findToggleView = new TextView(mainContext);
-        findToggleView.setText("find");
+        findToggleView.setText(" find  ");
         findToggleView.setGravity(Gravity.CENTER_HORIZONTAL);
         findToggleView.setTextSize(TypedValue.COMPLEX_UNIT_SP, findToggleTextSize);
         findToggleView.setTextColor(SettingsActivity.textColor);
@@ -163,14 +166,14 @@ public class TypeOut {
 
                 editViewParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
                 editViewParams.addRule(RelativeLayout.CENTER_VERTICAL);
-                editViewParams.setMargins(0, 0, horizontal_margin, 0);
+             //   editViewParams.setMargins(0, 0, horizontal_margin, 0);
 
         RelativeLayout.LayoutParams findToggleParams = new RelativeLayout.LayoutParams(
                 touchview_width, //width
                 RelativeLayout.LayoutParams.WRAP_CONTENT); //height
         findToggleParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
         findToggleParams.addRule(RelativeLayout.CENTER_VERTICAL);
-        findToggleParams.setMargins(horizontal_margin, vertical_margin, 0, vertical_margin);
+      //  findToggleParams.setMargins(horizontal_margin, vertical_margin, 0, vertical_margin);
 
         typeoutBox = new RelativeLayout(mainContext);
         typeoutBox.setBackgroundColor(SettingsActivity.backerColor);

@@ -30,8 +30,9 @@ public class KeypadShortcuts {
                 TypeOut.typeoutView.append(DrawKeypadBox.keypadButton[KeyPosition].ShortcutLabel);
             }//if (DrawKeypadBox.keypadButton[KeyPosition].ShortcutLabel.length()>1)
         else {TypeOut.typeoutView.append(" - Select");}
-
-        TypeOut.editView.setText(String.valueOf(Character.toChars(215))); //x button
+        TypeOut.editView.setText("  "); //make x button larger
+        TypeOut.editView.append(String.valueOf(Character.toChars(215))); //x button
+        TypeOut.editView.append(" "); //make x button larger
         allApps = global.getAllAppItems();
         new DrawDrawerBox (getContext, LaunchpadActivity.appGridView,allApps);
 
