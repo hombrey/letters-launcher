@@ -104,7 +104,7 @@ public class KeypadTouchListener  {
                             float currentX = event.getRawX();
                             float currentY = event.getRawY();
                             String findString;
-                            LaunchpadActivity.hideDrawerAllApps = true; //this standardized behavior when pressing home button
+                            LaunchpadActivity.hideDrawerAllApps = false; //this standardizes behavior when pressing home button
 
                             //longTouch = new LongTouchHolder();
                             String TouchedLetter = determineLetter(currentX, currentY);
@@ -132,6 +132,8 @@ public class KeypadTouchListener  {
                                 case (MotionEvent.ACTION_DOWN):
                                     typeoutView.setText(findString);
                                     handler.removeCallbacks(mLongPressed);
+                                    drawerBox.setVisibility(View.VISIBLE);
+                                    typeoutBox.setVisibility(View.VISIBLE);
                                     if ((keypadButton[SelectedKeyButton].ShortcutPackage.length() > 1) &&
                                             (!typeoutBoxHandle.getFindStatus()) ) {
                                         typeoutView.append(" - ");
