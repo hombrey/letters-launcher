@@ -118,7 +118,9 @@ public class KeypadTouchListener  {
 
                             evaluateAction(findString);
 
-                            if (findString.length() == 1) isLongPress(TouchedLetter);
+                            //if (findString.length() == 1) isLongPress(TouchedLetter);
+                            if (typeoutBoxHandle.getFindStatus()) typeoutView.setText(findString);
+                              else isLongPress(TouchedLetter);
 
                             if (buttonLocation[1].Y == 0) //[perform only if not previously initialized
                             {
@@ -273,9 +275,9 @@ public class KeypadTouchListener  {
         int filteredSize;
 
         if (searchLength == 0)  {
-            typeoutBoxHandle.setFindStatus(false); //stop search mode if length = 0;
-            drawerBox.setVisibility(View.INVISIBLE);
-            typeoutBox.setVisibility(View.INVISIBLE);
+           // typeoutBoxHandle.setFindStatus(false); //stop search mode if length = 0;
+           // drawerBox.setVisibility(View.INVISIBLE);
+           // typeoutBox.setVisibility(View.INVISIBLE);
             TypeOut.editView.setVisibility(View.GONE);
         } //else of if (!getCurrentLetter.equals(" "))
         else if ( (searchLength == 1) && (!typeoutBoxHandle.getFindStatus()) ) {

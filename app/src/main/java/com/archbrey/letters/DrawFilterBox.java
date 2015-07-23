@@ -85,12 +85,12 @@ public class DrawFilterBox {
         } //for (int inc=0; inc<NumOfFilters; inc++)
 
 
-        filterItems[0].Code="All";filterItems[0].Code="All";
-        filterItems[1].Code="Rec";
-        filterItems[2].Code="Fav";
-        filterItems[3].Code="Gam";
-        filterItems[4].Code="Sys";
-        filterItems[5].Code="Www";
+        filterItems[0].Code="Rec";filterItems[0].Name="Recents";
+        filterItems[1].Code="Cal";filterItems[1].Name="CalcTools";
+        filterItems[2].Code="Fav";filterItems[2].Name="Favorites";
+        filterItems[3].Code="Fun";filterItems[3].Name="Fun";
+        filterItems[4].Code="Sys";filterItems[3].Name="System";
+        filterItems[5].Code="Www";filterItems[3].Name="Webapps";
 
 
     } //private void getFilterCodes()
@@ -111,13 +111,7 @@ public class DrawFilterBox {
         for (int inc=0; inc<NumOfFilters; inc++) {
             filterItems[inc].filteredPkgs = new AppItem[ArraySize];
 
-            if (filterItems[inc].Code.equals("All")) { //assign all installed launchable apps to this special filter
-
-                filterItems[inc].filteredPkgs = masterAppItems;
-                filterItems[inc].CountofPackages = ArraySize;
-
-            } //if (filterItems[inc].Code.equals("All"))
-            else if (filterItems[inc].Code.equals("Rec")) { //assign recent launchable apps to this special filter
+            if (inc == 0) { //assign recent launchable apps to this special filter
 
                 filterItems[inc].filteredPkgs = RecentApps;
                 filterItems[inc].CountofPackages = getAppListHandle.recentAppCount;
@@ -138,7 +132,6 @@ public class DrawFilterBox {
     } //public void refreshFilterItems()
 
 
-
     public void refreshRecentItems(){
 
       //  int ArraySize = masterAppItems.length;
@@ -152,17 +145,14 @@ public class DrawFilterBox {
         RecentApps = new AppItem[10];
         RecentApps = getAppListHandle.getRecentApps();
 
-        for (int inc=0; inc<NumOfFilters; inc++) {
-            if (filterItems[inc].Code.equals("Rec")) { //assign recent launchable apps to this special filter
 
-                filterItems[inc].filteredPkgs = RecentApps;
-                filterItems[inc].CountofPackages = getAppListHandle.recentAppCount;
+                filterItems[0].filteredPkgs = RecentApps;
+                filterItems[0].CountofPackages = getAppListHandle.recentAppCount;
 
-                if (filterItems[inc].CountofPackages > 2)
-                { new SortApps().exchange_sort(filterItems[inc].filteredPkgs,filterItems[inc].CountofPackages); }
-            }
+                if (filterItems[0].CountofPackages > 2)
+                { new SortApps().exchange_sort(filterItems[0].filteredPkgs,filterItems[0].CountofPackages); }
 
-        } //for (int inc=0; inc<NumOfFilters; inc++)
+
 
 
     } //public void refresRecentItems()
