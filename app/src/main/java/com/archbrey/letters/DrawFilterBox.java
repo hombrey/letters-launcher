@@ -16,7 +16,7 @@ public class DrawFilterBox {
     private static GlobalHolder global;
     private static LinearLayout filterBox;
     private Resources rDrawBox;
-    private static FilterItem[] filterItems;
+    public static FilterItem[] filterItems;
     Context mainContext;
     int NumOfFilters;
 

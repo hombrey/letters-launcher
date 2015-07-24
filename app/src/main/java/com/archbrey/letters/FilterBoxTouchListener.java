@@ -22,7 +22,7 @@ public class FilterBoxTouchListener {
     private static ButtonLocation[] buttonLocation;
     private static GlobalHolder global;
     private static SettingsHolder savedSettings;
-    private static int filterPosition;
+    public static int filterPosition;
     private static AppItem[] appItems;
     private static PackageManager PkgMgr;
 
@@ -182,6 +182,7 @@ public class FilterBoxTouchListener {
         } //for (int inc = 0; inc<ListLength; inc++)
 
         new DrawDrawerBox(global.getMainContext(), global.getGridView(), resultItems);
+
         TypeOut.editView.setVisibility(View.VISIBLE);
         TypeOut.editMode= 2;
         return resultItems;

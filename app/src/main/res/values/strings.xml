@@ -2,6 +2,9 @@
     <string name="app_name">Letters</string>
     <string name="app_preferences">Launcher Prefs</string>
 
+    <string name="tap_add">Tap to Add</string>
+    <string name="tap_remove">Tap to Remove</string>
+
     <string name="color_scheme">Color Scheme</string>
     <string name="change_columns">Drawer Columns</string>
     <string name="drawer_textsize">Drawer Text Size</string>

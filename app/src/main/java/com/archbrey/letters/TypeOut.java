@@ -32,6 +32,7 @@ public class TypeOut {
     public static int editMode;
 
     private static KeypadShortcuts keypadShortcustHandle;
+    private static FilterEdit filterEditHandle;
 
     public TypeOut() {
 
@@ -259,19 +260,23 @@ public class TypeOut {
 
             if (TypeOut.editMode == 1) {
                // ShortcutSelect();
+                editMode = 11;
                 keypadShortcustHandle = new KeypadShortcuts();
                 keypadShortcustHandle.DrawBox(mainContext);
-                editMode = 11;
+
             }//if (TypeOut.editMode==1)
 
             else if (TypeOut.editMode == 2) {
                // FilterItemsSelect();
                 editMode = 12;
+                filterEditHandle = new FilterEdit();
+                filterEditHandle.DrawBox(mainContext);
+
             }//if (TypeOut.editMode==2)
 
         } //if (TypeOut.editMode<10)
 
-        else { //This returns the main screen to normal mode after performinc according to  edit modes 1 or 2
+        else {
 
             if (TypeOut.editMode == 11) {
                 // ShortcutSelect();
@@ -280,10 +285,18 @@ public class TypeOut {
                 DrawKeypadBox.keypadButton[KeyPosition].ShortcutPackage = " ";
                 DrawKeypadBox.keypadButton[KeyPosition].ShortcutLabel = " ";
                 keypadShortcustHandle.DrawBox(mainContext);
-
-
             }//if (TypeOut.editMode==11)
 
+            if (TypeOut.editMode == 12) {
+                editMode = 17;
+                filterEditHandle = new FilterEdit();
+                filterEditHandle.DrawBox(mainContext);
+            }//if (TypeOut.editMode==12)
+            else if (TypeOut.editMode == 17) {
+                editMode = 12;
+                filterEditHandle = new FilterEdit();
+                filterEditHandle.DrawBox(mainContext);
+            }//if (TypeOut.editMode==12)
 
 
         } //else of /if (TypeOut.editMode<10)

@@ -180,4 +180,44 @@ public class DBHelper extends SQLiteOpenHelper {
 
     } //public void RenameFilterAlias (int getFilterPosition, String getAlias)
 
+
+    public void AddPackageToFilter (int getFilterPosition, String getPackage) {
+
+
+        ContentValues values = new ContentValues();
+        values.put (FILTERED_FILTER_POSITION, String.valueOf(getFilterPosition));
+        values.put (FILTERED_PKGNAME, getPackage);
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.replace(FILTERED_TABLE, null, values);
+        db.close();
+
+    } //public void AddPackageToFilter (int getFilterPosition, String getPackage)
+
+
+    public void RemovePackageFromFilter (int getFilterPosition, String getPackage) {
+
+        //boolean result = false;
+        SQLiteDatabase db = this.getWritableDatabase();
+        //Cursor cursor;
+        String query;
+
+
+        query = FILTERED_FILTER_POSITION +
+                " = " +
+                getFilterPosition +
+                " AND " +
+                FILTERED_PKGNAME +
+                " = " +
+                getPackage +
+                " " ;
+
+        db.delete(FILTERED_TABLE,query, null);
+
+       // db.delete(FILTERED_TABLE, FILTERED_FILTER_POSITION+ " = " +getFilterPosition+ " AND "+FILTERED_PKGNAME+  " = " +getPackage , null);
+
+    } //public void AddPackageToFilter (int getFilterPosition, String getPackage)
+
+
+
 }
