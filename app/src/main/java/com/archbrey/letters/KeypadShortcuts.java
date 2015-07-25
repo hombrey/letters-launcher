@@ -71,6 +71,9 @@ public class KeypadShortcuts {
 
          String shortcutFound = dbHandler.RetrievePackage(inc);
 
+         //assign " " by default and fill this up if shortcut exists
+         DrawKeypadBox.keypadButton[inc].ShortcutPackage = " ";
+         DrawKeypadBox.keypadButton[inc].ShortcutLabel = " ";
             for (int appInc=0; appInc<allApps.length; appInc++) {
 
                 if (shortcutFound.equals(allApps[appInc].pkgname)  ){
@@ -78,11 +81,11 @@ public class KeypadShortcuts {
                     DrawKeypadBox.keypadButton[inc].ShortcutPackage = allApps[appInc].pkgname;
                     break;
                     } //if (DrawKeypadBox.keypadButton[inc].ShortcutPackage.equals(allApps[appInc].pkgname)  )
-                else //assign " " to keypad shortcut if package does not exist anymore
+              /*  else //assign " " to keypad shortcut if package does not exist anymore
                     {
-                        DrawKeypadBox.keypadButton[inc].ShortcutPackage = " ";
-                        DrawKeypadBox.keypadButton[inc].ShortcutLabel = " ";
-                     }
+                       DrawKeypadBox.keypadButton[inc].ShortcutPackage = " ";
+                       DrawKeypadBox.keypadButton[inc].ShortcutLabel = " ";
+                     }*/
 
             } //for (int appInc=0; appInc<=35; appInc++)
 

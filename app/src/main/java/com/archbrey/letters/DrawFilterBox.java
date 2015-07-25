@@ -10,11 +10,13 @@ import android.widget.LinearLayout;
 
 import com.archbrey.letters.Preferences.SettingsActivity;
 
+import java.util.ArrayList;
+
 
 public class DrawFilterBox {
 
     private static GlobalHolder global;
-    private static LinearLayout filterBox;
+    public static LinearLayout filterBox;
     private Resources rDrawBox;
     public static FilterItem[] filterItems;
     Context mainContext;
@@ -25,7 +27,7 @@ public class DrawFilterBox {
         rDrawBox = r;
         mainContext = c;
 
-        NumOfFilters = 6; //this should be dynamically assigned;
+        NumOfFilters = 6; //this may be dynamically assigned based on settings
 
         filterBox = new LinearLayout(mainContext);
         filterBox = mainfilterBox;
@@ -45,7 +47,7 @@ public class DrawFilterBox {
 
         int filterTextSize = 16;
 
-        for (int inc=0; inc<NumOfFilters; inc++) { //change '3' to the number of actual buttons
+        for (int inc=0; inc<NumOfFilters; inc++) {
             filterItems[inc].button = new Button(mainContext);
             filterItems[inc].button.setText(filterItems[inc].Code);
             filterItems[inc].button.setTextColor(SettingsActivity.textColor);
@@ -108,6 +110,15 @@ public class DrawFilterBox {
         RecentApps = new AppItem[10];
         RecentApps = getAppListHandle.getRecentApps();
 
+        ArrayList<String> packagesRetrieved;
+        packagesRetrieved = new ArrayList<String>();
+
+        DBHelper dbHelperHandle;
+        dbHelperHandle = new DBHelper(mainContext);
+
+       // AppItem[] allAppItems;
+       // allAppItems = global.getAllAppItems();
+
         for (int inc=0; inc<NumOfFilters; inc++) {
 
             filterItems[inc].filteredPkgs = new AppItem[ArraySize];
@@ -121,17 +132,31 @@ public class DrawFilterBox {
             } //else if (filterItems[inc].Code.equals("Rec"))
             else {
 
-                /*
-                filterItems[inc].CountofPackages = 3;
-                filterItems[inc].filteredPkgs = new AppItem[filterItems[inc].CountofPackages];
-                filterItems[inc].filteredPkgs[0] = masterAppItems[4];
-                filterItems[inc].filteredPkgs[1] = masterAppItems[8];
-                filterItems[inc].filteredPkgs[2] = masterAppItems[9];*/
+                packagesRetrieved = dbHelperHandle.RetrievePackagesOfFilter(inc);
 
-                filterItems[inc].filteredPkgs = new AppItem[1];
-                filterItems[inc].CountofPackages = 1;
-                filterItems[inc].filteredPkgs[0] = masterAppItems[4];
+                filterItems[inc].filteredPkgs = new AppItem[packagesRetrieved.size()];
+                int foundCount = 0;
+                for (int pkgInc=0; pkgInc<packagesRetrieved.size(); pkgInc++ ){
 
+                    String packageFound = packagesRetrieved.get(pkgInc);
+                    filterItems[inc].filteredPkgs[pkgInc] = new AppItem();
+                    filterItems[inc].filteredPkgs[pkgInc].pkgname = " ";
+                    filterItems[inc].filteredPkgs[pkgInc].label = " ";
+
+                    for (int appInc=0; appInc<masterAppItems.length; appInc++) {
+
+                        if (packageFound.equals(masterAppItems[appInc].pkgname)  ){
+                            filterItems[inc].filteredPkgs[foundCount].label = masterAppItems[appInc].label;
+                            filterItems[inc].filteredPkgs[foundCount].pkgname = masterAppItems[appInc].pkgname;
+                            foundCount++;
+                            break;
+                        } //if (DrawKeypadBox.keypadButton[inc].ShortcutPackage.equals(allApps[appInc].pkgname)  )
+
+                    } //for (int appInc=0; appInc<=35; appInc++)
+
+                } //for (int pkgInc=0; pkgInc<packagesRetrieved.size(); pkgInc++ )
+
+                filterItems[inc].CountofPackages = foundCount;
 
             } //else of else if (filterItems[inc].Code.equals("Rec")
 

@@ -73,9 +73,7 @@ public class FilterBoxTouchListener {
 
                             float currentX = event.getRawX();
                             float currentY = event.getRawY();
-                            //String findString;
 
-                           // PackageManager PkgMgr;
                             global.setFindString(""); //set the search string back to null whenever a filter box item is touched
                             LaunchpadActivity.hideDrawerAllApps = false; //this standardizes behavior when pressing home button
 

@@ -20,14 +20,10 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String FILTERED_FILTER_POSITION = "filterposition";
     public static final String FILTERED_PKGNAME = "packagename";
 
-    public static final String FILTERS_TABLE = "filters";
-    public static final String FILTERS_POSITION = "filterposition";
-    public static final String FILTERS_NAME = "name";
-    public static final String FILTERS_ALIAS = "alias";
 
     public DBHelper(Context context) {
 
-        super(context, DB_NAME , null, 1);
+        super(context, DB_NAME, null, 1);
 
     } //public DBHelper(Context context)
 
@@ -55,16 +51,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
         sqLiteDatabase.execSQL(CREATE_TABLE);
 
-        //create filters table
-        CREATE_TABLE = "CREATE TABLE " +
-                FILTERS_TABLE +
-                "(" +
-                FILTERS_POSITION + " INTEGER PRIMARY KEY, " +
-                FILTERS_NAME + " TEXT," +
-                FILTERS_ALIAS + " TEXT" +
-                ")";
-
-        sqLiteDatabase.execSQL(CREATE_TABLE);
 
     } //public void onCreate(SQLiteDatabase sqLiteDatabase)
 
@@ -91,14 +77,12 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor cursor;
         SQLiteDatabase db = this.getWritableDatabase();
 
-
         String query = "Select * FROM " +
                 SHORTCUTS_TABLE +
                 " WHERE " +
                 SHORTCUTS_KEYPAD_ID +
                 " = " +
                 getKeypadPosition;
-
 
         cursor = db.rawQuery(query, null);
 
@@ -114,17 +98,7 @@ public class DBHelper extends SQLiteOpenHelper {
     } //public void RetrieveShorcut(int getKeypadPosition)
 
 
-    public void AssignFilterToPackage(int getFilterPosition, String getPackage){
 
-        ContentValues values = new ContentValues();
-        values.put (FILTERED_FILTER_POSITION, String.valueOf(getFilterPosition));
-        values.put (FILTERED_PKGNAME, getPackage);
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.insert(FILTERED_TABLE, null, values);
-        db.close();
-
-    } //public void AssignFilterToPackage
 
     public ArrayList<String>  RetrievePackagesOfFilter(int getFilterPosition){
 
@@ -143,42 +117,18 @@ public class DBHelper extends SQLiteOpenHelper {
 
         cursor = db.rawQuery(query, null);
 
-        getPackages.add(" ");
-        if (cursor.moveToFirst()) { //if not query does not result to null
-           // getPackages = cursor.getString(cursor.getColumnIndex(SHORTCUTS_PKGNAME));
-            cursor.close();
-        } else
-        {/* getPackages = " ";*/ } //if (cursor.moveToFirst())
 
+        cursor.moveToFirst();
+
+        while(cursor.isAfterLast() == false){
+            getPackages.add(cursor.getString(cursor.getColumnIndex(FILTERED_PKGNAME)));
+            cursor.moveToNext();
+        }
+
+        cursor.close();
         return getPackages ;
 
     } //public ArrayList<String>  RetrievePackagesOfFilter(int getFilterPosition)
-
-
-    public void ReplacFilterAlias (int getFilterPosition, String getAlias){
-
-        ContentValues values = new ContentValues();
-        values.put (FILTERS_POSITION, String.valueOf(getFilterPosition));
-        values.put (FILTERS_ALIAS, getAlias);
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.replace(FILTERS_TABLE, null, values);
-        db.close();
-
-    } //public void RenameFilterAlias (int getFilterPosition, String getAlias)
-
-
-    public void ReplaceFilterName (int getFilterPosition, String getName){
-
-        ContentValues values = new ContentValues();
-        values.put (FILTERS_POSITION, String.valueOf(getFilterPosition));
-        values.put (FILTERS_NAME, getName);
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.replace(FILTERS_TABLE, null, values);
-        db.close();
-
-    } //public void RenameFilterAlias (int getFilterPosition, String getAlias)
 
 
     public void AddPackageToFilter (int getFilterPosition, String getPackage) {

@@ -14,15 +14,21 @@ public class FilterEdit {
 
 
     private static AppItem[] allApps;
+    private static DBHelper dbHelperHandle;
     private static GlobalHolder global;
     private static Context mainContext;
     private static Resources getR;
     private static int filterPosition;
 
+    private static AppItem[] addArray;
+
+    private static DrawFilterBox filterBoxHandle;
+
     public FilterEdit(){
 
         global = new GlobalHolder();
         getR = global.getResources();
+
 
     } //public FilterEdit()
 
@@ -31,22 +37,24 @@ public class FilterEdit {
 
         mainContext = getContext;
         filterPosition = FilterBoxTouchListener.filterPosition;
-
+        dbHelperHandle = new DBHelper(mainContext);
+        filterBoxHandle = new DrawFilterBox(LaunchpadActivity.filterBox,mainContext,getR);
 
         TypeOut.editView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-        TypeOut.typeoutView.setText(DrawFilterBox.filterItems[filterPosition].Code);
-        TypeOut.typeoutView.append(" - ");
+
         if (TypeOut.editMode==17) {
-            TypeOut.typeoutView.append(getR.getString(R.string.tap_remove));
+            TypeOut.typeoutView.setText(getR.getString(R.string.tap_remove));
             listRemoveItems();
         }//if (TypeOut.editMode==17)
         if (TypeOut.editMode==12) {
-            TypeOut.typeoutView.append(getR.getString(R.string.tap_add));
+            TypeOut.typeoutView.setText(getR.getString(R.string.tap_add));
             listAddItems();
         }//if (TypeOut.editMode==12)
+        TypeOut.typeoutView.append(" ");
+        TypeOut.typeoutView.append(DrawFilterBox.filterItems[filterPosition].Code);
 
        if  (DrawFilterBox.filterItems[filterPosition].filteredPkgs.length==0) TypeOut.editView.setVisibility(View.INVISIBLE);
-       // TypeOut.editView.setText(" MOD ");
+
 
     } // public void DrawBox (Context getContext)
 
@@ -56,7 +64,7 @@ public class FilterEdit {
         allApps = global.getAllAppItems();
 
         ArrayList<AppItem> addList;
-        AppItem[] addArray;
+
         AppItem instanceAppItem;
 
         boolean foundOnFilter;
@@ -65,6 +73,7 @@ public class FilterEdit {
         for (int appInc=0; appInc<allApps.length; appInc++) {
 
                 foundOnFilter = false;
+                filterBoxHandle.refreshFilterItems(allApps);
                 for (int filterInc=0; filterInc<DrawFilterBox.filterItems[filterPosition].CountofPackages; filterInc++){
 
                     instanceAppItem = DrawFilterBox.filterItems[filterPosition].filteredPkgs[filterInc];
@@ -119,14 +128,12 @@ public class FilterEdit {
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
             int filterPosition = FilterBoxTouchListener.filterPosition;
-            DrawBox(mainContext);
             TypeOut.editView.setVisibility(View.VISIBLE);
-            //DrawKeypadBox.keypadButton[KeyPosition].ShortcutPackage = allApps[position].pkgname;
-            //DrawKeypadBox.keypadButton[KeyPosition].ShortcutLabel = allApps[position].label;
-            //DrawBox(mainContext);
 
-            //DBHelper dbHandler = new DBHelper(mainContext);
-            //dbHandler.AssignShorcut(KeyPosition, allApps[position].pkgname);
+            dbHelperHandle.AddPackageToFilter(filterPosition,addArray[position].pkgname);
+
+            DrawBox(mainContext);
+
 
         }// public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
 
@@ -142,26 +149,20 @@ public class FilterEdit {
             int filterPosition = FilterBoxTouchListener.filterPosition;
 
             //code for debug
-            DrawFilterBox.filterItems[filterPosition].filteredPkgs = new AppItem[0];
+           // DrawFilterBox.filterItems[filterPosition].filteredPkgs = new AppItem[0];
 
             if  (DrawFilterBox.filterItems[filterPosition].filteredPkgs.length==0) {
                 TypeOut.editMode=12;
                 TypeOut.editView.setVisibility(View.INVISIBLE);
 
                 //code for debug
-                DrawFilterBox.filterItems[filterPosition].filteredPkgs = new AppItem[1];
-                DrawFilterBox.filterItems[filterPosition].CountofPackages = 1;
-                DrawFilterBox.filterItems[filterPosition].filteredPkgs[0] = allApps[4];
+               // DrawFilterBox.filterItems[filterPosition].filteredPkgs = new AppItem[1];
+               // DrawFilterBox.filterItems[filterPosition].CountofPackages = 1;
+               //DrawFilterBox.filterItems[filterPosition].filteredPkgs[0] = allApps[4];
 
                 DrawBox(mainContext);
             } // if  (DrawFilterBox.filterItems[filterPosition].filteredPkgs.length==0)
 
-            //DrawKeypadBox.keypadButton[KeyPosition].ShortcutPackage = allApps[position].pkgname;
-            //DrawKeypadBox.keypadButton[KeyPosition].ShortcutLabel = allApps[position].label;
-            //DrawBox(mainContext);
-
-            //DBHelper dbHandler = new DBHelper(mainContext);
-            //dbHandler.AssignShorcut(KeyPosition, allApps[position].pkgname);
 
         }// public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
 
