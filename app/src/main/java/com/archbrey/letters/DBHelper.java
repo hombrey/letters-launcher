@@ -149,22 +149,11 @@ public class DBHelper extends SQLiteOpenHelper {
 
         //boolean result = false;
         SQLiteDatabase db = this.getWritableDatabase();
-        //Cursor cursor;
-        String query;
 
+        db.delete(FILTERED_TABLE,
+                FILTERED_FILTER_POSITION + "=' " +getFilterPosition+ "' AND " + FILTERED_PKGNAME + "='" +getPackage+ "' ",
+                null);
 
-        query = FILTERED_FILTER_POSITION +
-                " = " +
-                getFilterPosition +
-                " AND " +
-                FILTERED_PKGNAME +
-                " = " +
-                getPackage +
-                " " ;
-
-        db.delete(FILTERED_TABLE,query, null);
-
-       // db.delete(FILTERED_TABLE, FILTERED_FILTER_POSITION+ " = " +getFilterPosition+ " AND "+FILTERED_PKGNAME+  " = " +getPackage , null);
 
     } //public void AddPackageToFilter (int getFilterPosition, String getPackage)
 

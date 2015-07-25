@@ -92,15 +92,14 @@ public class FilterBoxTouchListener {
                                 case (MotionEvent.ACTION_DOWN):
                                     typeoutView.setText(TouchedFilter);
                                     typeoutView.setTypeface(null, Typeface.NORMAL);
-                                    typeoutView.append(" ");
-                                    typeoutView.append(String.valueOf(filterPosition));
+                                    //typeoutView.append(" ");
+                                    //typeoutView.append(String.valueOf(filterPosition));
 
                                     return false;
                                 case (MotionEvent.ACTION_MOVE):
                                     typeoutView.setText(TouchedFilter);
-                                    typeoutView.append(" ");
-                                    typeoutView.append(String.valueOf(filterPosition));
-
+                                    //typeoutView.append(" ");
+                                    //typeoutView.append(String.valueOf(filterPosition));
                                     return false;
                                 case (MotionEvent.ACTION_UP):
                                     typeoutView.setText(TouchedFilter);

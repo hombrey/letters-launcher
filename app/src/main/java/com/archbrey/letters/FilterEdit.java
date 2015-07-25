@@ -21,7 +21,7 @@ public class FilterEdit {
     private static int filterPosition;
 
     private static AppItem[] addArray;
-
+    private static AppItem[] removeArray;
 
     public FilterEdit(){
 
@@ -51,7 +51,8 @@ public class FilterEdit {
         TypeOut.typeoutView.append(" ");
         TypeOut.typeoutView.append(DrawFilterBox.filterItems[filterPosition].Code);
 
-       if  (DrawFilterBox.filterItems[filterPosition].filteredPkgs.length==0) TypeOut.editView.setVisibility(View.INVISIBLE);
+       if  (DrawFilterBox.filterItems[filterPosition].CountofPackages==0) TypeOut.editView.setVisibility(View.INVISIBLE);
+        else TypeOut.editView.setVisibility(View.VISIBLE);
 
 
     } // public void DrawBox (Context getContext)
@@ -100,7 +101,6 @@ public class FilterEdit {
     private void listRemoveItems() {
 
         ArrayList<AppItem> removeList;
-        AppItem[] removeArray;
         AppItem instanceAppItem;
 
         removeList = new ArrayList<AppItem>();
@@ -152,22 +152,40 @@ public class FilterEdit {
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
             int filterPosition = FilterBoxTouchListener.filterPosition;
+            int CurrentfilterItemCount = DrawFilterBox.filterItems[filterPosition].CountofPackages;
 
-            //code for debug
-           // DrawFilterBox.filterItems[filterPosition].filteredPkgs = new AppItem[0];
 
-            if  (DrawFilterBox.filterItems[filterPosition].filteredPkgs.length==0) {
+            dbHelperHandle.RemovePackageFromFilter(filterPosition, removeArray[position].pkgname);
+
+
+            String selectedpackage = removeArray[position].pkgname;
+            boolean moveUp;
+
+            moveUp = false;
+            for (int incFilt=0; incFilt<CurrentfilterItemCount; incFilt++){
+
+                if (moveUp){
+                    DrawFilterBox.filterItems[filterPosition].filteredPkgs[incFilt-1].pkgname = DrawFilterBox.filterItems[filterPosition].filteredPkgs[incFilt].pkgname;
+                    DrawFilterBox.filterItems[filterPosition].filteredPkgs[incFilt-1].label = DrawFilterBox.filterItems[filterPosition].filteredPkgs[incFilt].label;
+                }//if (moveUp)
+
+                if (selectedpackage.equals(DrawFilterBox.filterItems[filterPosition].filteredPkgs[incFilt].pkgname)) {
+                            moveUp = true;
+                } //if (selectedpackage.equals(DrawFilterBox.filterItems[filterPosition].filteredPkgs[incFilt].pkgname))
+
+            } //for (int incFilt=0; incFilt<CurrentfilterItemCount; incFilt++)
+            DrawFilterBox.filterItems[filterPosition].filteredPkgs[CurrentfilterItemCount-1].pkgname = " ";
+            DrawFilterBox.filterItems[filterPosition].filteredPkgs[CurrentfilterItemCount-1].label = " ";
+            DrawFilterBox.filterItems[filterPosition].CountofPackages--;
+
+            if  (DrawFilterBox.filterItems[filterPosition].CountofPackages==0) {
+
                 TypeOut.editMode=12;
                 TypeOut.editView.setVisibility(View.INVISIBLE);
 
-                //code for debug
-               // DrawFilterBox.filterItems[filterPosition].filteredPkgs = new AppItem[1];
-               // DrawFilterBox.filterItems[filterPosition].CountofPackages = 1;
-               //DrawFilterBox.filterItems[filterPosition].filteredPkgs[0] = allApps[4];
-
-                DrawBox(mainContext);
             } // if  (DrawFilterBox.filterItems[filterPosition].filteredPkgs.length==0)
 
+            DrawBox(mainContext);
 
         }// public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
 
