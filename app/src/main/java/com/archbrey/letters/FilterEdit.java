@@ -6,7 +6,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.AdapterView;
 
-import java.lang.reflect.Type;
+//import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 
@@ -38,14 +38,15 @@ public class FilterEdit {
         TypeOut.typeoutView.append(" - ");
         if (TypeOut.editMode==17) {
             TypeOut.typeoutView.append(getR.getString(R.string.tap_remove));
-            //listRemoveItems();
+            listRemoveItems();
         }//if (TypeOut.editMode==17)
         if (TypeOut.editMode==12) {
             TypeOut.typeoutView.append(getR.getString(R.string.tap_add));
             listAddItems();
         }//if (TypeOut.editMode==12)
 
-        TypeOut.editView.setText(" MOD ");
+       if  (DrawFilterBox.filterItems[filterPosition].filteredPkgs.length==0) TypeOut.editView.setVisibility(View.INVISIBLE);
+       // TypeOut.editView.setText(" MOD ");
 
     } // public void DrawBox (Context getContext)
 
@@ -85,9 +86,86 @@ public class FilterEdit {
         }
 
         new DrawDrawerBox (mainContext, LaunchpadActivity.appGridView,addArray);
+        LaunchpadActivity.appGridView.setOnItemClickListener(new ClickAddListener());
 
     } // private void listAddItems()
 
+    private void listRemoveItems() {
 
+        ArrayList<AppItem> removeList;
+        AppItem[] removeArray;
+        AppItem instanceAppItem;
+
+        removeList = new ArrayList<AppItem>();
+        for (int filterInc=0; filterInc<DrawFilterBox.filterItems[filterPosition].CountofPackages; filterInc++){
+            instanceAppItem = DrawFilterBox.filterItems[filterPosition].filteredPkgs[filterInc];
+            removeList.add(instanceAppItem);
+        } //for (int filterInc=0; filterInc<DrawFilterBox.filterItems[filterPosition].CountofPackages; filterInc++)
+
+        removeArray  = new AppItem[removeList.size()];
+        for (int appInc=0; appInc<removeList.size(); appInc++) {
+            removeArray[appInc] = removeList.get(appInc);
+        } //for (int appInc=0; appInc<removeList.size(); appInc++)
+
+        new DrawDrawerBox (mainContext, LaunchpadActivity.appGridView,removeArray);
+        LaunchpadActivity.appGridView.setOnItemClickListener(new ClickRemoveListener());
+
+    } //private void listAddItems()
+
+
+    private class ClickAddListener implements AdapterView.OnItemClickListener{
+
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+            int filterPosition = FilterBoxTouchListener.filterPosition;
+            DrawBox(mainContext);
+            TypeOut.editView.setVisibility(View.VISIBLE);
+            //DrawKeypadBox.keypadButton[KeyPosition].ShortcutPackage = allApps[position].pkgname;
+            //DrawKeypadBox.keypadButton[KeyPosition].ShortcutLabel = allApps[position].label;
+            //DrawBox(mainContext);
+
+            //DBHelper dbHandler = new DBHelper(mainContext);
+            //dbHandler.AssignShorcut(KeyPosition, allApps[position].pkgname);
+
+        }// public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
+
+
+    } //private class ClickAddListener implements AdapterView.OnItemClickListener
+
+
+    private class ClickRemoveListener implements AdapterView.OnItemClickListener{
+
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+            int filterPosition = FilterBoxTouchListener.filterPosition;
+
+            //code for debug
+            DrawFilterBox.filterItems[filterPosition].filteredPkgs = new AppItem[0];
+
+            if  (DrawFilterBox.filterItems[filterPosition].filteredPkgs.length==0) {
+                TypeOut.editMode=12;
+                TypeOut.editView.setVisibility(View.INVISIBLE);
+
+                //code for debug
+                DrawFilterBox.filterItems[filterPosition].filteredPkgs = new AppItem[1];
+                DrawFilterBox.filterItems[filterPosition].CountofPackages = 1;
+                DrawFilterBox.filterItems[filterPosition].filteredPkgs[0] = allApps[4];
+
+                DrawBox(mainContext);
+            } // if  (DrawFilterBox.filterItems[filterPosition].filteredPkgs.length==0)
+
+            //DrawKeypadBox.keypadButton[KeyPosition].ShortcutPackage = allApps[position].pkgname;
+            //DrawKeypadBox.keypadButton[KeyPosition].ShortcutLabel = allApps[position].label;
+            //DrawBox(mainContext);
+
+            //DBHelper dbHandler = new DBHelper(mainContext);
+            //dbHandler.AssignShorcut(KeyPosition, allApps[position].pkgname);
+
+        }// public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
+
+
+    } //private class ClickAddListener implements AdapterView.OnItemClickListener
 
  }//public class FilterEdit

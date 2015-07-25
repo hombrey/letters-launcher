@@ -109,20 +109,29 @@ public class DrawFilterBox {
         RecentApps = getAppListHandle.getRecentApps();
 
         for (int inc=0; inc<NumOfFilters; inc++) {
+
             filterItems[inc].filteredPkgs = new AppItem[ArraySize];
 
             if (inc == 0) { //assign recent launchable apps to this special filter
 
+                filterItems[inc].filteredPkgs = new AppItem[ArraySize];
                 filterItems[inc].filteredPkgs = RecentApps;
                 filterItems[inc].CountofPackages = getAppListHandle.recentAppCount;
 
             } //else if (filterItems[inc].Code.equals("Rec"))
             else {
 
+                /*
+                filterItems[inc].CountofPackages = 3;
+                filterItems[inc].filteredPkgs = new AppItem[filterItems[inc].CountofPackages];
                 filterItems[inc].filteredPkgs[0] = masterAppItems[4];
                 filterItems[inc].filteredPkgs[1] = masterAppItems[8];
-                filterItems[inc].filteredPkgs[2] = masterAppItems[9];
-                filterItems[inc].CountofPackages = 3;
+                filterItems[inc].filteredPkgs[2] = masterAppItems[9];*/
+
+                filterItems[inc].filteredPkgs = new AppItem[1];
+                filterItems[inc].CountofPackages = 1;
+                filterItems[inc].filteredPkgs[0] = masterAppItems[4];
+
 
             } //else of else if (filterItems[inc].Code.equals("Rec")
 
