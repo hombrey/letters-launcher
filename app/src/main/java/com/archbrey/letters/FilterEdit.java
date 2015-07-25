@@ -22,7 +22,6 @@ public class FilterEdit {
 
     private static AppItem[] addArray;
 
-    private static DrawFilterBox filterBoxHandle;
 
     public FilterEdit(){
 
@@ -38,7 +37,6 @@ public class FilterEdit {
         mainContext = getContext;
         filterPosition = FilterBoxTouchListener.filterPosition;
         dbHelperHandle = new DBHelper(mainContext);
-        filterBoxHandle = new DrawFilterBox(LaunchpadActivity.filterBox,mainContext,getR);
 
         TypeOut.editView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 
@@ -73,7 +71,7 @@ public class FilterEdit {
         for (int appInc=0; appInc<allApps.length; appInc++) {
 
                 foundOnFilter = false;
-                filterBoxHandle.refreshFilterItems(allApps);
+
                 for (int filterInc=0; filterInc<DrawFilterBox.filterItems[filterPosition].CountofPackages; filterInc++){
 
                     instanceAppItem = DrawFilterBox.filterItems[filterPosition].filteredPkgs[filterInc];
@@ -128,9 +126,16 @@ public class FilterEdit {
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
             int filterPosition = FilterBoxTouchListener.filterPosition;
-            TypeOut.editView.setVisibility(View.VISIBLE);
+            int CurrentfilterItemCount = DrawFilterBox.filterItems[filterPosition].CountofPackages;
+            //TypeOut.editView.setVisibility(View.VISIBLE);
 
             dbHelperHandle.AddPackageToFilter(filterPosition,addArray[position].pkgname);
+
+            DrawFilterBox.filterItems[filterPosition].filteredPkgs[CurrentfilterItemCount] = new AppItem();
+            DrawFilterBox.filterItems[filterPosition].filteredPkgs[CurrentfilterItemCount].label = addArray[position].label;
+            DrawFilterBox.filterItems[filterPosition].filteredPkgs[CurrentfilterItemCount].pkgname = addArray[position].pkgname;
+            DrawFilterBox.filterItems[filterPosition].CountofPackages++;
+
 
             DrawBox(mainContext);
 

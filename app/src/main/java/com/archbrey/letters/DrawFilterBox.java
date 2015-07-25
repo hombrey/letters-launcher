@@ -134,25 +134,26 @@ public class DrawFilterBox {
 
                 packagesRetrieved = dbHelperHandle.RetrievePackagesOfFilter(inc);
 
-                filterItems[inc].filteredPkgs = new AppItem[packagesRetrieved.size()];
+                filterItems[inc].filteredPkgs = new AppItem[masterAppItems.length];
                 int foundCount = 0;
                 for (int pkgInc=0; pkgInc<packagesRetrieved.size(); pkgInc++ ){
 
                     String packageFound = packagesRetrieved.get(pkgInc);
                     filterItems[inc].filteredPkgs[pkgInc] = new AppItem();
-                    filterItems[inc].filteredPkgs[pkgInc].pkgname = " ";
-                    filterItems[inc].filteredPkgs[pkgInc].label = " ";
+                    
 
-                    for (int appInc=0; appInc<masterAppItems.length; appInc++) {
+                        filterItems[inc].filteredPkgs[pkgInc].pkgname = " ";
+                        filterItems[inc].filteredPkgs[pkgInc].label = " ";
+                        for (int appInc=0; appInc<masterAppItems.length; appInc++) {
 
-                        if (packageFound.equals(masterAppItems[appInc].pkgname)  ){
-                            filterItems[inc].filteredPkgs[foundCount].label = masterAppItems[appInc].label;
-                            filterItems[inc].filteredPkgs[foundCount].pkgname = masterAppItems[appInc].pkgname;
-                            foundCount++;
-                            break;
-                        } //if (DrawKeypadBox.keypadButton[inc].ShortcutPackage.equals(allApps[appInc].pkgname)  )
+                            if (packageFound.equals(masterAppItems[appInc].pkgname)  ){
+                                filterItems[inc].filteredPkgs[foundCount].label = masterAppItems[appInc].label;
+                                filterItems[inc].filteredPkgs[foundCount].pkgname = masterAppItems[appInc].pkgname;
+                                foundCount++;
+                                break;
+                            } //if (DrawKeypadBox.keypadButton[inc].ShortcutPackage.equals(allApps[appInc].pkgname)  )
 
-                    } //for (int appInc=0; appInc<=35; appInc++)
+                        } //for (int appInc=0; appInc<=35; appInc++)
 
                 } //for (int pkgInc=0; pkgInc<packagesRetrieved.size(); pkgInc++ )
 
