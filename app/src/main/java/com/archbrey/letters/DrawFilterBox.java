@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
@@ -33,7 +34,7 @@ public class DrawFilterBox {
         filterBox = mainfilterBox;
 
         assignFilterCodes();
-        drawFilterBox();
+        //drawFilterBox();
 
     } //public DrawFilterBox()
 
@@ -43,7 +44,7 @@ public class DrawFilterBox {
     public  FilterItem[] getFilterItems(){ return filterItems;
     }//public  KeypadButton[] getKeypadButton
 
-    private void drawFilterBox() {
+    public void drawFilterBox() {
 
         int filterTextSize = 16;
 
@@ -52,22 +53,23 @@ public class DrawFilterBox {
             filterItems[inc].button.setText(filterItems[inc].Code);
             filterItems[inc].button.setTextColor(SettingsActivity.textColor);
             filterItems[inc].button.setTextSize(TypedValue.COMPLEX_UNIT_SP, filterTextSize);
-            filterItems[inc].button.setBackgroundColor(SettingsActivity.backColor);
+            filterItems[inc].button.setBackgroundColor(SettingsActivity.transparent);
         } //for (inc=0; inc<=NumOfFilters; inc++)
 
         int filter_button_width = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP, 0,
                 rDrawBox.getDisplayMetrics());
+
         int filter_button_height = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP, SettingsActivity.filterHeight,
                 rDrawBox.getDisplayMetrics());
 
         LinearLayout.LayoutParams filterButtonParams = new LinearLayout.LayoutParams (
                 filter_button_width,
-                filter_button_height);
-        filterButtonParams.setMargins(0,0,0,0);
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        filterButtonParams.setMargins(0,filter_button_height,0,filter_button_height);
+        filterButtonParams.gravity = Gravity.CENTER_VERTICAL;
         filterButtonParams.weight=0.1f;
-
 
         filterBox.setOrientation(LinearLayout.HORIZONTAL);
         filterBox.setBackgroundColor(SettingsActivity.backerColor);

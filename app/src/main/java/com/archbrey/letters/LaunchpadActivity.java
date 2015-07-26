@@ -307,12 +307,13 @@ public class LaunchpadActivity extends Activity {
         SettingsActivity.backColor = r.getColor(R.color.Black_transparent);
         SettingsActivity.backerColor = r.getColor(R.color.Blacker_transparent);
         SettingsActivity.backSelectColor = r.getColor(R.color.grey50);
+        SettingsActivity.transparent = r.getColor(R.color.transparent);
 
         if (colorScheme.equals("white")) {
             SettingsActivity.textColor = r.getColor(R.color.black);
             SettingsActivity.backColor = r.getColor(R.color.White_transparent);
             SettingsActivity.backerColor = r.getColor(R.color.Whiter_transparent);
-            SettingsActivity.backSelectColor = r.getColor(R.color.grey50);
+            //SettingsActivity.backSelectColor = r.getColor(R.color.grey50);
         } //if if colorScheme.equals("white")
 
         SettingsActivity.drawerColumns = columns;
@@ -330,6 +331,7 @@ public class LaunchpadActivity extends Activity {
 
         filterBox = new LinearLayout(this);
         filterBoxHandle = new DrawFilterBox(filterBox,this,r);
+        filterBoxHandle.drawFilterBox();
         filterBox = filterBoxHandle.getLayout();
         filterItems = filterBoxHandle.getFilterItems();
 
@@ -388,6 +390,7 @@ public class LaunchpadActivity extends Activity {
             appGridView = (GridView) findViewById(R.id.drawer_content);
             new DrawDrawerBox (context, appGridView, allAppItems);
             new KeypadShortcuts().RetrieveSavedShortcuts(context);
+            filterBoxHandle.refreshFilterItems(allAppItems);
 
         }
 

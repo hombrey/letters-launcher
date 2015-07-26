@@ -5,6 +5,7 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="grey50">#CC888888</color>
+    <color name="transparent">#00000000</color>
 
     <color name="White_transparent">#80FFFFFF</color>
     <color name="Whiter_transparent">#D0FFFFFF</color>
