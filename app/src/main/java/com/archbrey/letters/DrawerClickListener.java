@@ -25,9 +25,9 @@ public class DrawerClickListener implements OnItemClickListener  {
 
         Intent launchIntent = pmForListener.getLaunchIntentForPackage(appItemForListener[position].pkgname);
 
-            AppItem launched;
-            launched= appItemForListener[position];
-            new GetAppList().addRecentApp (launched);
+            //AppItem launched;
+            //launched= appItemForListener[position];
+            //new GetAppList().addRecentApp (launched);
 
             clickListenerContext.startActivity(launchIntent);
 

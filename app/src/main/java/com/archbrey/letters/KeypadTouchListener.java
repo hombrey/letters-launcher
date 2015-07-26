@@ -314,12 +314,12 @@ public class KeypadTouchListener  {
 
           global.getMainContext().startActivity(launchIntent);
 
-            AppItem launched;
-            launched = new AppItem();
-            launched.pkgname = keypadButton[SelectedKeyButton].ShortcutPackage;
-            launched.label = keypadButton[SelectedKeyButton].ShortcutLabel;
-            launched.name = "blank";
-            new GetAppList().addRecentApp(launched);
+          //  AppItem launched;
+          //  launched = new AppItem();
+          //  launched.pkgname = keypadButton[SelectedKeyButton].ShortcutPackage;
+         //   launched.label = keypadButton[SelectedKeyButton].ShortcutLabel;
+         //   launched.name = "blank";
+         //   new GetAppList().addRecentApp(launched);
 
       } //if(keypadButton[SelectedKeyButton].ShortcutPackage.length()>1)
 

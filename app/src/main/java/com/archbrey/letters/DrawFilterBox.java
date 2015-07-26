@@ -87,12 +87,12 @@ public class DrawFilterBox {
         } //for (int inc=0; inc<NumOfFilters; inc++)
 
 
-        filterItems[0].Code="Rec";filterItems[0].Name="Recents";
-        filterItems[1].Code="Cal";filterItems[1].Name="CalcTools";
-        filterItems[2].Code="Fav";filterItems[2].Name="Favorites";
-        filterItems[3].Code="Fun";filterItems[3].Name="Fun";
-        filterItems[4].Code="Sys";filterItems[3].Name="System";
-        filterItems[5].Code="Www";filterItems[3].Name="Webapps";
+        filterItems[0].Code=SettingsActivity.filterCodes[0];filterItems[0].Name="Recents";
+        filterItems[1].Code=SettingsActivity.filterCodes[1];filterItems[1].Name="CalcTools";
+        filterItems[2].Code=SettingsActivity.filterCodes[2];filterItems[2].Name="Favorites";
+        filterItems[3].Code=SettingsActivity.filterCodes[3];filterItems[3].Name="Fun";
+        filterItems[4].Code=SettingsActivity.filterCodes[4];filterItems[3].Name="System";
+        filterItems[5].Code=SettingsActivity.filterCodes[5];filterItems[3].Name="Webapps";
 
 
     } //private void getFilterCodes()
@@ -123,14 +123,15 @@ public class DrawFilterBox {
 
             filterItems[inc].filteredPkgs = new AppItem[ArraySize];
 
-            if (inc == 0) { //assign recent launchable apps to this special filter
+            /*if (inc == 0) { //assign recent launchable apps to this special filter
 
                 filterItems[inc].filteredPkgs = new AppItem[ArraySize];
                 filterItems[inc].filteredPkgs = RecentApps;
                 filterItems[inc].CountofPackages = getAppListHandle.recentAppCount;
 
-            } //else if (filterItems[inc].Code.equals("Rec"))
-            else {
+            } else //else if (filterItems[inc].Code.equals("Rec"))*/
+
+            {
 
                 packagesRetrieved = dbHelperHandle.RetrievePackagesOfFilter(inc);
 
@@ -186,8 +187,6 @@ public class DrawFilterBox {
 
                 if (filterItems[0].CountofPackages > 2)
                 { new SortApps().exchange_sort(filterItems[0].filteredPkgs,filterItems[0].CountofPackages); }
-
-
 
 
     } //public void refresRecentItems()

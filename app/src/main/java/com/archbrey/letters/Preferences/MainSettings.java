@@ -9,12 +9,14 @@ import android.widget.GridView;
 
 import com.archbrey.letters.R;
 
+import java.util.logging.Filter;
+
 
 public class MainSettings {
 
    // private static SettingsDrawerAdapter menuDrawerAdapter;
    // private static String[] showItem;
-    private static GridView mainMenuBox;
+    public static GridView mainMenuBox;
     private static Context settingsContext;
     private static Resources rMainSettings;
 
@@ -36,13 +38,13 @@ public class MainSettings {
         rMainSettings = getR;
         //holder = new com.archbrey.letters.Preferences.SettingsHolder();
 
-        menuItems = new String[6];
+        menuItems = new String[5];
         menuItems[0]=getR.getString(R.string.color_scheme);
         menuItems[1]=getR.getString(R.string.change_columns);
         menuItems[2]=getR.getString(R.string.drawer_textsize);
         menuItems[3] =getR.getString(R.string.custom_filter);
         menuItems[4] =getR.getString(R.string.custom_keypad);
-        menuItems[5] =getR.getString(R.string.set_wallpaper);
+
 
         new SettingsDrawer(settingsContext, mainMenuBox, menuItems);
         setListener();
@@ -76,16 +78,14 @@ public class MainSettings {
                     textSizeHandle.DrawBox(mainMenuBox, settingsContext, rMainSettings);
                     break;
                 case 3:
-                    settingsContext.startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
+                    FilterLabels labelsHandle;
+                    labelsHandle = new FilterLabels();
+                    labelsHandle.DrawBox(mainMenuBox, settingsContext, rMainSettings);
                     break;
                 case 4:
                     HeightSettings heightHandle;
                     heightHandle = new HeightSettings();
                     heightHandle.DrawBox(mainMenuBox, settingsContext, rMainSettings);
-                    break;
-                case 5:
-                    final Intent pickWallpaper = new Intent(Intent.ACTION_SET_WALLPAPER);
-                    settingsContext.startActivity(Intent.createChooser(pickWallpaper, settingsContext.getString(R.string.chooser_wallpaper)));
                     break;
                 default:
                     break;

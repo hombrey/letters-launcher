@@ -42,6 +42,7 @@ public class FilterBoxTouchListener {
         savedSettings.setNumOfFilters(6);
 
         numofFilters =savedSettings.getNumofFilters();
+
         filterItems = new FilterItem[numofFilters];
         buttonLocation = new ButtonLocation[numofFilters];
 

@@ -31,7 +31,8 @@ public class GetAppList {
     }
 
 
-    public AppItem[] addRecentApp (AppItem getAppItem) {
+    public AppItem[] addRecentApp (AppItem getAppItem)
+    {
 
         int stopPosition;
 

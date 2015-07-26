@@ -231,12 +231,12 @@ public class TypeOut {
 
                             global.getMainContext().startActivity(launchIntent);
 
-                            AppItem launched;
-                            launched = new AppItem();
-                            launched.pkgname = DrawKeypadBox.keypadButton[KeypadTouchListener.SelectedKeyButton].ShortcutPackage;
-                            launched.label = DrawKeypadBox.keypadButton[KeypadTouchListener.SelectedKeyButton].ShortcutLabel;
-                            launched.name = "blank";
-                            new GetAppList().addRecentApp(launched);
+                          //  AppItem launched;
+                         //   launched = new AppItem();
+                         //   launched.pkgname = DrawKeypadBox.keypadButton[KeypadTouchListener.SelectedKeyButton].ShortcutPackage;
+                         //   launched.label = DrawKeypadBox.keypadButton[KeypadTouchListener.SelectedKeyButton].ShortcutLabel;
+                         //   launched.name = "blank";
+                         //   new GetAppList().addRecentApp(launched);
 
                         } //if(keypadButton[SelectedKeyButton].ShortcutPackage.length()>1)
                     } //public void OnClick(View v)

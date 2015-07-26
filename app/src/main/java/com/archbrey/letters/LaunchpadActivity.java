@@ -164,7 +164,7 @@ public class LaunchpadActivity extends Activity {
 
         global.setFindString("");
         typeoutBoxHandle.setFindStatus(false); //stop search mode if length = 0;
-        filterBoxHandle.refreshRecentItems();
+        // filterBoxHandle.refreshRecentItems();
         isForeground = true;
 
 
@@ -221,6 +221,9 @@ public class LaunchpadActivity extends Activity {
                     startActivity(launcherSettings);
                     finish(); //force finish launcher activity
                     return true;
+            case R.id.action_wallpaper_settings:
+                final Intent pickWallpaper = new Intent(Intent.ACTION_SET_WALLPAPER);
+                startActivity(Intent.createChooser(pickWallpaper, getString(R.string.chooser_wallpaper)));
             default:
                     return super.onOptionsItemSelected(item);
         } //switch (id)
@@ -283,12 +286,22 @@ public class LaunchpadActivity extends Activity {
 
     private void getPreferences(){
 
-        String colorScheme = prefs.getString("colorscheme","");
+        String colorScheme = prefs.getString("colorscheme", "");
+
         Integer columns = prefs.getInt("column_num", 4);
         Integer textSize = prefs.getInt("drawerTextSize", 17);
 
         Integer keyHeight = prefs.getInt("keyboardHeight",38);
         Integer fltHeight = prefs.getInt("filterHeight",45);
+
+        SettingsActivity.filterCodes = new String[6];
+
+        SettingsActivity.filterCodes[0] = prefs.getString("filter0", "Www");
+        SettingsActivity.filterCodes[1] = prefs.getString("filter1", "Com");
+        SettingsActivity.filterCodes[2] = prefs.getString("filter2", "Fav");
+        SettingsActivity.filterCodes[3] = prefs.getString("filter3", "Calc");
+        SettingsActivity.filterCodes[4] = prefs.getString("filter4", "Fun");
+        SettingsActivity.filterCodes[5] = prefs.getString("filter5", "Sys");
 
         SettingsActivity.textColor = r.getColor(R.color.white);
         SettingsActivity.backColor = r.getColor(R.color.Black_transparent);

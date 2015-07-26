@@ -12,6 +12,8 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -29,6 +31,13 @@ public class SettingsActivity extends Activity {
 
     public static LinearLayout infoBox;
     public static TextView infoView;
+
+
+    public static LinearLayout filterEditBox;
+    public static EditText filterEditView;
+    public static TextView filterInfoView;
+    public static Button filterEditDone;
+    public static TextView filterSpacer;
 
     public static DrawKeypadBox viewpadBoxHandle;
 
@@ -58,6 +67,8 @@ public class SettingsActivity extends Activity {
 
     public static int keyboardHeight;
     public static int filterHeight;
+
+    public static String[] filterCodes;
 
 
     @Override
@@ -115,6 +126,11 @@ public class SettingsActivity extends Activity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)  {
         if( (keyCode == KeyEvent.KEYCODE_BACK) && (menuLevel>0) ) {
+
+            filterEditBox.setVisibility(View.GONE);
+            sdrawerBox.setVisibility(View.VISIBLE);
+
+            if (menuLevel == 0) finish();
             if (menuLevel ==1) {
                 //mainsettingsHandle = new MainSettings();
                 mainsettingsHandle.DrawBox(gridDrawer, this, r);
@@ -122,7 +138,14 @@ public class SettingsActivity extends Activity {
                 menuLevel --;
                 return true;
                  } //if (menuLevel ==1)
-            if (menuLevel == 0) finish();
+
+            if (menuArea == "EditFilter") {
+                FilterLabels labelsHandle;
+                labelsHandle = new FilterLabels();
+                labelsHandle.DrawBox(MainSettings.mainMenuBox, this, r);
+                return true;
+            }
+
 
           // onBackPressed();
         }
@@ -165,6 +188,40 @@ public class SettingsActivity extends Activity {
 
     private void assembleScreen(){
 
+        filterEditBox = new LinearLayout(this);
+        filterEditBox.setOrientation(LinearLayout.HORIZONTAL);
+        filterEditBox.setBackgroundColor(SettingsActivity.backColor);
+
+        filterEditView = new EditText (this);
+        filterEditView.setBackgroundColor(SettingsActivity.backSelectColor);
+        filterEditView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
+        filterEditView.setSingleLine(true);
+        //filterEditView.setText("THIS");
+
+        filterInfoView = new TextView(this);
+      //  filterInfoView.setBackgroundColor(SettingsActivity.backColor);
+        filterInfoView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
+
+
+
+        filterSpacer = new TextView(this);
+      //  filterSpacer.setBackgroundColor(SettingsActivity.backColor);
+        filterSpacer.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
+        filterSpacer.setText("            ");
+
+        filterEditDone = new Button(this);
+        filterEditDone.setBackgroundColor(SettingsActivity.backColor);
+        filterEditDone.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
+        filterEditDone.setText("DONE");
+
+        filterEditBox.addView(filterSpacer);
+        filterEditBox.addView(filterInfoView);
+        filterEditBox.addView(filterEditView);
+
+
+        filterEditBox.setId(R.id.editFilterBox);
+
+
         infoBox = new LinearLayout(this);
         infoBox.setOrientation(LinearLayout.VERTICAL);
         infoBox.setBackgroundColor(SettingsActivity.backerColor);
@@ -183,6 +240,12 @@ public class SettingsActivity extends Activity {
 
         sdrawerBox.setId(R.id.settingsdrawerBox);
         infoBox.setId(R.id.infoBox);
+
+        RelativeLayout.LayoutParams filterEditParams = new RelativeLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        filterEditParams.addRule(RelativeLayout.ABOVE, infoBox.getId());
+
 
         RelativeLayout.LayoutParams sdrawerParams = new RelativeLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -207,8 +270,10 @@ public class SettingsActivity extends Activity {
                 LinearLayout.LayoutParams.MATCH_PARENT);
         SettingsActivity.viewpadBox.addView(SettingsActivity.viewSample, viewSampleParams);
 
+        settingsScreen.addView(filterEditBox, filterEditParams);
         settingsScreen.addView(sdrawerBox, sdrawerParams);
         settingsScreen.addView(infoBox,infoBoxParams);
+        filterEditBox.setVisibility(View.GONE);
 
 
     }

@@ -9,6 +9,7 @@
 
     <item type="id" name="settingsdrawerBox" />
     <item type="id" name="viewpadBox" />
+    <item type="id" name="editFilterBox" />
     <item type="id" name="infoBox" />
 
     <item type="id" name="settingsDrawer" />

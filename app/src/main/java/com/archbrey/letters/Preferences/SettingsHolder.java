@@ -7,6 +7,8 @@ public class SettingsHolder {
 
     public Context SettingsContext;
     public Resources rSettings;
+    public String typedValue;
+    public boolean inputMade;
 
     public void setResources (Resources getR) {rSettings = getR;
     }//public void setResources
@@ -20,4 +22,19 @@ public class SettingsHolder {
 
     public Context getSettingsContext (){ return SettingsContext;
     } //public void getMainContext (Context getContext)
+
+    public void setTypedString(String getTypedValue) {
+
+        typedValue = getTypedValue;
+        inputMade = true;
+
+    } //public void settypedString(String getTypedValue)
+
+    public void resetInputStatus() {inputMade = false;
+    }//public void resetInputStatus() `
+
+    public String getTypedString() {return typedValue;
+    }//public String getTypedString
+
+
 }

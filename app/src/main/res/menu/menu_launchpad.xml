@@ -5,4 +5,7 @@
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action_launcher_settings" android:title="@string/action_launcher_settings"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_wallpaper_settings" android:title="@string/action_wallpaper"
+        android:orderInCategory="100" app:showAsAction="never" />
+
 </menu>
