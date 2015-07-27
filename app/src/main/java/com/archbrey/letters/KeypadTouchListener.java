@@ -276,10 +276,11 @@ public class KeypadTouchListener  {
 
         int filteredSize;
 
-        if (searchLength == 0)  {
-           // typeoutBoxHandle.setFindStatus(false); //stop search mode if length = 0;
-           // drawerBox.setVisibility(View.INVISIBLE);
-           // typeoutBox.setVisibility(View.INVISIBLE);
+        if (searchLength == 0) {
+                if (!typeoutBoxHandle.getFindStatus() ) { //stop search mode if length = 0;
+                    drawerBox.setVisibility(View.GONE);
+                    typeoutBox.setVisibility(View.GONE);
+                } //if (typeoutBoxHandle.getFindStatus() )
             TypeOut.editView.setVisibility(View.GONE);
         } //else of if (!getCurrentLetter.equals(" "))
         else if ( (searchLength == 1) && (!typeoutBoxHandle.getFindStatus()) ) {

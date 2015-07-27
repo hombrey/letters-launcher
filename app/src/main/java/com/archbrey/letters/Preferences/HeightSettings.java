@@ -1,8 +1,8 @@
 package com.archbrey.letters.Preferences;
 
-import android.app.Activity;
+//import android.app.Activity;
 import android.content.Context;
-import android.content.pm.ActivityInfo;
+//import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.util.TypedValue;
 import android.view.View;
@@ -11,7 +11,7 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.archbrey.letters.DrawKeypadBox;
+//import com.archbrey.letters.DrawKeypadBox;
 import com.archbrey.letters.R;
 
 public class HeightSettings  {
@@ -25,7 +25,6 @@ public class HeightSettings  {
 
     public GridView DrawBox (GridView getgridBox,Context c,Resources getR) {
 
-        //com.archbrey.letters.Preferences.SettingsHolder holder;
         String[] menuItems;
 
         SettingsActivity.infoView.setText(getR.getString(R.string.custom_keypad));
@@ -34,7 +33,6 @@ public class HeightSettings  {
         mainMenuBox = getgridBox;
         settingsContext = c;
         rMainSettings = getR;
-        //holder = new com.archbrey.letters.Preferences.SettingsHolder();
 
         menuItems = new String[4];
         menuItems[0] =getR.getString(R.string.small);

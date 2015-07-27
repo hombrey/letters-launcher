@@ -18,7 +18,6 @@ public class ColumnSettings {
 
     public GridView DrawBox (GridView getgridBox,Context c,Resources getR) {
 
-        //com.archbrey.letters.Preferences.SettingsHolder holder;
         String[] menuItems;
 
         SettingsActivity.infoView.setText(getR.getString(R.string.change_columns));
@@ -27,7 +26,6 @@ public class ColumnSettings {
         mainMenuBox = getgridBox;
         settingsContext = c;
         rMainSettings = getR;
-        //holder = new com.archbrey.letters.Preferences.SettingsHolder();
 
         menuItems = new String[3];
         menuItems[0] =getR.getString(R.string.two);

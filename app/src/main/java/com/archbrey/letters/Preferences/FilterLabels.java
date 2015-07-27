@@ -6,7 +6,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
-import android.widget.EditText;
+//import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -33,7 +33,6 @@ public class FilterLabels {
         settingsContext = c;
         rMainSettings = getR;
         settingsHelper = new SettingsHolder();
-        //holder = new com.archbrey.letters.Preferences.SettingsHolder();
 
         //take menu items directly from the settings
 
@@ -77,7 +76,7 @@ public class FilterLabels {
                         DrawBox(mainMenuBox, settingsContext, rMainSettings);
                        // String returnString = SettingsActivity.filterEditView.getText().toString();
                       // settingsHelper.setTypedString();
-                        ;
+
                     } //if (actionId == EditorInfo.IME_ACTION_DONE)
                     return false;
                 } //public boolean onEditorAction(TextView v, int actionId, KeyEvent event)

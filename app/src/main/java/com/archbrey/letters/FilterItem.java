@@ -1,7 +1,6 @@
 package com.archbrey.letters;
 
 import android.widget.Button;
-import java.util.ArrayList;
 
 public class FilterItem {
 
@@ -9,7 +8,6 @@ public class FilterItem {
     String Code;
     String Name;
     AppItem[] filteredPkgs;
-    //ArrayList<AppItem> filteredPkgs;
     int CountofPackages;
 
 }

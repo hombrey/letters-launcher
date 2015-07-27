@@ -239,6 +239,7 @@ public class LaunchpadActivity extends Activity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+
         if (Intent.ACTION_MAIN.equals(intent.getAction())&&isForeground) {
            // Log.i("MyLauncher", "onNewIntent: HOME Key");
 
@@ -269,8 +270,9 @@ public class LaunchpadActivity extends Activity {
             LaunchpadActivity.typeoutBox.setVisibility(View.VISIBLE);
             LaunchpadActivity.drawerBox.setVisibility(View.VISIBLE);
             TypeOut.editView.setVisibility(View.GONE);
-            appGridView = (GridView) findViewById(R.id.drawer_content);
-            new DrawDrawerBox (this, appGridView, allAppItems);
+           // appGridView = (GridView) findViewById(R.id.drawer_content);
+           // new DrawDrawerBox (this, appGridView, allAppItems);
+            drawDrawerBox.DrawBox();
             drawDrawerBox.setListener();
 
         } //if (hideDrawerAllApps=false)
@@ -286,13 +288,13 @@ public class LaunchpadActivity extends Activity {
 
     private void getPreferences(){
 
-        String colorScheme = prefs.getString("colorscheme", "");
+        String colorScheme = prefs.getString("colorscheme", "black");
 
         Integer columns = prefs.getInt("column_num", 4);
         Integer textSize = prefs.getInt("drawerTextSize", 17);
 
         Integer keyHeight = prefs.getInt("keyboardHeight",38);
-        Integer fltHeight = prefs.getInt("filterHeight",45);
+        Integer fltHeight = prefs.getInt("filterHeight",7);
 
         SettingsActivity.filterCodes = new String[6];
 

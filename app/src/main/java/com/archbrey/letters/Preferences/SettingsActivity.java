@@ -1,17 +1,21 @@
 package com.archbrey.letters.Preferences;
 
 import android.app.Activity;
+//import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+//import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -22,6 +26,8 @@ import android.content.SharedPreferences;
 
 import com.archbrey.letters.DrawKeypadBox;
 import com.archbrey.letters.R;
+
+//import java.lang.reflect.Method;
 
 public class SettingsActivity extends Activity {
 
@@ -108,6 +114,7 @@ public class SettingsActivity extends Activity {
         mainsettingsHandle.DrawBox(gridDrawer, this, r);
 
 
+
     } // protected void onCreate(Bundle savedInstanceState)
 
 
@@ -115,13 +122,16 @@ public class SettingsActivity extends Activity {
     protected void onResume() {
         super.onResume();
 
-        //if (menuLevel == 0){mainsettingsHandle.DrawBox(gridDrawer, this, r);} //if (menuLevel == 0)
+        if (menuLevel == 0){
+            mainsettingsHandle.DrawBox(gridDrawer, this, r);
+        } //if (menuLevel == 0)
 
     } //protected void onResume()
 
     @Override
     protected void onStart(){
         super.onStart();
+
 
     } //protected void onStart()
 
@@ -149,6 +159,7 @@ public class SettingsActivity extends Activity {
             }
 
 
+
           // onBackPressed();
         }
         return super.onKeyDown(keyCode, event);
@@ -159,8 +170,10 @@ public class SettingsActivity extends Activity {
     protected void onStop(){
         super.onStop();
 
+        settingsScreen.removeView(viewpadBox);
+        if (menuLevel > 0) menuLevel = 0;
         //kill activity when not visible to force onCreate() when settings is called again
-        if (menuLevel > 0) finish();
+       //  if (menuLevel > 0) finish();
     } //protected void onStart()
 
 

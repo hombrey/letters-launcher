@@ -1,13 +1,14 @@
 package com.archbrey.letters;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.widget.GridView;
 
 import com.archbrey.letters.Preferences.SettingsActivity;
 //import android.widget.RelativeLayout;
 
 
-public class DrawDrawerBox extends LaunchpadActivity {
+public class DrawDrawerBox  {
 
     private static Context getViewContext;
     private static AppItem[] showItem;
@@ -28,16 +29,25 @@ public class DrawDrawerBox extends LaunchpadActivity {
         appGridView.setBackgroundColor(SettingsActivity.backerColor);
         appGridView.setNumColumns(SettingsActivity.drawerColumns);
 
-
-
     } // public DrawDrawerBox (Context c, AppItem[] appItem)
+
+
+    public void DrawBox() {
+
+        appGridView.setAdapter(AppDrawerAdapterObject);
+        appGridView.setBackgroundColor(SettingsActivity.backerColor);
+        appGridView.setNumColumns(SettingsActivity.drawerColumns);
+
+    } //public void DrawBox()
 
 
     public void setListener() {
 
-        basicPkgMgr=global.getPackageManager();
-        appGridView.setOnItemClickListener(new DrawerClickListener(getViewContext, showItem, basicPkgMgr));
-        appGridView.setOnItemLongClickListener(new DrawerLongClickListener(getViewContext, showItem, basicPkgMgr));
+        PackageManager pm;
+
+        pm=global.getPackageManager();
+        appGridView.setOnItemClickListener(new DrawerClickListener(getViewContext, showItem, pm));
+        appGridView.setOnItemLongClickListener(new DrawerLongClickListener(getViewContext, showItem, pm));
 
     }
 

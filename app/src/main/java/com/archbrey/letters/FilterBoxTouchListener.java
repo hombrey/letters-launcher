@@ -21,7 +21,6 @@ public class FilterBoxTouchListener {
     private static FilterItem[] filterItems ;
     private static ButtonLocation[] buttonLocation;
     private static GlobalHolder global;
-    private static SettingsHolder savedSettings;
     public static int filterPosition;
     private static AppItem[] appItems;
     private static PackageManager PkgMgr;
@@ -37,11 +36,8 @@ public class FilterBoxTouchListener {
         global = new GlobalHolder();
 
         typeoutView = getTextView;
-        savedSettings = new SettingsHolder();
 
-        savedSettings.setNumOfFilters(6);
-
-        numofFilters =savedSettings.getNumofFilters();
+        numofFilters = 6;
 
         filterItems = new FilterItem[numofFilters];
         buttonLocation = new ButtonLocation[numofFilters];

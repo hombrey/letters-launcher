@@ -5,7 +5,7 @@ import android.widget.GridView;
 
 
 
-public class SettingsDrawer extends SettingsActivity {
+public class SettingsDrawer {
 
 
 

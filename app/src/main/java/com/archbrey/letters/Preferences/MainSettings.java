@@ -1,15 +1,19 @@
 package com.archbrey.letters.Preferences;
 
+//import android.app.SearchManager;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+//import android.os.Build;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.archbrey.letters.R;
 
-import java.util.logging.Filter;
+//import java.lang.reflect.Method;
+//import java.util.logging.Filter;
 
 
 public class MainSettings {
@@ -28,7 +32,6 @@ public class MainSettings {
 
     public GridView DrawBox (GridView getgridBox,Context c,Resources getR) {
 
-        //com.archbrey.letters.Preferences.SettingsHolder holder;
         String[] menuItems;
 
         SettingsActivity.infoView.setText("Settings");
@@ -36,7 +39,6 @@ public class MainSettings {
         mainMenuBox = getgridBox;
         settingsContext = c;
         rMainSettings = getR;
-        //holder = new com.archbrey.letters.Preferences.SettingsHolder();
 
         menuItems = new String[5];
         menuItems[0]=getR.getString(R.string.color_scheme);
@@ -83,9 +85,21 @@ public class MainSettings {
                     labelsHandle.DrawBox(mainMenuBox, settingsContext, rMainSettings);
                     break;
                 case 4:
+
                     HeightSettings heightHandle;
                     heightHandle = new HeightSettings();
                     heightHandle.DrawBox(mainMenuBox, settingsContext, rMainSettings);
+
+                    /*
+                    Intent intent = new Intent(Intent.ACTION_MAIN);
+                    intent.setClassName("com.google.android.googlequicksearchbox",
+                            "com.google.android.googlequicksearchbox.VoiceSearchActivity");
+                    try {
+                        settingsContext.startActivity(intent);
+                    } catch (ActivityNotFoundException anfe) {
+                       // Log.d(TAG, "Google Voice Search is not found");
+                    }*/
+
                     break;
                 default:
                     break;
