@@ -64,7 +64,7 @@ public class ColorSettings {
                     break;
             } //switch (position)
 
-
+            SettingsActivity.SettingChanged = true;
             SettingsActivity.prefsEditor.commit();
             DrawBox(mainMenuBox, settingsContext, rMainSettings);
             SettingsActivity.infoBox.setBackgroundColor(SettingsActivity.backerColor);

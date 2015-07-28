@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.content.SharedPreferences;
 
 import com.archbrey.letters.DrawKeypadBox;
+import com.archbrey.letters.LaunchpadActivity;
 import com.archbrey.letters.R;
 
 //import java.lang.reflect.Method;
@@ -76,6 +77,7 @@ public class SettingsActivity extends Activity {
 
     public static String[] filterCodes;
 
+    public static boolean SettingChanged;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +87,8 @@ public class SettingsActivity extends Activity {
         com.archbrey.letters.Preferences.SettingsHolder holder;
         prefs = getSharedPreferences(prefName, MODE_PRIVATE);
         prefsEditor = prefs.edit();
+
+       SettingChanged = false;
 
         r = getResources();
         C = this;
@@ -140,7 +144,11 @@ public class SettingsActivity extends Activity {
             filterEditBox.setVisibility(View.GONE);
             sdrawerBox.setVisibility(View.VISIBLE);
 
-            if (menuLevel == 0) finish();
+            if (menuLevel == 0) {
+                try{finish();}catch (Exception e) {}
+                // startActivity(LaunchpadActivity.reStarterIntent);
+            } //if if (menuLevel == 0)
+
             if (menuLevel ==1) {
                 //mainsettingsHandle = new MainSettings();
                 mainsettingsHandle.DrawBox(gridDrawer, this, r);
@@ -168,6 +176,7 @@ public class SettingsActivity extends Activity {
 
         settingsScreen.removeView(viewpadBox);
         if (menuLevel > 0) menuLevel = 0;
+        try{finish();}catch (Exception e) {}
         //kill activity when not visible to force onCreate() when settings is called again
        //  if (menuLevel > 0) finish();
 
@@ -180,20 +189,6 @@ public class SettingsActivity extends Activity {
 
         if (Intent.ACTION_MAIN.equals(intent.getAction()) ) {
             // Log.i("MyLauncher", "onNewIntent: HOME Key");
-
-            /*
-            LaunchpadActivity.keypadBox.setVisibility(View.VISIBLE);
-            LaunchpadActivity.filterBox.setVisibility(View.VISIBLE);
-            TypeOut.findToggleView.setVisibility(View.VISIBLE);
-            TypeOut.editView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TypeOut.TextSize);
-            TypeOut.editView.setText("  "); //spacer to make the tap target larger
-            TypeOut.editView.append(String.valueOf(Character.toChars(177))); //plus minus button
-            TypeOut.editView.append("  "); //spacer to make the tap target larger
-            typeoutBoxHandle.setFindStatus(false);
-            TypeOut.typeoutView.setText("");
-            toggleHideAllApps();*/
-
-
             SettingsActivity.menuLevel=0;
             // SettingsActivity.settingsScreen.removeView(SettingsActivity.viewpadBox);
 

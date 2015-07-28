@@ -53,6 +53,7 @@ public class FilterLabels {
             SettingsActivity.menuArea = "EditFilter";
             SettingsActivity.menuLevel = 2;
             clickedPosition = position;
+            SettingsActivity.SettingChanged = true;
 
             SettingsActivity.filterEditBox.setVisibility(View.VISIBLE);
             SettingsActivity.sdrawerBox.setVisibility(View.GONE);

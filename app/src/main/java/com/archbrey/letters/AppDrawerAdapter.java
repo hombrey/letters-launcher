@@ -28,10 +28,6 @@ public class AppDrawerAdapter extends BaseAdapter {
     public void passinto(AppItem passedAppItem[]){
         appItemForAdapter = passedAppItem;
 
-        if (passedAppItem.length <= 0) {
-            appItemForAdapter = GetAppList.allAppItems;
-        } //if (passedAppItem.length == 0)
-
     }//public void passinto(AppItem passedAppItem[])
 
     @Override

@@ -61,16 +61,19 @@ public class LaunchpadActivity extends Activity {
     public static String prefName = "LettersPrefs";
 
     public static boolean hideDrawerAllApps;
-    private static boolean isForeground;
+   // private static boolean isForeground;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //keep layout in portrait
         global = new GlobalHolder();
         r = getResources();
         basicPkgMgr = getPackageManager();
         hideDrawerAllApps = true;
+
 
         prefs = getSharedPreferences(prefName, MODE_PRIVATE);
         getPreferences();
@@ -165,7 +168,12 @@ public class LaunchpadActivity extends Activity {
         global.setFindString("");
         typeoutBoxHandle.setFindStatus(false); //stop search mode if length = 0;
         // filterBoxHandle.refreshRecentItems();
-        isForeground = true;
+
+        if (SettingsActivity.SettingChanged) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            SettingsActivity.SettingChanged = false;
+        }
 
 
 
@@ -180,8 +188,6 @@ public class LaunchpadActivity extends Activity {
     @Override
     protected void onStop(){
         super.onStop();
-
-        isForeground = false;
 
     } //protected void onStart()
 
@@ -219,7 +225,6 @@ public class LaunchpadActivity extends Activity {
                     final Intent launcherSettings = new Intent("com.archbrey.letters.Preferences.SettingsActivity");
                    //startActivityForResult(launcherSettings, 421);
                     startActivity(launcherSettings);
-                    //finish(); //force finish launcher activity
                     return true;
             case R.id.action_wallpaper_settings:
                 final Intent pickWallpaper = new Intent(Intent.ACTION_SET_WALLPAPER);
@@ -278,8 +283,8 @@ public class LaunchpadActivity extends Activity {
 
         } //if (hideDrawerAllApps=false)
         else {
-            LaunchpadActivity.typeoutBox.setVisibility(View.INVISIBLE);
-            LaunchpadActivity.drawerBox.setVisibility(View.INVISIBLE);
+            LaunchpadActivity.typeoutBox.setVisibility(View.GONE);
+            LaunchpadActivity.drawerBox.setVisibility(View.GONE);
         } //else of if (hideDrawerAllApps=false)
 
 
@@ -349,6 +354,9 @@ public class LaunchpadActivity extends Activity {
 
     } //private void drawBoxes()
 
+
+
+
     private void assembleScreen(){
 
         drawerBox.setId(R.id.drawerBox);
@@ -390,9 +398,6 @@ public class LaunchpadActivity extends Activity {
         public void onReceive(Context context, Intent intent) {
 
             allAppItems = new GetAppList().all_appItems(basicPkgMgr);
-            //appGridView = (GridView) findViewById(R.id.drawer_content);
-            //new DrawDrawerBox (context, appGridView, allAppItems);
-            //drawDrawerBox.DrawBox(allAppItems);
             new KeypadShortcuts().RetrieveSavedShortcuts(context);
             filterBoxHandle.refreshFilterItems(allAppItems);
 

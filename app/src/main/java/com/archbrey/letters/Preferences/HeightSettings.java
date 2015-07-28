@@ -3,6 +3,7 @@ package com.archbrey.letters.Preferences;
 //import android.app.Activity;
 import android.content.Context;
 //import android.content.pm.ActivityInfo;
+import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.util.TypedValue;
 import android.view.View;
@@ -89,11 +90,12 @@ public class HeightSettings  {
                     break;
             } //switch (position)
 
-
+            SettingsActivity.SettingChanged = true;
             SettingsActivity.prefsEditor.putInt("keyboardHeight", SettingsActivity.keyboardHeight);
             SettingsActivity.prefsEditor.putInt("filterHeight", SettingsActivity.filterHeight);
             SettingsActivity.prefsEditor.commit();
 
+            SettingsActivity.SettingChanged = true;
 
             sample_pad_height = (int) TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_DIP, SettingsActivity.keyboardHeight*4,
