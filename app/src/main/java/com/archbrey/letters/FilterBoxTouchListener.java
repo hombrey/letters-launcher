@@ -175,8 +175,8 @@ public class FilterBoxTouchListener {
             resultItems[inc] = filterItems[filterPosition].filteredPkgs[inc];
         } //for (int inc = 0; inc<ListLength; inc++)
 
-        new DrawDrawerBox(global.getMainContext(), global.getGridView(), resultItems);
-
+        //new DrawDrawerBox(global.getMainContext(), global.getGridView(), resultItems);
+        LaunchpadActivity.drawDrawerBox.DrawBox(resultItems);
         TypeOut.editView.setVisibility(View.VISIBLE);
         TypeOut.editMode= 2;
         return resultItems;

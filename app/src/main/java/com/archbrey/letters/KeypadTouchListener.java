@@ -280,6 +280,7 @@ public class KeypadTouchListener  {
                 if (!typeoutBoxHandle.getFindStatus() ) { //stop search mode if length = 0;
                     drawerBox.setVisibility(View.GONE);
                     typeoutBox.setVisibility(View.GONE);
+                    LaunchpadActivity.hideDrawerAllApps = true; //this standardizes behavior when pressing home button
                 } //if (typeoutBoxHandle.getFindStatus() )
             TypeOut.editView.setVisibility(View.GONE);
         } //else of if (!getCurrentLetter.equals(" "))
@@ -299,7 +300,8 @@ public class KeypadTouchListener  {
 
         if (searchLength > 0) {
                 returnAppItems = getAppList.getFilteredApps();
-                new DrawDrawerBox(global.getMainContext(), global.getGridView(), returnAppItems);
+                //new DrawDrawerBox(global.getMainContext(), global.getGridView(), returnAppItems);
+                 LaunchpadActivity.drawDrawerBox.DrawBox(returnAppItems);
                 callAppListeners(returnAppItems);
                 }
 

@@ -32,8 +32,10 @@ public class DrawDrawerBox  {
     } // public DrawDrawerBox (Context c, AppItem[] appItem)
 
 
-    public void DrawBox() {
+    public void DrawBox(AppItem[] passedApps) {
 
+        showItem = passedApps;
+        AppDrawerAdapterObject.passinto(passedApps);
         appGridView.setAdapter(AppDrawerAdapterObject);
         appGridView.setBackgroundColor(SettingsActivity.backerColor);
         appGridView.setNumColumns(SettingsActivity.drawerColumns);

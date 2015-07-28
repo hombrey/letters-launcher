@@ -1,7 +1,6 @@
 package com.archbrey.letters.Preferences;
 
 import android.app.Activity;
-//import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -15,7 +14,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
-//import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -158,8 +156,6 @@ public class SettingsActivity extends Activity {
                 return true;
             }
 
-
-
           // onBackPressed();
         }
         return super.onKeyDown(keyCode, event);
@@ -174,7 +170,39 @@ public class SettingsActivity extends Activity {
         if (menuLevel > 0) menuLevel = 0;
         //kill activity when not visible to force onCreate() when settings is called again
        //  if (menuLevel > 0) finish();
+
     } //protected void onStart()
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        if (Intent.ACTION_MAIN.equals(intent.getAction()) ) {
+            // Log.i("MyLauncher", "onNewIntent: HOME Key");
+
+            /*
+            LaunchpadActivity.keypadBox.setVisibility(View.VISIBLE);
+            LaunchpadActivity.filterBox.setVisibility(View.VISIBLE);
+            TypeOut.findToggleView.setVisibility(View.VISIBLE);
+            TypeOut.editView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TypeOut.TextSize);
+            TypeOut.editView.setText("  "); //spacer to make the tap target larger
+            TypeOut.editView.append(String.valueOf(Character.toChars(177))); //plus minus button
+            TypeOut.editView.append("  "); //spacer to make the tap target larger
+            typeoutBoxHandle.setFindStatus(false);
+            TypeOut.typeoutView.setText("");
+            toggleHideAllApps();*/
+
+
+            SettingsActivity.menuLevel=0;
+            // SettingsActivity.settingsScreen.removeView(SettingsActivity.viewpadBox);
+
+        } //if (Intent.ACTION_MAIN.equals(intent.getAction()))
+
+
+    } //protected void onNewIntent(Intent intent)
+
+
 
 
     public void finish() {
@@ -192,14 +220,6 @@ public class SettingsActivity extends Activity {
         super.finish();
     }
 
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-
-        //if (Intent.ACTION_MAIN.equals(intent.getAction()) ) {SettingsActivity.menuLevel=0;}
-
-    } //protected void onNewIntent(Intent intent)
 
     private void assembleScreen(){
 

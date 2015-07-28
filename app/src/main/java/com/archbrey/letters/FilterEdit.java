@@ -93,7 +93,8 @@ public class FilterEdit {
             addArray[appInc] = addList.get(appInc);
         }
 
-        new DrawDrawerBox (mainContext, LaunchpadActivity.appGridView,addArray);
+        //new DrawDrawerBox (mainContext, LaunchpadActivity.appGridView,addArray);
+        LaunchpadActivity.drawDrawerBox.DrawBox(addArray);
         LaunchpadActivity.appGridView.setOnItemClickListener(new ClickAddListener());
 
     } // private void listAddItems()
@@ -114,7 +115,8 @@ public class FilterEdit {
             removeArray[appInc] = removeList.get(appInc);
         } //for (int appInc=0; appInc<removeList.size(); appInc++)
 
-        new DrawDrawerBox (mainContext, LaunchpadActivity.appGridView,removeArray);
+       // new DrawDrawerBox (mainContext, LaunchpadActivity.appGridView,removeArray);
+        LaunchpadActivity.drawDrawerBox.DrawBox(removeArray);
         LaunchpadActivity.appGridView.setOnItemClickListener(new ClickRemoveListener());
 
     } //private void listAddItems()

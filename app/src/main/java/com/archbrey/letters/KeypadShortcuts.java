@@ -34,7 +34,8 @@ public class KeypadShortcuts {
         TypeOut.editView.append(String.valueOf(Character.toChars(215))); //x button
         TypeOut.editView.append(" "); //make x button larger
         allApps = global.getAllAppItems();
-        new DrawDrawerBox (getContext, LaunchpadActivity.appGridView,allApps);
+       // new DrawDrawerBox (getContext, LaunchpadActivity.appGridView,allApps);
+        LaunchpadActivity.drawDrawerBox.DrawBox(allApps);
 
         LaunchpadActivity.appGridView.setOnItemClickListener(new ClickSelectListener());
 

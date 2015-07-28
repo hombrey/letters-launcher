@@ -15,7 +15,7 @@ public class GetAppList {
     private static AppItem[] recentApps;
     private static AppItem[] filteredApps;
     public static int recentAppCount;
-    private static AppItem[] allAppItems;
+    public static AppItem[] allAppItems;
 
     public GetAppList() {
 
