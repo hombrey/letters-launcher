@@ -34,8 +34,10 @@ public class LaunchpadActivity extends Activity {
     public static  LinearLayout keypadBox;
     public static RelativeLayout typeoutBox;
     public static LinearLayout filterBox;
+    public static RelativeLayout clockoutBox;
 
     public static View drawerBox ;
+    private static ClockOut clockoutHandle;
 
    // private ScrollView drawerView;
     PackageManager basicPkgMgr;
@@ -81,6 +83,7 @@ public class LaunchpadActivity extends Activity {
         mainScreen = new RelativeLayout(this);
         mainScreen.setGravity(Gravity.BOTTOM);
 
+        global.setMainContext(this);
         drawBoxes();
         assembleScreen();
 
@@ -88,10 +91,10 @@ public class LaunchpadActivity extends Activity {
 
         //set variables to be used by other classes
         appGridView = (GridView) findViewById(R.id.drawer_content);
+
         global.setDrawerBox(drawerBox);
         global.setTypeoutBox(typeoutBox);
         global.setGridView(appGridView);
-        global.setMainContext(this);
         global.setPackageManager(basicPkgMgr);
         global.setFindString("");
         global.setResources(r);
@@ -108,6 +111,7 @@ public class LaunchpadActivity extends Activity {
         new KeypadTouchListener(typeoutView);
         new FilterBoxTouchListener(filterItems,typeoutView);
         typeoutBoxHandle.setListener();
+        clockoutHandle.setListener();
 
         DrawKeypadBox.menuButton.Key.setOnClickListener( new Button.OnClickListener() {
                     public void onClick(View v) {openOptionsMenu(); }
@@ -276,6 +280,7 @@ public class LaunchpadActivity extends Activity {
 
             LaunchpadActivity.typeoutBox.setVisibility(View.VISIBLE);
             LaunchpadActivity.drawerBox.setVisibility(View.VISIBLE);
+            LaunchpadActivity.clockoutBox.setVisibility(View.GONE);
             TypeOut.editView.setVisibility(View.GONE);
 
             drawDrawerBox.DrawBox(allAppItems);
@@ -285,6 +290,8 @@ public class LaunchpadActivity extends Activity {
         else {
             LaunchpadActivity.typeoutBox.setVisibility(View.GONE);
             LaunchpadActivity.drawerBox.setVisibility(View.GONE);
+            LaunchpadActivity.clockoutBox.setVisibility(View.VISIBLE);
+
         } //else of if (hideDrawerAllApps=false)
 
 
@@ -316,6 +323,7 @@ public class LaunchpadActivity extends Activity {
         SettingsActivity.backerColor = r.getColor(R.color.Blacker_transparent);
         SettingsActivity.backSelectColor = r.getColor(R.color.grey50);
         SettingsActivity.transparent = r.getColor(R.color.transparent);
+        SettingsActivity.clockBack = r.getColor(R.color.White_transparent);
 
         if (colorScheme.equals("white")) {
             SettingsActivity.textColor = r.getColor(R.color.black);
@@ -348,6 +356,9 @@ public class LaunchpadActivity extends Activity {
         typeoutBox = typeoutBoxHandle.DrawBox(typeoutBox, this, r);
         typeoutView = typeoutBoxHandle.getTypeoutView();
 
+        clockoutBox = new RelativeLayout(this);
+        clockoutHandle = new ClockOut();
+        clockoutBox = clockoutHandle.DrawBox(clockoutBox, r);
 
         //draw app drawer
         drawerBox = LayoutInflater.from(this).inflate(R.layout.drawerbox, null);
@@ -363,7 +374,13 @@ public class LaunchpadActivity extends Activity {
         typeoutBox.setId(R.id.typeoutBox);
         keypadBox.setId(R.id.keypadBox);
         filterBox.setId(R.id.filterBox);
+        clockoutBox.setId(R.id.clockoutBox);
 
+        RelativeLayout.LayoutParams clockoutBoxParams = new RelativeLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        clockoutBoxParams.addRule(RelativeLayout.ABOVE, keypadBox.getId());
+        //clockoutBoxParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 
         RelativeLayout.LayoutParams drawerBoxParams = new RelativeLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -385,10 +402,12 @@ public class LaunchpadActivity extends Activity {
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         filterBoxParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 
+
         mainScreen.addView(filterBox, filterBoxParams);
         mainScreen.addView(keypadBox, keypadBoxParams);
         mainScreen.addView(typeoutBox, typeoutBoxParams);
         mainScreen.addView(drawerBox, drawerBoxParams);
+        mainScreen.addView(clockoutBox, clockoutBoxParams);
 
     } //private void assembleScreen()
 

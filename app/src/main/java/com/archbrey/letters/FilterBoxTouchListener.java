@@ -166,6 +166,7 @@ public class FilterBoxTouchListener {
         typeoutBox = global.getTypeoutBox();
         drawerBox.setVisibility(View.VISIBLE);
         typeoutBox.setVisibility(View.VISIBLE);
+        LaunchpadActivity.clockoutBox.setVisibility(View.GONE);
 
         int ListLength =  filterItems[filterPosition].CountofPackages;
         resultItems = new AppItem[ListLength];

@@ -67,6 +67,7 @@ public class SettingsActivity extends Activity {
     public static int backerColor;
     public static int backSelectColor;
     public static int transparent;
+    public static int clockBack;
 
 
     public static int drawerColumns;

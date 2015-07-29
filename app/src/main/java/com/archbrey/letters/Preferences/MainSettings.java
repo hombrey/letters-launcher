@@ -90,16 +90,6 @@ public class MainSettings {
                     heightHandle = new HeightSettings();
                     heightHandle.DrawBox(mainMenuBox, settingsContext, rMainSettings);
 
-                    /*
-                    Intent intent = new Intent(Intent.ACTION_MAIN);
-                    intent.setClassName("com.google.android.googlequicksearchbox",
-                            "com.google.android.googlequicksearchbox.VoiceSearchActivity");
-                    try {
-                        settingsContext.startActivity(intent);
-                    } catch (ActivityNotFoundException anfe) {
-                       // Log.d(TAG, "Google Voice Search is not found");
-                    }*/
-
                     break;
                 default:
                     break;

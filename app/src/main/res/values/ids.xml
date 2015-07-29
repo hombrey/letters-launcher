@@ -6,6 +6,8 @@
     <item type="id" name="drawerBox" />
     <item type="id" name="fillerBox" />
     <item type="id" name="filterBox" />
+    <item type="id" name="clockoutBox" />
+    <item type="id" name="clockView" />
 
     <item type="id" name="settingsdrawerBox" />
     <item type="id" name="viewpadBox" />

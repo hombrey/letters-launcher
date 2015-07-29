@@ -132,6 +132,7 @@ public class KeypadTouchListener  {
                                 case (MotionEvent.ACTION_DOWN):
                                     typeoutView.setText(findString);
                                     handler.removeCallbacks(mLongPressed);
+                                    LaunchpadActivity.clockoutBox.setVisibility(View.GONE);
                                     drawerBox.setVisibility(View.VISIBLE);
                                     typeoutBox.setVisibility(View.VISIBLE);
                                     if ((keypadButton[SelectedKeyButton].ShortcutPackage.length() > 1) &&
@@ -280,6 +281,7 @@ public class KeypadTouchListener  {
                 if (!typeoutBoxHandle.getFindStatus() ) { //stop search mode if length = 0;
                     drawerBox.setVisibility(View.GONE);
                     typeoutBox.setVisibility(View.GONE);
+                    LaunchpadActivity.clockoutBox.setVisibility(View.VISIBLE);
                     LaunchpadActivity.hideDrawerAllApps = true; //this standardizes behavior when pressing home button
                 } //if (typeoutBoxHandle.getFindStatus() )
             TypeOut.editView.setVisibility(View.GONE);
