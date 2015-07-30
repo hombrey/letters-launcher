@@ -278,13 +278,19 @@ public class KeypadTouchListener  {
         int filteredSize;
 
         if (searchLength == 0) {
-                if (!typeoutBoxHandle.getFindStatus() ) { //stop search mode if length = 0;
+                if (!typeoutBoxHandle.getFindStatus()) { //stop search mode if length = 0;
                     drawerBox.setVisibility(View.GONE);
                     typeoutBox.setVisibility(View.GONE);
                     LaunchpadActivity.clockoutBox.setVisibility(View.VISIBLE);
                     LaunchpadActivity.clockoutHandle.refreshClock();
                     LaunchpadActivity.hideDrawerAllApps = true; //this standardizes behavior when pressing home button
                 } //if (typeoutBoxHandle.getFindStatus() )
+
+            if (!LaunchpadActivity.isSetAsHome) {
+                drawerBox.setVisibility(View.VISIBLE);
+                typeoutBox.setVisibility(View.VISIBLE);
+                LaunchpadActivity.clockoutBox.setVisibility(View.GONE);
+            }
             TypeOut.editView.setVisibility(View.GONE);
         } //else of if (!getCurrentLetter.equals(" "))
         else if ( (searchLength == 1) && (!typeoutBoxHandle.getFindStatus()) ) {

@@ -111,6 +111,7 @@ public class FilterLabels {
                     break;
             } // switch (position)
 
+            SettingsActivity.SettingChanged = true;
             SettingsActivity.prefsEditor.commit();
 
         } //public void SaveTypedValue(int getPosition, String getString)

@@ -71,6 +71,27 @@ public class DBHelper extends SQLiteOpenHelper {
 
     } //public void AssignShorcut(String getpackage)
 
+    public void DeleteShorcut(int getKeypadPosition){
+
+        /*
+        ContentValues values = new ContentValues();
+        values.put (SHORTCUTS_KEYPAD_ID, String.valueOf(getKeypadPosition));
+        values.put (SHORTCUTS_PKGNAME, getPackage);
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.replace(SHORTCUTS_TABLE, null, values);
+        db.close();*/
+
+        //boolean result = false;
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.delete(SHORTCUTS_TABLE,
+                SHORTCUTS_KEYPAD_ID + "=' " + getKeypadPosition + "' ",
+                null);
+
+    } //public void DeleteShorcut(int getKeypadPosition)
+
+
     public String RetrievePackage (int getKeypadPosition) {
 
         String getPackage;

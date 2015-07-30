@@ -284,6 +284,10 @@ public class TypeOut {
 
                 DrawKeypadBox.keypadButton[KeyPosition].ShortcutPackage = " ";
                 DrawKeypadBox.keypadButton[KeyPosition].ShortcutLabel = " ";
+                //need to delete database
+                DBHelper dbHandler = new DBHelper(mainContext);
+                dbHandler.DeleteShorcut(KeyPosition);
+
                 keypadShortcustHandle.DrawBox(mainContext);
             }//if (TypeOut.editMode==11)
 

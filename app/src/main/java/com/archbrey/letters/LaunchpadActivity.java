@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.TypedValue;
@@ -71,6 +72,8 @@ public class LaunchpadActivity extends Activity {
 
     public static String colorScheme;
 
+    public static boolean isSetAsHome;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -80,6 +83,7 @@ public class LaunchpadActivity extends Activity {
         r = getResources();
         basicPkgMgr = getPackageManager();
         hideDrawerAllApps = true;
+
         mainActivity = this;
 
         prefs = getSharedPreferences(prefName, MODE_PRIVATE);
@@ -144,28 +148,36 @@ public class LaunchpadActivity extends Activity {
     @Override
     public void onBackPressed() {
 
-        if (TypeOut.editMode > 10) {
-            keypadBox.setVisibility(View.VISIBLE);
-            filterBox.setVisibility(View.VISIBLE);
-            TypeOut.findToggleView.setVisibility(View.VISIBLE);
-            TypeOut.editView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TypeOut.TextSize);
-            TypeOut.editView.setText("  "); //spacer to make the tap target larger
-            TypeOut.editView.append(String.valueOf(Character.toChars(177))); //plus minus button
-            TypeOut.editView.append("  "); //x button
+            if (TypeOut.editMode > 10) {
+                keypadBox.setVisibility(View.VISIBLE);
+                filterBox.setVisibility(View.VISIBLE);
+                TypeOut.findToggleView.setVisibility(View.VISIBLE);
+                TypeOut.editView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TypeOut.TextSize);
+                TypeOut.editView.setText("  "); //spacer to make the tap target larger
+                TypeOut.editView.append(String.valueOf(Character.toChars(177))); //plus minus button
+                TypeOut.editView.append("  "); //x button
+                drawerBox.setVisibility(View.INVISIBLE);
+                TypeOut.typeoutBox.setVisibility(View.INVISIBLE);
+                //  TypeOut.typeoutView.setText("");
+            } //if (TypeOut.editMode > 10)
+
+            clockoutBox.setVisibility(View.VISIBLE);
+            clockoutHandle.refreshClock();
             drawerBox.setVisibility(View.INVISIBLE);
             TypeOut.typeoutBox.setVisibility(View.INVISIBLE);
-          //  TypeOut.typeoutView.setText("");
-        } //if (TypeOut.editMode > 10)
+            typeoutBoxHandle.setFindStatus(false);
+            TypeOut.typeoutView.setText("");
+            hideDrawerAllApps = true; //this standardizes behavior when pressing home button
 
+        if (!isSetAsHome) {
+            drawerBox.setVisibility(View.VISIBLE);
+            TypeOut.typeoutBox.setVisibility(View.VISIBLE);
+            clockoutBox.setVisibility(View.GONE);
+            if (TypeOut.editMode <= 10)  super.onBackPressed();
 
-        LaunchpadActivity.clockoutBox.setVisibility(View.VISIBLE);
-        clockoutHandle.refreshClock();
-        drawerBox.setVisibility(View.INVISIBLE);
-        TypeOut.typeoutBox.setVisibility(View.INVISIBLE);
-        typeoutBoxHandle.setFindStatus(false);
-        TypeOut.typeoutView.setText("");
-        LaunchpadActivity.hideDrawerAllApps = true; //this standardizes behavior when pressing home button
-    }
+        } //if (!isSetAsHome)
+
+    } //public void onBackPressed()
 
 
 
@@ -187,8 +199,18 @@ public class LaunchpadActivity extends Activity {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             SettingsActivity.SettingChanged = false;
         }
-
         clockoutHandle.refreshClock();
+
+        isSetAsHome = IsHome();
+        if (!isSetAsHome) {
+            hideDrawerAllApps = false;
+            typeoutBox.setVisibility(View.VISIBLE);
+            drawerBox.setVisibility(View.VISIBLE);
+            clockoutBox.setVisibility(View.GONE);
+            TypeOut.editView.setVisibility(View.GONE);
+            drawDrawerBox.DrawBox(allAppItems);
+
+        } //if (!isSetAsHome)
 
     } //protected void onResume()
 
@@ -258,7 +280,7 @@ public class LaunchpadActivity extends Activity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
 
-        if (Intent.ACTION_MAIN.equals(intent.getAction()) ) {
+        if (Intent.ACTION_MAIN.equals(intent.getAction())&&isSetAsHome) {
            // Log.i("MyLauncher", "onNewIntent: HOME Key");
 
             LaunchpadActivity.keypadBox.setVisibility(View.VISIBLE);
@@ -270,7 +292,7 @@ public class LaunchpadActivity extends Activity {
             TypeOut.editView.append("  "); //spacer to make the tap target larger
             typeoutBoxHandle.setFindStatus(false);
             TypeOut.typeoutView.setText("");
-            toggleHideAllApps();
+             toggleHideAllApps();
 
             SettingsActivity.menuLevel=0;
            // SettingsActivity.settingsScreen.removeView(SettingsActivity.viewpadBox);
@@ -283,7 +305,9 @@ public class LaunchpadActivity extends Activity {
     private void toggleHideAllApps(){
 
         if (hideDrawerAllApps) { hideDrawerAllApps = false;}
-        else {hideDrawerAllApps = true; }
+        else {
+           hideDrawerAllApps = true;
+        }//if (hideDrawerAllApps) { hideDrawerAllApps = false;}
 
         if (!hideDrawerAllApps) {
 
@@ -338,7 +362,7 @@ public class LaunchpadActivity extends Activity {
         SettingsActivity.backSelectColor = r.getColor(R.color.grey50);
         SettingsActivity.transparent = r.getColor(R.color.transparent);
 
-        SettingsActivity.clockBack = r.getColor(R.color.White_transparent);
+        //SettingsActivity.clockBack = r.getColor(R.color.White_transparent);
 
         if (colorScheme.equals("white")) {
             SettingsActivity.textColor = r.getColor(R.color.black);
@@ -355,6 +379,7 @@ public class LaunchpadActivity extends Activity {
         SettingsActivity.drawerTextSize = textSize;
         SettingsActivity.keyboardHeight = keyHeight;
         SettingsActivity.filterHeight = fltHeight;
+
     } //private void setColorTheme()
 
     private void drawBoxes(){
@@ -453,6 +478,20 @@ public class LaunchpadActivity extends Activity {
 
     } //public void setBackground()
 
+    private boolean IsHome(){
+
+        final Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        final ResolveInfo res = getPackageManager().resolveActivity(intent, 0);
+        if (res.activityInfo == null) {
+            // should not happen. A home is always installed, isn't it?
+        } if ("com.archbrey.letters".equals(res.activityInfo.packageName)) {
+            return true;
+        } else {
+            return false;
+        }
+
+    } //private boolean IsHome()
 
     public class RefreshAppItemReceiver extends BroadcastReceiver {
 
@@ -460,6 +499,8 @@ public class LaunchpadActivity extends Activity {
         public void onReceive(Context context, Intent intent) {
 
             allAppItems = new GetAppList().all_appItems(basicPkgMgr);
+            typeoutBox.setVisibility(View.GONE);
+            drawerBox.setVisibility(View.GONE);
             new KeypadShortcuts().RetrieveSavedShortcuts(context);
             filterBoxHandle.refreshFilterItems(allAppItems);
 
