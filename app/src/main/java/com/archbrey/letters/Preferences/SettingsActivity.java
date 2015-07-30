@@ -117,7 +117,6 @@ public class SettingsActivity extends Activity {
         mainsettingsHandle.DrawBox(gridDrawer, this, r);
 
 
-
     } // protected void onCreate(Bundle savedInstanceState)
 
 

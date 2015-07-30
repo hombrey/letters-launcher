@@ -282,6 +282,7 @@ public class KeypadTouchListener  {
                     drawerBox.setVisibility(View.GONE);
                     typeoutBox.setVisibility(View.GONE);
                     LaunchpadActivity.clockoutBox.setVisibility(View.VISIBLE);
+                    LaunchpadActivity.clockoutHandle.refreshClock();
                     LaunchpadActivity.hideDrawerAllApps = true; //this standardizes behavior when pressing home button
                 } //if (typeoutBoxHandle.getFindStatus() )
             TypeOut.editView.setVisibility(View.GONE);

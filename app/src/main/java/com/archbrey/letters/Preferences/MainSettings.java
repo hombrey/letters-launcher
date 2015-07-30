@@ -34,7 +34,7 @@ public class MainSettings {
 
         String[] menuItems;
 
-        SettingsActivity.infoView.setText("Settings");
+        SettingsActivity.infoView.setText(getR.getString(R.string.settings));
         SettingsActivity.menuArea = "MainSettings";
         mainMenuBox = getgridBox;
         settingsContext = c;
@@ -46,6 +46,7 @@ public class MainSettings {
         menuItems[2]=getR.getString(R.string.drawer_textsize);
         menuItems[3] =getR.getString(R.string.custom_filter);
         menuItems[4] =getR.getString(R.string.custom_keypad);
+
 
 
         new SettingsDrawer(settingsContext, mainMenuBox, menuItems);

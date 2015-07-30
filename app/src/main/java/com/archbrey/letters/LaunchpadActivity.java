@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -37,7 +38,7 @@ public class LaunchpadActivity extends Activity {
     public static RelativeLayout clockoutBox;
 
     public static View drawerBox ;
-    private static ClockOut clockoutHandle;
+    public static ClockOut clockoutHandle;
 
    // private ScrollView drawerView;
     PackageManager basicPkgMgr;
@@ -65,6 +66,8 @@ public class LaunchpadActivity extends Activity {
     public static boolean hideDrawerAllApps;
    // private static boolean isForeground;
 
+    public static Activity mainActivity;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +78,7 @@ public class LaunchpadActivity extends Activity {
         r = getResources();
         basicPkgMgr = getPackageManager();
         hideDrawerAllApps = true;
-
+        mainActivity = this;
 
         prefs = getSharedPreferences(prefName, MODE_PRIVATE);
         getPreferences();
@@ -132,6 +135,7 @@ public class LaunchpadActivity extends Activity {
         new KeypadShortcuts().RetrieveSavedShortcuts(this);
 
 
+
     }// protected void onCreate(Bundle savedInstanceState)
 
 
@@ -152,10 +156,13 @@ public class LaunchpadActivity extends Activity {
         } //if (TypeOut.editMode > 10)
 
 
+        LaunchpadActivity.clockoutBox.setVisibility(View.VISIBLE);
+        clockoutHandle.refreshClock();
         drawerBox.setVisibility(View.INVISIBLE);
         TypeOut.typeoutBox.setVisibility(View.INVISIBLE);
         typeoutBoxHandle.setFindStatus(false);
         TypeOut.typeoutView.setText("");
+        LaunchpadActivity.hideDrawerAllApps = true; //this standardizes behavior when pressing home button
     }
 
 
@@ -179,7 +186,7 @@ public class LaunchpadActivity extends Activity {
             SettingsActivity.SettingChanged = false;
         }
 
-
+        clockoutHandle.refreshClock();
 
     } //protected void onResume()
 
@@ -291,6 +298,7 @@ public class LaunchpadActivity extends Activity {
             LaunchpadActivity.typeoutBox.setVisibility(View.GONE);
             LaunchpadActivity.drawerBox.setVisibility(View.GONE);
             LaunchpadActivity.clockoutBox.setVisibility(View.VISIBLE);
+            clockoutHandle.refreshClock();
 
         } //else of if (hideDrawerAllApps=false)
 
