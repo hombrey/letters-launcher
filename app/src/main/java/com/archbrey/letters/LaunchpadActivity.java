@@ -25,6 +25,7 @@ import android.view.Gravity;
 import android.content.pm.ActivityInfo;
 
 
+//import com.archbrey.letters.Preferences.ClockSettings;
 import com.archbrey.letters.Preferences.SettingsActivity;
 
 //import android.util.Log;
@@ -68,6 +69,7 @@ public class LaunchpadActivity extends Activity {
 
     public static Activity mainActivity;
 
+    public static String colorScheme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -309,13 +311,17 @@ public class LaunchpadActivity extends Activity {
 
     private void getPreferences(){
 
-        String colorScheme = prefs.getString("colorscheme", "black");
+        colorScheme = prefs.getString("colorscheme", "black");
+
+        Integer clockVisibility = prefs.getInt("clockVisibility",1);
 
         Integer columns = prefs.getInt("column_num", 4);
         Integer textSize = prefs.getInt("drawerTextSize", 17);
 
         Integer keyHeight = prefs.getInt("keyboardHeight",38);
         Integer fltHeight = prefs.getInt("filterHeight",7);
+
+
 
         SettingsActivity.filterCodes = new String[6];
 
@@ -331,6 +337,7 @@ public class LaunchpadActivity extends Activity {
         SettingsActivity.backerColor = r.getColor(R.color.Blacker_transparent);
         SettingsActivity.backSelectColor = r.getColor(R.color.grey50);
         SettingsActivity.transparent = r.getColor(R.color.transparent);
+
         SettingsActivity.clockBack = r.getColor(R.color.White_transparent);
 
         if (colorScheme.equals("white")) {
@@ -339,6 +346,10 @@ public class LaunchpadActivity extends Activity {
             SettingsActivity.backerColor = r.getColor(R.color.Whiter_transparent);
             //SettingsActivity.backSelectColor = r.getColor(R.color.grey50);
         } //if if colorScheme.equals("white")
+
+        SettingsActivity.clockVisibility = clockVisibility;
+        //new ClockSettings().setBackground();
+        setClockBackground();
 
         SettingsActivity.drawerColumns = columns;
         SettingsActivity.drawerTextSize = textSize;
@@ -372,8 +383,6 @@ public class LaunchpadActivity extends Activity {
         drawerBox = LayoutInflater.from(this).inflate(R.layout.drawerbox, null);
 
     } //private void drawBoxes()
-
-
 
 
     private void assembleScreen(){
@@ -415,9 +424,35 @@ public class LaunchpadActivity extends Activity {
         mainScreen.addView(keypadBox, keypadBoxParams);
         mainScreen.addView(typeoutBox, typeoutBoxParams);
         mainScreen.addView(drawerBox, drawerBoxParams);
-        mainScreen.addView(clockoutBox, clockoutBoxParams);
+        if (SettingsActivity.clockVisibility != 0) mainScreen.addView(clockoutBox, clockoutBoxParams);
 
     } //private void assembleScreen()
+
+
+    public void setClockBackground() {
+
+        SettingsActivity.clockBack = r.getColor(R.color.transparent);
+
+        if (LaunchpadActivity.colorScheme.equals("black")) {
+            switch (SettingsActivity.clockVisibility) {
+                case 2: SettingsActivity.clockBack = r.getColor(R.color.Blackless_transparent);break;
+                case 3: SettingsActivity.clockBack = r.getColor(R.color.Black_transparent);break;
+                case 4: SettingsActivity.clockBack = r.getColor(R.color.Blacker_transparent);break;
+                default: break;
+            } //switch (SettingsActivity.clockVisibility)
+        } // if (LaunchpadActivity.colorScheme.equals("black"))
+        else {
+            switch (SettingsActivity.clockVisibility) {
+                case 2: SettingsActivity.clockBack = r.getColor(R.color.Whiteless_transparent);break;
+                case 3: SettingsActivity.clockBack = r.getColor(R.color.White_transparent);break;
+                case 4: SettingsActivity.clockBack = r.getColor(R.color.Whiter_transparent);break;
+                default: break;
+            } //switch (SettingsActivity.clockVisibility)
+
+        } //else of if (LaunchpadActivity.colorScheme.equals("black"))
+
+    } //public void setBackground()
+
 
     public class RefreshAppItemReceiver extends BroadcastReceiver {
 

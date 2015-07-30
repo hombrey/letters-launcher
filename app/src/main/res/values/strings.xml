@@ -22,10 +22,18 @@
     <string name="drawer_textsize">Drawer Text Size</string>
     <string name="custom_filter">Filter Labels</string>
     <string name="custom_keypad">Keypad Height</string>
+    <string name="custom_clock">Clock Visibility</string>
     <string name="set_wallpaper">Wallpaper</string>
 
     <string name="dark_scheme">Dark Scheme</string>
     <string name="light_scheme">Light Scheme</string>
+
+    <string name="sample_clock">Sample Clock Display</string>
+    <string name="clock_invisible">invisible</string>
+    <string name="clock_transparent">transparent</string>
+    <string name="clock_minimum">minimum</string>
+    <string name="clock_middle">middle ground</string>
+    <string name="clock_maximum">maximum</string>
 
     <string name="two">two</string>
     <string name="three">three</string>

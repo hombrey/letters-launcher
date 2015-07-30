@@ -40,12 +40,13 @@ public class MainSettings {
         settingsContext = c;
         rMainSettings = getR;
 
-        menuItems = new String[5];
+        menuItems = new String[6];
         menuItems[0]=getR.getString(R.string.color_scheme);
-        menuItems[1]=getR.getString(R.string.change_columns);
-        menuItems[2]=getR.getString(R.string.drawer_textsize);
-        menuItems[3] =getR.getString(R.string.custom_filter);
-        menuItems[4] =getR.getString(R.string.custom_keypad);
+        menuItems[1]=getR.getString(R.string.custom_clock);
+        menuItems[2]=getR.getString(R.string.change_columns);
+        menuItems[3]=getR.getString(R.string.drawer_textsize);
+        menuItems[4] =getR.getString(R.string.custom_filter);
+        menuItems[5] =getR.getString(R.string.custom_keypad);
 
 
 
@@ -71,21 +72,26 @@ public class MainSettings {
                     colorsettingsHandle.DrawBox(mainMenuBox, settingsContext, rMainSettings);
                     break;
                 case 1:
+                    ClockSettings clocksettingsHandle;
+                    clocksettingsHandle = new ClockSettings();
+                    clocksettingsHandle.DrawBox(mainMenuBox, settingsContext, rMainSettings);
+                    break;
+                case 2:
                     ColumnSettings columnsettingsHandle;
                     columnsettingsHandle = new ColumnSettings();
                     columnsettingsHandle.DrawBox(mainMenuBox, settingsContext, rMainSettings);
                     break;
-                case 2:
+                case 3:
                     DrawerTextSize textSizeHandle;
                     textSizeHandle = new DrawerTextSize();
                     textSizeHandle.DrawBox(mainMenuBox, settingsContext, rMainSettings);
                     break;
-                case 3:
+                case 4:
                     FilterLabels labelsHandle;
                     labelsHandle = new FilterLabels();
                     labelsHandle.DrawBox(mainMenuBox, settingsContext, rMainSettings);
                     break;
-                case 4:
+                case 5:
 
                     HeightSettings heightHandle;
                     heightHandle = new HeightSettings();

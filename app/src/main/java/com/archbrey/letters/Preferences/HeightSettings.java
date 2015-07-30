@@ -55,6 +55,7 @@ public class HeightSettings  {
         viewboxParams.addRule(RelativeLayout.ABOVE, SettingsActivity.sdrawerBox.getId());
 
         SettingsActivity.settingsScreen.addView(SettingsActivity.viewpadBox, viewboxParams);
+        SettingsActivity.viewSample.setText(R.string.sample_height);
 
         return mainMenuBox;
 

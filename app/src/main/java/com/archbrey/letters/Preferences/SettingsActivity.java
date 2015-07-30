@@ -76,6 +76,8 @@ public class SettingsActivity extends Activity {
     public static int keyboardHeight;
     public static int filterHeight;
 
+    public static int clockVisibility;
+
     public static String[] filterCodes;
 
     public static boolean SettingChanged;
@@ -265,7 +267,7 @@ public class SettingsActivity extends Activity {
         LinearLayout.LayoutParams infoViewParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, //width
                 LinearLayout.LayoutParams.WRAP_CONTENT); //height
-                infoViewParams.setMargins(0, 20, 0, 20);
+        infoViewParams.setMargins(0, 20, 0, 20);
         infoBox.addView(infoView, infoViewParams);
 
         sdrawerBox.setId(R.id.settingsdrawerBox);
@@ -289,7 +291,6 @@ public class SettingsActivity extends Activity {
 
         viewpadBox = new LinearLayout(this);
         viewSample = new TextView(this);
-        viewSample.setText(R.string.sample_height);
         viewSample.setTypeface(null, Typeface.ITALIC);
         viewSample.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
         viewSample.setTextColor(SettingsActivity.textColor);

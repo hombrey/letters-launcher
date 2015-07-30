@@ -52,6 +52,10 @@ public class ClockOut {
     private static Handler msghandler;
     private static Runnable lingerMsg;
 
+    private static Handler autoBrighthandler;
+    private static Runnable enableAutoBright;
+
+
     public ClockOut() {
 
         global = new GlobalHolder();
@@ -68,6 +72,14 @@ public class ClockOut {
             } // public void run()
         }; //lingerMsg = new Runnable()
 
+
+        autoBrighthandler = new Handler();
+        enableAutoBright = new Runnable() {
+            public void run() {
+                Settings.System.putInt(mainContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC);
+                clockView.setText(rClockout.getString(R.string.display));
+            } // public void run()
+        }; //lingerMsg = new Runnable()
 
 
     } //public TypeOut(
@@ -138,8 +150,7 @@ public class ClockOut {
         Calendar c = Calendar.getInstance();
 
         clockView.setText(timeFormat.format(c.getTime()));
-        dateView.setText(dateFormat.format(c.getTime()));
-        dateView.append("\n");
+        dateView.setText(dateFormat.format(c.getTime()) + "\n");
         int day = c.get(Calendar.DAY_OF_WEEK);
 
         switch (day) {
@@ -219,18 +230,18 @@ public class ClockOut {
                         float currentX = event.getRawX();
                         //float currentY = event.getRawY();
 
-
-
                         int action = MotionEventCompat.getActionMasked(event);
                         switch (action) {
                             case (MotionEvent.ACTION_DOWN):
                                 initialTouchX = currentX;
+                                msghandler.removeCallbacks(lingerMsg);
                                 return false;
                             case (MotionEvent.ACTION_MOVE):
-                                refreshBrightness(currentX);
+                                determineBrightness(currentX);
                                 return false;
                             case (MotionEvent.ACTION_UP):
                                 msghandler.postDelayed(lingerMsg, 500);
+                                autoBrighthandler.removeCallbacks(enableAutoBright);
                                 return false;
                             default:
                                 return true;
@@ -243,40 +254,45 @@ public class ClockOut {
     } //public void setListener()
 
 
-    private void refreshBrightness(float getCurrentX) {
+    private void determineBrightness(float getCurrentX) {
 
         int curBrightness = android.provider.Settings.System.getInt(mainContext.getContentResolver(), android.provider.Settings.System.SCREEN_BRIGHTNESS,-1);
-        float movement = (getCurrentX - initialTouchX)/screenWidth;
-        float screenPosition = getCurrentX /screenWidth;
+        float movementX;
+        float screenPosition;
         float adjBrightness;
         int newBrightness;
         int newPercent;
-        int movPercent = (int)(movement*100);
+        int movPercent;
+
+        screenPosition = getCurrentX /screenWidth;
+        movementX = (getCurrentX - initialTouchX)/screenWidth;
+        movPercent = (int)(movementX*100);
 
         float curPercent = ((float)curBrightness/255f);
 
-        if(Math.abs(movement)>=0.05) {
+        if(Math.abs(movementX)>=0.05) {
 
-            newPercent =(int)(100*screenPosition);
-            clockView.setText(String.valueOf(newPercent));
-            clockView.append("%");
+           // autoBrighthandler.removeCallbacks(enableAutoBright);
+           // autoBrighthandler.postDelayed(enableAutoBright, 700);
+
             dateView.setText(rClockout.getString(R.string.display));
-            newBrightness = (int)(255*screenPosition);
+            adjBrightness = (curPercent+movementX);
+            if (adjBrightness>=1) adjBrightness = 1;
+            if (adjBrightness<=0) adjBrightness = 0;
+
+            newBrightness = (int)(255*(adjBrightness));
+            newPercent =(int)(100*(adjBrightness));
+
+            clockView.setText(String.valueOf(newPercent) + "%");
 
             Settings.System.putInt(mainContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
-            Settings.System.putInt(mainContext.getContentResolver(),Settings.System.SCREEN_BRIGHTNESS, newBrightness);
+            Settings.System.putInt(mainContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, newBrightness);
+
+            initialTouchX =  getCurrentX;
 
         } //if(Math.abs(movement)>=0.05)
 
-
-       // newBrightness = (int)(curBrightness+10);
-       // if (newBrightness>=255) newBrightness= 255;
-       // if (newBrightness<=1) newBrightness= 1;
-      //  LaunchpadActivity.mainActivity.getWindow().setAttributes(lp);
-        //Settings.System.putInt(resolver, "screen_brightness", 30);
-      //  Settings.System.putInt(mainContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
-      //  Settings.System.putInt(mainContext.getContentResolver(),Settings.System.SCREEN_BRIGHTNESS, newBrightness);
-    }
+    } //private void refreshBrightness(float getCurrentX)
 
 
 
