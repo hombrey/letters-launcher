@@ -209,6 +209,7 @@ public class LaunchpadActivity extends Activity {
             clockoutBox.setVisibility(View.GONE);
             TypeOut.editView.setVisibility(View.GONE);
             drawDrawerBox.DrawBox(allAppItems);
+            TypeOut.typeoutView.setText("");
 
         } //if (!isSetAsHome)
 

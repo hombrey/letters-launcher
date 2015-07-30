@@ -173,13 +173,13 @@ public class ClockOut {
                 new View.OnClickListener() {
                     public void onClick(View v) { //perform action of click
 
-                        Intent openClockIntent = new Intent(AlarmClock.ACTION_SHOW_ALARMS);
-                        //  openClockIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        Intent calendarIntent = new Intent(Intent.ACTION_MAIN);
+                        calendarIntent.addCategory(Intent.CATEGORY_DESK_DOCK);
                         try {
-                            mainContext.startActivity(openClockIntent);
+                            mainContext.startActivity(calendarIntent);
                         } catch (ActivityNotFoundException anfe) {
                             // Log.d(TAG, "Google Voice Search is not found");
-                        } //try
+                        } //try - catch
 
                     } //public void OnClick(View v)
                 } //new Button.OnClickListener()
