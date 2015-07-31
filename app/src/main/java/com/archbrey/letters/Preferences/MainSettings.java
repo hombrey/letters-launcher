@@ -1,7 +1,6 @@
 package com.archbrey.letters.Preferences;
 
-//import android.app.SearchManager;
-import android.content.ActivityNotFoundException;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;

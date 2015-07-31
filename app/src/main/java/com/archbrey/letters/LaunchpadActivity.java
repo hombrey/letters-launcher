@@ -13,10 +13,7 @@ import android.app.Activity;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -42,8 +39,10 @@ public class LaunchpadActivity extends Activity {
     public static View drawerBox ;
     public static ClockOut clockoutHandle;
 
+    public static OptionsCall optionsHandle;
+
    // private ScrollView drawerView;
-    PackageManager basicPkgMgr;
+    private static PackageManager basicPkgMgr;
     public static GridView appGridView;
 
     private Resources r;
@@ -122,12 +121,8 @@ public class LaunchpadActivity extends Activity {
         typeoutBoxHandle.setListener();
         clockoutHandle.setListener();
 
-        DrawKeypadBox.menuButton.Key.setOnClickListener( new Button.OnClickListener() {
-                    public void onClick(View v) {openOptionsMenu(); }
-                } //new Button.OnClickListener()
-        );// menuButton.Key.setOnClickListener
 
-        //setup intents
+        //setup receivers
         IntentFilter Package_update_filter = new IntentFilter();
         Package_update_filter.addAction(Intent.ACTION_PACKAGE_ADDED);
         Package_update_filter.addAction(Intent.ACTION_PACKAGE_REMOVED);
@@ -140,7 +135,7 @@ public class LaunchpadActivity extends Activity {
 
         new KeypadShortcuts().RetrieveSavedShortcuts(this);
 
-
+        optionsHandle = new OptionsCall();
 
     }// protected void onCreate(Bundle savedInstanceState)
 
@@ -201,6 +196,13 @@ public class LaunchpadActivity extends Activity {
         }
         clockoutHandle.refreshClock();
 
+
+    } //protected void onResume()
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+
         isSetAsHome = IsHome();
         if (!isSetAsHome) {
             hideDrawerAllApps = false;
@@ -212,12 +214,6 @@ public class LaunchpadActivity extends Activity {
             TypeOut.typeoutView.setText("");
 
         } //if (!isSetAsHome)
-
-    } //protected void onResume()
-
-    @Override
-    protected void onStart(){
-        super.onStart();
 
     } //protected void onStart()
 
@@ -236,40 +232,17 @@ public class LaunchpadActivity extends Activity {
 
     } //protected void onStart()
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_launchpad, menu);
+        drawerBox.setVisibility(View.VISIBLE);
+        typeoutBox.setVisibility(View.INVISIBLE);
+        clockoutBox.setVisibility(View.GONE);
+        optionsHandle.DrawBox(appGridView, this, r);
 
-        return true;
+        return false;
     }//public boolean onCreateOptionsMenu(Menu menu)
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        switch (id) {
-            case R.id.action_sys_settings:
-                    startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS) );
-                        return true;
-            case R.id.action_launcher_settings:
-                    SettingsActivity.menuArea="MainSettings";
-                    final Intent launcherSettings = new Intent("com.archbrey.letters.Preferences.SettingsActivity");
-                   //startActivityForResult(launcherSettings, 421);
-                    startActivity(launcherSettings);
-                    return true;
-            case R.id.action_wallpaper_settings:
-                final Intent pickWallpaper = new Intent(Intent.ACTION_SET_WALLPAPER);
-                startActivity(Intent.createChooser(pickWallpaper, getString(R.string.chooser_wallpaper)));
-            default:
-                    return super.onOptionsItemSelected(item);
-        } //switch (id)
-
-    } //public boolean onOptionsItemSelected(MenuItem item)
 
 
     @Override
@@ -423,7 +396,6 @@ public class LaunchpadActivity extends Activity {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
         clockoutBoxParams.addRule(RelativeLayout.ABOVE, keypadBox.getId());
-        //clockoutBoxParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 
         RelativeLayout.LayoutParams drawerBoxParams = new RelativeLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,

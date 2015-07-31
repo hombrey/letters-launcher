@@ -5,6 +5,7 @@ package com.archbrey.letters;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+//import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.support.v4.view.MotionEventCompat;
 import android.view.MotionEvent;
@@ -200,6 +201,22 @@ public class KeypadTouchListener  {
         ); //myButtonTrigger.setOnLongClickListener
 
 
+//-----------------------------   MENU KEY ------------------------------------------------------------
+
+
+
+        DrawKeypadBox.menuButton.Key.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                drawerBox.setVisibility(View.VISIBLE);
+                typeoutBox.setVisibility(View.INVISIBLE);
+                LaunchpadActivity.clockoutBox.setVisibility(View.GONE);
+                LaunchpadActivity.optionsHandle.DrawBox(LaunchpadActivity.appGridView, global.getMainContext(), global.getResources());
+            }
+        } //new Button.OnClickListener()
+        );// menuButton.Key.setOnClickListener
+
+
+
     } //void setKeypadListener()
 
 
@@ -336,8 +353,6 @@ public class KeypadTouchListener  {
       } //if(keypadButton[SelectedKeyButton].ShortcutPackage.length()>1)
 
     }//private void launchShortcut()
-
-
 
 
 
