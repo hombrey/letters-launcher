@@ -67,7 +67,10 @@ public class TypeOut {
                 findToggleTextSize = 15;
               //  drawerBox.setVisibility(View.INVISIBLE);
               //  typeoutBox.setVisibility(View.INVISIBLE);
-                delButton.Key.setText(String.valueOf(Character.toChars(8595)));//"down" button
+                if (!LaunchpadActivity.isSetAsHome)
+                    delButton.Key.setText(String.valueOf(Character.toChars(8593))); //"up" button
+                else
+                    delButton.Key.setText(String.valueOf(Character.toChars(8595)));//"down" button
             } // if (!findStatus)
 
         findToggleView.setTextSize(TypedValue.COMPLEX_UNIT_SP, findToggleTextSize);
@@ -90,7 +93,12 @@ public class TypeOut {
             findToggleTextSize = 15;
             drawerBox.setVisibility(View.INVISIBLE);
             typeoutBox.setVisibility(View.INVISIBLE);
-            delButton.Key.setText(String.valueOf(Character.toChars(8595)));//"down" button
+
+            if (!LaunchpadActivity.isSetAsHome)
+                delButton.Key.setText(String.valueOf(Character.toChars(8593))); //"up" button
+            else
+                delButton.Key.setText(String.valueOf(Character.toChars(8595)));//"down" button
+
         } //if (findStatus)
         else {
             findStatus = true;

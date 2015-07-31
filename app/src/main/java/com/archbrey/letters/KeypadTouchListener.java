@@ -307,7 +307,8 @@ public class KeypadTouchListener  {
                 drawerBox.setVisibility(View.VISIBLE);
                 typeoutBox.setVisibility(View.VISIBLE);
                 LaunchpadActivity.clockoutBox.setVisibility(View.GONE);
-            }
+            }//if (!LaunchpadActivity.isSetAsHome)
+
             TypeOut.editView.setVisibility(View.GONE);
         } //else of if (!getCurrentLetter.equals(" "))
         else if ( (searchLength == 1) && (!typeoutBoxHandle.getFindStatus()) ) {

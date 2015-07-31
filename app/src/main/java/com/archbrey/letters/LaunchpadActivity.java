@@ -72,11 +72,14 @@ public class LaunchpadActivity extends Activity {
     public static String colorScheme;
 
     public static boolean isSetAsHome;
+    private static Bundle reuseBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        reuseBundle = savedInstanceState;
+
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //keep layout in portrait
         global = new GlobalHolder();
         r = getResources();
@@ -190,8 +193,9 @@ public class LaunchpadActivity extends Activity {
         // filterBoxHandle.refreshRecentItems();
 
         if (SettingsActivity.SettingChanged) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+           // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+           // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            onCreate(reuseBundle);
             SettingsActivity.SettingChanged = false;
         }
         clockoutHandle.refreshClock();
@@ -203,16 +207,22 @@ public class LaunchpadActivity extends Activity {
     protected void onStart(){
         super.onStart();
 
-        isSetAsHome = IsHome();
+        boolean tempReadStatus;
+        tempReadStatus=IsHome();
+
+        if (tempReadStatus!=isSetAsHome) {
+            isSetAsHome = tempReadStatus;
+            onCreate(reuseBundle);
+        }
+
         if (!isSetAsHome) {
+            TypeOut.typeoutView.setText("");
             hideDrawerAllApps = false;
             typeoutBox.setVisibility(View.VISIBLE);
             drawerBox.setVisibility(View.VISIBLE);
             clockoutBox.setVisibility(View.GONE);
             TypeOut.editView.setVisibility(View.GONE);
             drawDrawerBox.DrawBox(allAppItems);
-            TypeOut.typeoutView.setText("");
-
         } //if (!isSetAsHome)
 
     } //protected void onStart()

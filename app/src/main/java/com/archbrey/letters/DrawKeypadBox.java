@@ -197,7 +197,10 @@ public class DrawKeypadBox  {
 
         menuButton.Ascii=String.valueOf(Character.toChars(926)); //"Xi symbol"
         //delButton.Ascii=String.valueOf(Character.toChars(8855));
-        delButton.Ascii=String.valueOf(Character.toChars(8595)); //"down" button
+        if (!LaunchpadActivity.isSetAsHome)
+            delButton.Key.setText(String.valueOf(Character.toChars(8593))); //"up" button
+        else
+            delButton.Ascii=String.valueOf(Character.toChars(8595)); //"down" button
 
     }//void assignKeys()
 
