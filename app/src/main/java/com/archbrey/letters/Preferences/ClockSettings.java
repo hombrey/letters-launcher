@@ -2,7 +2,7 @@ package com.archbrey.letters.Preferences;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.util.TypedValue;
+//import android.util.TypedValue;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;

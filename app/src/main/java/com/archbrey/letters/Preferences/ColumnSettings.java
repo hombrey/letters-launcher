@@ -8,6 +8,7 @@ import android.widget.GridView;
 
 import com.archbrey.letters.R;
 
+
 public class ColumnSettings {
 
     private static GridView mainMenuBox;
@@ -19,13 +20,13 @@ public class ColumnSettings {
     public GridView DrawBox (GridView getgridBox,Context c,Resources getR) {
 
         String[] menuItems;
-
+        rMainSettings = getR;
         SettingsActivity.infoView.setText(getR.getString(R.string.change_columns));
         SettingsActivity.menuArea = getR.getString(R.string.change_columns);
         SettingsActivity.menuLevel=1;
         mainMenuBox = getgridBox;
         settingsContext = c;
-        rMainSettings = getR;
+
 
         menuItems = new String[3];
         menuItems[0] =getR.getString(R.string.two);
