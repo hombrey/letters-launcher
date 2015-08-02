@@ -1,33 +1,31 @@
 package com.archbrey.letters;
 
-import android.app.Activity;
-import android.app.Instrumentation;
+//import android.app.Activity;
+//import android.app.Instrumentation;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Point;
-import android.graphics.Typeface;
 import android.os.Handler;
-import android.provider.AlarmClock;
 import android.provider.Settings;
 import android.support.v4.view.MotionEventCompat;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
-import android.view.KeyEvent;
+//import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.archbrey.letters.Preferences.MainSettings;
+//import com.archbrey.letters.Preferences.MainSettings;
 import com.archbrey.letters.Preferences.SettingsActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
+//import java.util.Date;
 
 public class ClockOut {
 
@@ -162,6 +160,9 @@ public class ClockOut {
             case Calendar.FRIDAY: dateView.append(rClockout.getString(R.string.fri)); break;
             case Calendar.SATURDAY: dateView.append(rClockout.getString(R.string.sat)); break;
         } //switch (day)
+
+        DisplayMetrics metrics = new DisplayMetrics();
+
 
     } //public void refreshClock()
 

@@ -1,6 +1,7 @@
 package com.archbrey.letters;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,10 +12,12 @@ public class KeypadShortcuts {
     private static AppItem[] allApps;
     private static GlobalHolder global;
     private static Context mainContext;
+    private static Resources rMain;
 
     public KeypadShortcuts(){
 
         global = new GlobalHolder();
+        rMain = global.getResources();
 
     } //public KeypadShortcuts()
 
@@ -28,11 +31,15 @@ public class KeypadShortcuts {
         if (DrawKeypadBox.keypadButton[KeyPosition].ShortcutLabel.length()>1) {
                 TypeOut.typeoutView.append(" - ");
                 TypeOut.typeoutView.append(DrawKeypadBox.keypadButton[KeyPosition].ShortcutLabel);
+                TypeOut.editView.setText("  "); //make x button larger
+                TypeOut.editView.append(String.valueOf(Character.toChars(215))); //x button
+                TypeOut.editView.append(" "); //make x button larger
             }//if (DrawKeypadBox.keypadButton[KeyPosition].ShortcutLabel.length()>1)
-        else {TypeOut.typeoutView.append(" - Select");}
-        TypeOut.editView.setText("  "); //make x button larger
-        TypeOut.editView.append(String.valueOf(Character.toChars(215))); //x button
-        TypeOut.editView.append(" "); //make x button larger
+        else {
+            TypeOut.typeoutView.setText(" - " + rMain.getString(R.string.unassigned));
+            TypeOut.editView.setText(" "); //x button not needed if unassigned
+        } //else of if (DrawKeypadBox.keypadButton[KeyPosition].ShortcutLabel.length()>1)
+
         allApps = global.getAllAppItems();
        // new DrawDrawerBox (getContext, LaunchpadActivity.appGridView,allApps);
         LaunchpadActivity.drawDrawerBox.DrawBox(allApps);

@@ -18,11 +18,13 @@ public class AppDrawerAdapter extends BaseAdapter {
    // private static int drawerTextSize;
     private static Resources rDrawer;
     private static GlobalHolder global;
+    private static int similarLabelCount;
 
     public AppDrawerAdapter (Context c, AppItem passedAppItem[]){
         getViewContext = c;
         appItemForAdapter = passedAppItem;
         global = new GlobalHolder();
+        similarLabelCount = 1;
     }
 
     public void passinto(AppItem passedAppItem[]){
@@ -75,8 +77,17 @@ public class AppDrawerAdapter extends BaseAdapter {
 
         //  viewHolder.icon.setImageDrawable(appItemForAdapter[position].icon);
         viewHolder.text.setText(appItemForAdapter[position].label);
+
+        if (position>0){
+            if( appItemForAdapter[position-1].label.equals(appItemForAdapter[position].label)) {
+                //viewHolder.text.append(" Alt-" + String.valueOf(++similarLabelCount));
+                viewHolder.text.append("\n" + appItemForAdapter[position].name);
+            }else similarLabelCount=1;
+        } //if (position>1)
+
+
         //viewHolder.text.setTextSize(R.dimen.drawer_textSize);
-        viewHolder.text.setTextSize(TypedValue.COMPLEX_UNIT_SP, SettingsActivity.drawerTextSize);
+                viewHolder.text.setTextSize(TypedValue.COMPLEX_UNIT_SP, SettingsActivity.drawerTextSize);
 
             viewHolder.text.setTextColor(SettingsActivity.textColor);
 

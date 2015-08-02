@@ -3,13 +3,12 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 21
     buildToolsVersion '21.1.2'
-
     defaultConfig {
         applicationId "com.archbrey.letters"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1
-        versionName "1.0"
+        versionName '1.10'
     }
     buildTypes {
         release {
@@ -18,7 +17,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
             output.outputFile = new File(
@@ -27,8 +25,8 @@ android {
                     output.outputFile.name.replace(".apk", "-Letters-${variant.versionName}.apk"))
         }
     }
-
-
+    productFlavors {
+    }
 }
 
 

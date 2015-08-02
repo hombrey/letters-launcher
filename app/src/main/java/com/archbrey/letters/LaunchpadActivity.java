@@ -8,8 +8,10 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -72,6 +74,7 @@ public class LaunchpadActivity extends Activity {
     public static String colorScheme;
 
     public static boolean isSetAsHome;
+    private static boolean setAsHomeChanged;
     private static Bundle reuseBundle;
 
     @Override
@@ -85,8 +88,26 @@ public class LaunchpadActivity extends Activity {
         r = getResources();
         basicPkgMgr = getPackageManager();
         hideDrawerAllApps = true;
-
         mainActivity = this;
+        setAsHomeChanged = false;
+
+        AutoRescaleFonts();
+
+        /*
+        Configuration configuration = r.getConfiguration();
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        if ((metrics.xdpi>=310)||(metrics.ydpi>=310)){
+            configuration.fontScale=(float) 0.9;
+        } // if ((metrics.xdpi>=310)||(metrics.ydpi>=310))
+
+        if ( configuration.fontScale > 1) {
+            configuration.fontScale=(float) 1;
+        } //if ( configuration.fontScale > 1)
+
+        metrics.scaledDensity = configuration.fontScale * metrics.density;
+        getBaseContext().getResources().updateConfiguration(configuration, metrics);*/
 
         prefs = getSharedPreferences(prefName, MODE_PRIVATE);
         getPreferences();
@@ -212,7 +233,7 @@ public class LaunchpadActivity extends Activity {
 
         if (tempReadStatus!=isSetAsHome) {
             isSetAsHome = tempReadStatus;
-            onCreate(reuseBundle);
+            setAsHomeChanged = true;
         }
 
         if (!isSetAsHome) {
@@ -223,6 +244,11 @@ public class LaunchpadActivity extends Activity {
             clockoutBox.setVisibility(View.GONE);
             TypeOut.editView.setVisibility(View.GONE);
             drawDrawerBox.DrawBox(allAppItems);
+            if (setAsHomeChanged) {
+
+                onCreate(reuseBundle);
+            } //if (setAsHomeChanged)
+            
         } //if (!isSetAsHome)
 
     } //protected void onStart()
@@ -475,6 +501,23 @@ public class LaunchpadActivity extends Activity {
         }
 
     } //private boolean IsHome()
+
+    private void AutoRescaleFonts(){
+        Configuration configuration = r.getConfiguration();
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        if ((metrics.xdpi>=310)||(metrics.ydpi>=310)){
+            configuration.fontScale=(float) 0.9;
+        } // if ((metrics.xdpi>=310)||(metrics.ydpi>=310))
+
+        if ( configuration.fontScale > 1) {
+            configuration.fontScale=(float) 1;
+        } //if ( configuration.fontScale > 1)
+
+        metrics.scaledDensity = configuration.fontScale * metrics.density;
+        getBaseContext().getResources().updateConfiguration(configuration, metrics);
+    } //private void AutoRescaleFonts()
 
     public class RefreshAppItemReceiver extends BroadcastReceiver {
 
