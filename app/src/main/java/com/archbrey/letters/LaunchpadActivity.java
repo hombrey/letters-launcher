@@ -67,7 +67,7 @@ public class LaunchpadActivity extends Activity {
     public static String prefName = "LettersPrefs";
 
     public static boolean hideDrawerAllApps;
-   // private static boolean isForeground;
+    private static boolean isForeground;
 
     public static Activity mainActivity;
 
@@ -75,6 +75,7 @@ public class LaunchpadActivity extends Activity {
 
     public static boolean isSetAsHome;
     private static boolean setAsHomeChanged;
+    private static boolean prepareToStop;
     private static Bundle reuseBundle;
 
     @Override
@@ -90,24 +91,9 @@ public class LaunchpadActivity extends Activity {
         hideDrawerAllApps = true;
         mainActivity = this;
         setAsHomeChanged = false;
+        prepareToStop = false;
 
         AutoRescaleFonts();
-
-        /*
-        Configuration configuration = r.getConfiguration();
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-
-        if ((metrics.xdpi>=310)||(metrics.ydpi>=310)){
-            configuration.fontScale=(float) 0.9;
-        } // if ((metrics.xdpi>=310)||(metrics.ydpi>=310))
-
-        if ( configuration.fontScale > 1) {
-            configuration.fontScale=(float) 1;
-        } //if ( configuration.fontScale > 1)
-
-        metrics.scaledDensity = configuration.fontScale * metrics.density;
-        getBaseContext().getResources().updateConfiguration(configuration, metrics);*/
 
         prefs = getSharedPreferences(prefName, MODE_PRIVATE);
         getPreferences();
@@ -132,7 +118,7 @@ public class LaunchpadActivity extends Activity {
         global.setResources(r);
 
         //setup initial app list
-        new GetAppList().initialize();
+        //new GetAppList().initialize(); //needed only when "recents" feature is enabled
         allAppItems = new GetAppList().all_appItems(basicPkgMgr);
         filterBoxHandle.refreshFilterItems(allAppItems);
 
@@ -180,6 +166,7 @@ public class LaunchpadActivity extends Activity {
                 //  TypeOut.typeoutView.setText("");
             } //if (TypeOut.editMode > 10)
 
+        if (isSetAsHome) {
             clockoutBox.setVisibility(View.VISIBLE);
             clockoutHandle.refreshClock();
             drawerBox.setVisibility(View.INVISIBLE);
@@ -187,46 +174,21 @@ public class LaunchpadActivity extends Activity {
             typeoutBoxHandle.setFindStatus(false);
             TypeOut.typeoutView.setText("");
             hideDrawerAllApps = true; //this standardizes behavior when pressing home button
+        }
 
         if (!isSetAsHome) {
             drawerBox.setVisibility(View.VISIBLE);
-            TypeOut.typeoutBox.setVisibility(View.VISIBLE);
+           // TypeOut.typeoutBox.setVisibility(View.VISIBLE);
             clockoutBox.setVisibility(View.GONE);
-            if (TypeOut.editMode <= 10)  super.onBackPressed();
-
+           // if (TypeOut.editMode <= 10)  super.onBackPressed();
         } //if (!isSetAsHome)
 
     } //public void onBackPressed()
 
 
-
     @Override
     protected void onResume() {
         super.onResume();
-
-        if (hideDrawerAllApps) {
-            drawerBox.setVisibility(View.INVISIBLE);
-            typeoutBox.setVisibility(View.INVISIBLE);
-        } // if (hideDrawerAllApps)
-
-        global.setFindString("");
-        typeoutBoxHandle.setFindStatus(false); //stop search mode if length = 0;
-        // filterBoxHandle.refreshRecentItems();
-
-        if (SettingsActivity.SettingChanged) {
-           // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-           // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            onCreate(reuseBundle);
-            SettingsActivity.SettingChanged = false;
-        }
-        clockoutHandle.refreshClock();
-
-
-    } //protected void onResume()
-
-    @Override
-    protected void onStart(){
-        super.onStart();
 
         boolean tempReadStatus;
         tempReadStatus=IsHome();
@@ -239,24 +201,70 @@ public class LaunchpadActivity extends Activity {
         if (!isSetAsHome) {
             TypeOut.typeoutView.setText("");
             hideDrawerAllApps = false;
+            if (setAsHomeChanged) {
+                appGridView.clearTextFilter();
+                appGridView.setAdapter(null);
+                setAsHomeChanged = false;
+                onCreate(reuseBundle);
+                drawDrawerBox = new DrawDrawerBox (this, appGridView, allAppItems);
+                drawDrawerBox.setListener();
+                prepareToStop = true;
+            } //if (setAsHomeChanged)
             typeoutBox.setVisibility(View.VISIBLE);
             drawerBox.setVisibility(View.VISIBLE);
             clockoutBox.setVisibility(View.GONE);
             TypeOut.editView.setVisibility(View.GONE);
             drawDrawerBox.DrawBox(allAppItems);
-            if (setAsHomeChanged) {
-
-                onCreate(reuseBundle);
-            } //if (setAsHomeChanged)
-            
         } //if (!isSetAsHome)
 
+
+        if (hideDrawerAllApps) {
+            drawerBox.setVisibility(View.INVISIBLE);
+            typeoutBox.setVisibility(View.INVISIBLE);
+        } // if (hideDrawerAllApps)
+
+        global.setFindString("");
+        typeoutBoxHandle.setFindStatus(false); //stop search mode if length = 0;
+        // filterBoxHandle.refreshRecentItems();
+
+        if (SettingsActivity.SettingChanged) {
+            onCreate(reuseBundle);
+            SettingsActivity.SettingChanged = false;
+        }
+        clockoutHandle.refreshClock();
+
+
+    } //protected void onResume()
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+
+        isForeground = true;
     } //protected void onStart()
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (prepareToStop) {
+            //finish();
+            appGridView.clearTextFilter();
+            appGridView.setAdapter(null);
+           onCreate(reuseBundle);
+            drawDrawerBox = new DrawDrawerBox (this, appGridView, allAppItems);
+            drawDrawerBox.setListener();
+
+        }
+
+    } //protected void onRestart()
+
 
     @Override
     protected void onStop(){
         super.onStop();
-
+        isForeground = false;
     } //protected void onStart()
 
 
@@ -264,9 +272,22 @@ public class LaunchpadActivity extends Activity {
     protected void onDestroy(){
         super.onDestroy();
 
+        appGridView.clearTextFilter();
+        appGridView.setAdapter(null);
+
         unregisterReceiver(appUpdater);
 
     } //protected void onStart()
+
+
+    private void disassembleScreen(){
+        //setContentView(null);
+        mainScreen.removeView(filterBox);
+        mainScreen.removeView(keypadBox);
+        mainScreen.removeView(typeoutBox);
+        mainScreen.removeView(drawerBox);
+        if (SettingsActivity.clockVisibility != 0) mainScreen.removeView(clockoutBox);
+    } //private void disassembleScreen()
 
 
     @Override
@@ -290,25 +311,28 @@ public class LaunchpadActivity extends Activity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
 
-        if (Intent.ACTION_MAIN.equals(intent.getAction())&&isSetAsHome) {
-           // Log.i("MyLauncher", "onNewIntent: HOME Key");
+        if (isForeground) {
 
-            LaunchpadActivity.keypadBox.setVisibility(View.VISIBLE);
-            LaunchpadActivity.filterBox.setVisibility(View.VISIBLE);
-            TypeOut.findToggleView.setVisibility(View.VISIBLE);
-            TypeOut.editView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TypeOut.TextSize);
-            TypeOut.editView.setText("  "); //spacer to make the tap target larger
-            TypeOut.editView.append(String.valueOf(Character.toChars(177))); //plus minus button
-            TypeOut.editView.append("  "); //spacer to make the tap target larger
-            typeoutBoxHandle.setFindStatus(false);
-            TypeOut.typeoutView.setText("");
-             toggleHideAllApps();
+            if (Intent.ACTION_MAIN.equals(intent.getAction()) && isSetAsHome) {
+                // Log.i("MyLauncher", "onNewIntent: HOME Key");
 
-            SettingsActivity.menuLevel=0;
-           // SettingsActivity.settingsScreen.removeView(SettingsActivity.viewpadBox);
+                LaunchpadActivity.keypadBox.setVisibility(View.VISIBLE);
+                LaunchpadActivity.filterBox.setVisibility(View.VISIBLE);
+                TypeOut.findToggleView.setVisibility(View.VISIBLE);
+                TypeOut.editView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TypeOut.TextSize);
+                TypeOut.editView.setText("  "); //spacer to make the tap target larger
+                TypeOut.editView.append(String.valueOf(Character.toChars(177))); //plus minus button
+                TypeOut.editView.append("  "); //spacer to make the tap target larger
+                typeoutBoxHandle.setFindStatus(false);
+                TypeOut.typeoutView.setText("");
+                toggleHideAllApps();
 
-        } //if (Intent.ACTION_MAIN.equals(intent.getAction()))
+                SettingsActivity.menuLevel = 0;
+                // SettingsActivity.settingsScreen.removeView(SettingsActivity.viewpadBox);
 
+            } //if (Intent.ACTION_MAIN.equals(intent.getAction()))
+
+        } //if isForeground;
 
     } //protected void onNewIntent(Intent intent)
 
