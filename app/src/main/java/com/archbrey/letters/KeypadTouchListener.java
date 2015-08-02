@@ -2,6 +2,7 @@ package com.archbrey.letters;
 
 
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -39,7 +40,6 @@ public class KeypadTouchListener  {
     private static TypeOut typeoutBoxHandle;
     private static Handler handler;
     private static Runnable mLongPressed;
-
 
     private static class ButtonLocation {
         int X;
@@ -342,7 +342,13 @@ public class KeypadTouchListener  {
 
           Intent launchIntent = pmForListener.getLaunchIntentForPackage(keypadButton[SelectedKeyButton].ShortcutPackage);
 
-          global.getMainContext().startActivity(launchIntent);
+          //global.getMainContext().startActivity(launchIntent);
+
+          try {
+              global.getMainContext().startActivity(launchIntent);
+          } catch (ActivityNotFoundException e) {
+              // Log.d(TAG, "package is not found");
+          } //try*/
 
           //  AppItem launched;
           //  launched = new AppItem();

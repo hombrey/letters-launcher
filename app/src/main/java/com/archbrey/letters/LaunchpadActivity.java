@@ -216,6 +216,11 @@ public class LaunchpadActivity extends Activity {
             TypeOut.editView.setVisibility(View.GONE);
             drawDrawerBox.DrawBox(allAppItems);
         } //if (!isSetAsHome)
+        else {
+            if (setAsHomeChanged) {
+                onCreate(reuseBundle);
+            }//if (setAsHomeChanged)
+        } //else of if (!isSetAsHome)
 
 
         if (hideDrawerAllApps) {
@@ -229,6 +234,7 @@ public class LaunchpadActivity extends Activity {
 
         if (SettingsActivity.SettingChanged) {
             onCreate(reuseBundle);
+            if (!isSetAsHome) clockoutBox.setVisibility(View.GONE);
             SettingsActivity.SettingChanged = false;
         }
         clockoutHandle.refreshClock();

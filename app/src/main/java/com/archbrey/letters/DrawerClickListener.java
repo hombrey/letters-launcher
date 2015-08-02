@@ -1,8 +1,10 @@
 package com.archbrey.letters;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -25,12 +27,13 @@ public class DrawerClickListener implements OnItemClickListener  {
 
         Intent launchIntent = pmForListener.getLaunchIntentForPackage(appItemForListener[position].pkgname);
 
-            //AppItem launched;
-            //launched= appItemForListener[position];
-            //new GetAppList().addRecentApp (launched);
+            //clickListenerContext.startActivity(launchIntent);
 
+        try {
             clickListenerContext.startActivity(launchIntent);
-
+        } catch (ActivityNotFoundException e) {
+             Log.d("launch fail","activity not found");
+        } //try*/
 
     }// public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
 
