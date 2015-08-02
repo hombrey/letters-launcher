@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item type="id" name="keypadBox" />
+    <item type="id" name="typeoutBox" />
+    <item type="id" name="drawerBox" />
+    <item type="id" name="fillerBox" />
+    <item type="id" name="filterBox" />
+    <item type="id" name="clockoutBox" />
+    <item type="id" name="clockView" />
+
+    <item type="id" name="settingsdrawerBox" />
+    <item type="id" name="viewpadBox" />
+    <item type="id" name="editFilterBox" />
+    <item type="id" name="infoBox" />
+
+    <item type="id" name="settingsDrawer" />
+    <item type="id" name="bottomRowBox" />
+    <item type="id" name="settingsFillerBox" />
+    <item type="id" name="setColorsBox" />
+
+    <item type="id" name="typeoutView" />
+    <item type="id" name="editView" />
+    <item type="id" name="toggleFindView" />
+</resources>

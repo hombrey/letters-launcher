@@ -2,13 +2,6 @@
 <items version="2" >
 
     <item
-        jar="/home/archbrey/AndroidStudioProjects/Letters/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/jars/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="73753982da6bde518f3a4c6b372749981d14d1a0">
-        <dex dex="/home/archbrey/AndroidStudioProjects/Letters/app/build/intermediates/pre-dexed/debug/classes-dbeaa0f570aa5e1f0fc6c362c02e07b5b00ba4d4.jar" />
-    </item>
-    <item
         jar="/home/archbrey/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/22.2.0/support-annotations-22.2.0.jar"
         jumboMode="false"
         revision="21.1.2"
@@ -28,6 +21,13 @@
         revision="21.1.2"
         sha1="57f2ab85c164ff1676ec64dee787981c046fab79">
         <dex dex="/home/archbrey/AndroidStudioProjects/Letters/app/build/intermediates/pre-dexed/debug/internal_impl-22.2.0-c0d326ee6f2b0e81bbd40c4a6a882ee1e54cc99e.jar" />
+    </item>
+    <item
+        jar="/home/archbrey/AndroidStudioProjects/Letters/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="73753982da6bde518f3a4c6b372749981d14d1a0">
+        <dex dex="/home/archbrey/AndroidStudioProjects/Letters/app/build/intermediates/pre-dexed/debug/classes-dbeaa0f570aa5e1f0fc6c362c02e07b5b00ba4d4.jar" />
     </item>
 
 </items>

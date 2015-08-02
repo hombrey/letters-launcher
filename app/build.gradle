@@ -3,21 +3,33 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 21
     buildToolsVersion '21.1.2'
-
     defaultConfig {
-        applicationId "com.archbrey.www.letters"
+        applicationId "com.archbrey.letters"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1
-        versionName "1.0"
+        versionName '1.10'
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            output.outputFile = new File(
+                    output.outputFile.parent,
+                    // output.outputFile.name.replace("app-release", "Letters"),
+                    output.outputFile.name.replace(".apk", "-Letters-${variant.versionName}.apk"))
+        }
+    }
+    productFlavors {
+    }
 }
+
+
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
