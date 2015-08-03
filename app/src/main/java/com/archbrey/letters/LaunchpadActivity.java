@@ -112,6 +112,10 @@ public class LaunchpadActivity extends Activity {
 
 
         setContentView(mainScreen);
+        if (isSetAsHome) {
+            drawerBox.setVisibility(View.INVISIBLE);
+            TypeOut.typeoutBox.setVisibility(View.GONE);
+        } else clockoutBox.setVisibility(View.GONE);
 
         //set variables to be used by other classes
         appGridView = (GridView) findViewById(R.id.drawer_content);
@@ -216,6 +220,7 @@ public class LaunchpadActivity extends Activity {
                 drawDrawerBox.setListener();
                 prepareToStop = true;
             } //if (setAsHomeChanged)
+
             typeoutBox.setVisibility(View.VISIBLE);
             drawerBox.setVisibility(View.VISIBLE);
             clockoutBox.setVisibility(View.GONE);
@@ -391,7 +396,7 @@ public class LaunchpadActivity extends Activity {
         Integer keyHeight = prefs.getInt("keyboardHeight",38);
         Integer fltHeight = prefs.getInt("filterHeight",7);
 
-
+        SettingsActivity.handedness = prefs.getString("handedness", "right");
 
         SettingsActivity.filterCodes = new String[6];
 
@@ -519,31 +524,26 @@ public class LaunchpadActivity extends Activity {
         RelativeLayout.LayoutParams clockoutBoxParams = new RelativeLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
-        clockoutBoxParams.addRule(RelativeLayout.LEFT_OF, filterBox.getId());
         clockoutBoxParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 
         RelativeLayout.LayoutParams drawerBoxParams = new RelativeLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-        drawerBoxParams.addRule(RelativeLayout.LEFT_OF, filterBox.getId());
         drawerBoxParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 
         RelativeLayout.LayoutParams typeoutBoxParams = new RelativeLayout.LayoutParams(
                 screenWidth,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         typeoutBoxParams.addRule(RelativeLayout.ABOVE, keypadBox.getId());
-        typeoutBoxParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 
         RelativeLayout.LayoutParams keypadBoxParams = new RelativeLayout.LayoutParams(
                 screenWidth,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         keypadBoxParams.addRule(RelativeLayout.ABOVE, filterBox.getId());
-        keypadBoxParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 
         RelativeLayout.LayoutParams filterBoxParams = new RelativeLayout.LayoutParams(
                 screenWidth,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-        filterBoxParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         filterBoxParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 
 
@@ -554,7 +554,27 @@ public class LaunchpadActivity extends Activity {
                 screenWidth,
                 LinearLayout.LayoutParams.MATCH_PARENT);
         fillerParams.addRule(RelativeLayout.ABOVE, typeoutBox.getId());
-        fillerParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+
+
+
+        if (SettingsActivity.handedness.equals("left")) {
+            clockoutBoxParams.addRule(RelativeLayout.RIGHT_OF, filterBox.getId());
+            drawerBoxParams.addRule(RelativeLayout.RIGHT_OF, filterBox.getId());
+            typeoutBoxParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+            keypadBoxParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+            filterBoxParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+            fillerParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        } else {
+            clockoutBoxParams.addRule(RelativeLayout.LEFT_OF, filterBox.getId());
+            drawerBoxParams.addRule(RelativeLayout.LEFT_OF, filterBox.getId());
+            typeoutBoxParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            keypadBoxParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            filterBoxParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            fillerParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        } //else of  if (SettingsActivity.handedness.equals("left"))
+
+
+
 
 
         mainScreen.addView(filterBox, filterBoxParams);

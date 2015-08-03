@@ -24,6 +24,7 @@
     <string name="custom_filter">Filter Labels</string>
     <string name="custom_keypad">Keypad Height</string>
     <string name="custom_clock">Clock Visibility</string>
+    <string name="handedness">Landscape handedness</string>
     <string name="set_wallpaper">Wallpaper</string>
 
     <string name="dark_scheme">Dark Scheme</string>
@@ -35,6 +36,10 @@
     <string name="clock_minimum">minimum</string>
     <string name="clock_middle">middle ground</string>
     <string name="clock_maximum">maximum</string>
+
+    <string name="lefthanded">Left handed</string>
+    <string name="righthanded">Right handed</string>
+    <string name="keyboardhere">Keyboard here in landscape</string>
 
     <string name="two">two</string>
     <string name="three">three</string>

@@ -62,6 +62,8 @@ public class SettingsActivity extends Activity {
     public static SharedPreferences prefs;
     public static String prefName = "LettersPrefs";
 
+    public static Activity setActivity;
+
     public static int textColor;
     public static int backColor;
     public static int backerColor;
@@ -70,6 +72,7 @@ public class SettingsActivity extends Activity {
     public static int clockBack;
 
 
+    public static String handedness;
     public static int drawerColumns;
     public static int drawerTextSize;
 
@@ -94,6 +97,7 @@ public class SettingsActivity extends Activity {
 
        SettingChanged = false;
 
+        setActivity = this;
         r = getResources();
         C = this;
         menuLevel = 0;

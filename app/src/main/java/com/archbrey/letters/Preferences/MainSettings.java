@@ -1,24 +1,17 @@
 package com.archbrey.letters.Preferences;
 
-
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
-//import android.os.Build;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.archbrey.letters.R;
 
-//import java.lang.reflect.Method;
-//import java.util.logging.Filter;
-
 
 public class MainSettings {
 
-   // private static SettingsDrawerAdapter menuDrawerAdapter;
-   // private static String[] showItem;
+
     public static GridView mainMenuBox;
     private static Context settingsContext;
     private static Resources rMainSettings;
@@ -39,14 +32,14 @@ public class MainSettings {
         settingsContext = c;
         rMainSettings = getR;
 
-        menuItems = new String[6];
+        menuItems = new String[7];
         menuItems[0]=getR.getString(R.string.color_scheme);
         menuItems[1]=getR.getString(R.string.custom_clock);
         menuItems[2]=getR.getString(R.string.change_columns);
         menuItems[3]=getR.getString(R.string.drawer_textsize);
         menuItems[4] =getR.getString(R.string.custom_filter);
         menuItems[5] =getR.getString(R.string.custom_keypad);
-
+        menuItems[6] =getR.getString(R.string.handedness);
 
 
         new SettingsDrawer(settingsContext, mainMenuBox, menuItems);
@@ -91,11 +84,15 @@ public class MainSettings {
                     labelsHandle.DrawBox(mainMenuBox, settingsContext, rMainSettings);
                     break;
                 case 5:
-
                     HeightSettings heightHandle;
                     heightHandle = new HeightSettings();
                     heightHandle.DrawBox(mainMenuBox, settingsContext, rMainSettings);
 
+                    break;
+                case 6:
+                    LandscapeHandedness handednessHandle;
+                    handednessHandle = new LandscapeHandedness();
+                    handednessHandle.DrawBox(mainMenuBox, settingsContext, rMainSettings);
                     break;
                 default:
                     break;
