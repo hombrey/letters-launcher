@@ -9,10 +9,12 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -32,11 +34,12 @@ import com.archbrey.letters.Preferences.SettingsActivity;
 
 public class LaunchpadActivity extends Activity {
 
-    private static RelativeLayout mainScreen;
+    public static RelativeLayout mainScreen;
     public static  LinearLayout keypadBox;
     public static RelativeLayout typeoutBox;
     public static LinearLayout filterBox;
     public static RelativeLayout clockoutBox;
+    private static LinearLayout filler;
 
     public static View drawerBox ;
     public static ClockOut clockoutHandle;
@@ -52,9 +55,7 @@ public class LaunchpadActivity extends Activity {
     DrawFilterBox filterBoxHandle;
     TypeOut typeoutBoxHandle;
 
-   // private  KeypadButton[] keypadButtons ;
     private FilterItem[] filterItems;
-    //private  SideButton menuButton;
     private GlobalHolder global;
     public static DrawDrawerBox drawDrawerBox;
 
@@ -84,7 +85,7 @@ public class LaunchpadActivity extends Activity {
         super.onCreate(savedInstanceState);
         reuseBundle = savedInstanceState;
 
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //keep layout in portrait
+       // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); //keep layout in portrait
         global = new GlobalHolder();
         r = getResources();
         basicPkgMgr = getPackageManager();
@@ -103,7 +104,12 @@ public class LaunchpadActivity extends Activity {
 
         global.setMainContext(this);
         drawBoxes();
-        assembleScreen();
+
+        if (getResources().getConfiguration().orientation==Configuration.ORIENTATION_LANDSCAPE)
+            assembleHorizontal();
+        else
+            assembleVertical();
+
 
         setContentView(mainScreen);
 
@@ -162,7 +168,7 @@ public class LaunchpadActivity extends Activity {
                 TypeOut.editView.append(String.valueOf(Character.toChars(177))); //plus minus button
                 TypeOut.editView.append("  "); //x button
                 drawerBox.setVisibility(View.INVISIBLE);
-                TypeOut.typeoutBox.setVisibility(View.INVISIBLE);
+                TypeOut.typeoutBox.setVisibility(View.GONE);
                 //  TypeOut.typeoutView.setText("");
             } //if (TypeOut.editMode > 10)
 
@@ -170,7 +176,7 @@ public class LaunchpadActivity extends Activity {
             clockoutBox.setVisibility(View.VISIBLE);
             clockoutHandle.refreshClock();
             drawerBox.setVisibility(View.INVISIBLE);
-            TypeOut.typeoutBox.setVisibility(View.INVISIBLE);
+            TypeOut.typeoutBox.setVisibility(View.GONE);
             typeoutBoxHandle.setFindStatus(false);
             TypeOut.typeoutView.setText("");
             hideDrawerAllApps = true; //this standardizes behavior when pressing home button
@@ -225,7 +231,7 @@ public class LaunchpadActivity extends Activity {
 
         if (hideDrawerAllApps) {
             drawerBox.setVisibility(View.INVISIBLE);
-            typeoutBox.setVisibility(View.INVISIBLE);
+            typeoutBox.setVisibility(View.GONE);
         } // if (hideDrawerAllApps)
 
         global.setFindString("");
@@ -300,7 +306,7 @@ public class LaunchpadActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         drawerBox.setVisibility(View.VISIBLE);
-        typeoutBox.setVisibility(View.INVISIBLE);
+        typeoutBox.setVisibility(View.GONE);
         clockoutBox.setVisibility(View.GONE);
         optionsHandle.DrawBox(appGridView, this, r);
 
@@ -450,7 +456,8 @@ public class LaunchpadActivity extends Activity {
     } //private void drawBoxes()
 
 
-    private void assembleScreen(){
+
+    private void assembleVertical(){
 
         drawerBox.setId(R.id.drawerBox);
         typeoutBox.setId(R.id.typeoutBox);
@@ -490,7 +497,74 @@ public class LaunchpadActivity extends Activity {
         mainScreen.addView(drawerBox, drawerBoxParams);
         if (SettingsActivity.clockVisibility != 0) mainScreen.addView(clockoutBox, clockoutBoxParams);
 
-    } //private void assembleScreen()
+    } //private void assembleVertical()
+
+
+    private void assembleHorizontal(){
+
+        int screenWidth;
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        screenWidth = size.y;
+       // int height = size.y;
+
+
+        drawerBox.setId(R.id.drawerBox);
+        typeoutBox.setId(R.id.typeoutBox);
+        keypadBox.setId(R.id.keypadBox);
+        filterBox.setId(R.id.filterBox);
+        clockoutBox.setId(R.id.clockoutBox);
+
+        RelativeLayout.LayoutParams clockoutBoxParams = new RelativeLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        clockoutBoxParams.addRule(RelativeLayout.LEFT_OF, filterBox.getId());
+        clockoutBoxParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+
+        RelativeLayout.LayoutParams drawerBoxParams = new RelativeLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        drawerBoxParams.addRule(RelativeLayout.LEFT_OF, filterBox.getId());
+        drawerBoxParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+
+        RelativeLayout.LayoutParams typeoutBoxParams = new RelativeLayout.LayoutParams(
+                screenWidth,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        typeoutBoxParams.addRule(RelativeLayout.ABOVE, keypadBox.getId());
+        typeoutBoxParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+
+        RelativeLayout.LayoutParams keypadBoxParams = new RelativeLayout.LayoutParams(
+                screenWidth,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        keypadBoxParams.addRule(RelativeLayout.ABOVE, filterBox.getId());
+        keypadBoxParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+
+        RelativeLayout.LayoutParams filterBoxParams = new RelativeLayout.LayoutParams(
+                screenWidth,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        filterBoxParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        filterBoxParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+
+
+        filler = new LinearLayout(this);
+        filler.setBackgroundColor(SettingsActivity.backerColor);
+
+        RelativeLayout.LayoutParams fillerParams = new RelativeLayout.LayoutParams(
+                screenWidth,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        fillerParams.addRule(RelativeLayout.ABOVE, typeoutBox.getId());
+        fillerParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+
+
+        mainScreen.addView(filterBox, filterBoxParams);
+        mainScreen.addView(keypadBox, keypadBoxParams);
+        mainScreen.addView(typeoutBox, typeoutBoxParams);
+        mainScreen.addView(drawerBox, drawerBoxParams);
+        mainScreen.addView(filler,fillerParams);
+        if (SettingsActivity.clockVisibility != 0) mainScreen.addView(clockoutBox, clockoutBoxParams);
+
+    } //private void assembleHorizontal()
 
 
     public void setClockBackground() {

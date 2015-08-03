@@ -92,7 +92,7 @@ public class TypeOut {
             findToggleView.setText(" find  ");
             findToggleTextSize = 15;
             drawerBox.setVisibility(View.INVISIBLE);
-            typeoutBox.setVisibility(View.INVISIBLE);
+            typeoutBox.setVisibility(View.GONE);
 
             if (!LaunchpadActivity.isSetAsHome)
                 delButton.Key.setText(String.valueOf(Character.toChars(8593))); //"up" button
@@ -235,9 +235,11 @@ public class TypeOut {
                         if ((DrawKeypadBox.keypadButton[KeypadTouchListener.SelectedKeyButton].ShortcutPackage.length() > 1)  &&
                                 editMode==1) { //check if keypad has assigned shortcut
 
-                            Intent launchIntent = pmForListener.getLaunchIntentForPackage(DrawKeypadBox.keypadButton[KeypadTouchListener.SelectedKeyButton].ShortcutPackage);
+                            Intent launchIntent = pmForListener.getLaunchIntentForPackage(DrawKeypadBox.keypadButton[KeypadTouchListener.SelectedKeyButton].ShortcutPackage).setAction(Intent.ACTION_MAIN);
+                            if (launchIntent.resolveActivity(pmForListener) != null) {
+                                global.getMainContext().startActivity(launchIntent);
+                            } //if (launchIntent.resolveActivity(pmForListener) != null)
 
-                            global.getMainContext().startActivity(launchIntent);
 
                           //  AppItem launched;
                          //   launched = new AppItem();

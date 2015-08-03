@@ -208,7 +208,7 @@ public class KeypadTouchListener  {
         DrawKeypadBox.menuButton.Key.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 drawerBox.setVisibility(View.VISIBLE);
-                typeoutBox.setVisibility(View.INVISIBLE);
+                typeoutBox.setVisibility(View.GONE);
                 LaunchpadActivity.clockoutBox.setVisibility(View.GONE);
                 LaunchpadActivity.optionsHandle.DrawBox(LaunchpadActivity.appGridView, global.getMainContext(), global.getResources());
             }
@@ -340,15 +340,13 @@ public class KeypadTouchListener  {
 
       if (keypadButton[SelectedKeyButton].ShortcutPackage.length()>1) { //check if keypad has assigned shortcut
 
-          Intent launchIntent = pmForListener.getLaunchIntentForPackage(keypadButton[SelectedKeyButton].ShortcutPackage);
+          Intent launchIntent = pmForListener.getLaunchIntentForPackage(keypadButton[SelectedKeyButton].ShortcutPackage).setAction(Intent.ACTION_MAIN);
 
           //global.getMainContext().startActivity(launchIntent);
 
-          try {
+          if (launchIntent.resolveActivity(pmForListener) != null) {
               global.getMainContext().startActivity(launchIntent);
-          } catch (ActivityNotFoundException e) {
-              // Log.d(TAG, "package is not found");
-          } //try*/
+          }  //if (launchIntent.resolveActivity(pmForListener) != null)
 
           //  AppItem launched;
           //  launched = new AppItem();

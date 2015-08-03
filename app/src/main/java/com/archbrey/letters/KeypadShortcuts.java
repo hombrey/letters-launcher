@@ -36,7 +36,7 @@ public class KeypadShortcuts {
                 TypeOut.editView.append(" "); //make x button larger
             }//if (DrawKeypadBox.keypadButton[KeyPosition].ShortcutLabel.length()>1)
         else {
-            TypeOut.typeoutView.setText(" - " + rMain.getString(R.string.unassigned));
+            TypeOut.typeoutView.append(" - " + rMain.getString(R.string.unassigned));
             TypeOut.editView.setText(" "); //x button not needed if unassigned
         } //else of if (DrawKeypadBox.keypadButton[KeyPosition].ShortcutLabel.length()>1)
 

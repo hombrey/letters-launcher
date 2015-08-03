@@ -85,7 +85,8 @@ public class SettingsActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //keep layout in portrait
+        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //keep layout in portrait
+        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); //keep layout in portrait
 
         com.archbrey.letters.Preferences.SettingsHolder holder;
         prefs = getSharedPreferences(prefName, MODE_PRIVATE);
@@ -178,7 +179,7 @@ public class SettingsActivity extends Activity {
 
         settingsScreen.removeView(viewpadBox);
         if (menuLevel > 0) menuLevel = 0;
-        try{finish();}catch (Exception e) {}
+       // try{finish();}catch (Exception e) {}
         //kill activity when not visible to force onCreate() when settings is called again
        //  if (menuLevel > 0) finish();
 

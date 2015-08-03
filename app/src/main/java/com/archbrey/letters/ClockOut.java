@@ -45,7 +45,7 @@ public class ClockOut {
 
     private float initialTouchX;
     private static int screenWidth;
-    private static int screenHeight;
+   // private static int screenHeight;
 
     private static Handler msghandler;
     private static Runnable lingerMsg;
@@ -174,13 +174,15 @@ public class ClockOut {
                 new View.OnClickListener() {
                     public void onClick(View v) { //perform action of click
 
+
                         Intent calendarIntent = new Intent(Intent.ACTION_MAIN);
                         calendarIntent.addCategory(Intent.CATEGORY_DESK_DOCK);
                         try {
                             mainContext.startActivity(calendarIntent);
-                        } catch (ActivityNotFoundException anfe) {
+                        } catch (ActivityNotFoundException e) {
                             // Log.d(TAG, "Google Voice Search is not found");
                         } //try - catch
+
 
                     } //public void OnClick(View v)
                 } //new Button.OnClickListener()
