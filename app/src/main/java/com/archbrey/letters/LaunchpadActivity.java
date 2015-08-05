@@ -79,6 +79,11 @@ public class LaunchpadActivity extends Activity {
     private static boolean prepareToStop;
     private static Bundle reuseBundle;
 
+    private static Context mainContext;
+
+    private static int screenMode;
+    private static boolean slowOnCreate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -91,8 +96,8 @@ public class LaunchpadActivity extends Activity {
         basicPkgMgr = getPackageManager();
         hideDrawerAllApps = true;
         mainActivity = this;
-        setAsHomeChanged = false;
         prepareToStop = false;
+        setAsHomeChanged = false;
 
         AutoRescaleFonts();
 
@@ -105,13 +110,23 @@ public class LaunchpadActivity extends Activity {
         global.setMainContext(this);
         drawBoxes();
 
-        if (getResources().getConfiguration().orientation==Configuration.ORIENTATION_LANDSCAPE)
+        slowOnCreate = true;
+        if (getResources().getConfiguration().orientation==Configuration.ORIENTATION_LANDSCAPE) {
+            if (screenMode == 10) slowOnCreate = false;
             assembleHorizontal();
-        else
+            screenMode = 20;
+        } else {
+            if (screenMode == 20) slowOnCreate = false;
             assembleVertical();
-
-
+            screenMode = 10;
+        } //if (getResources().getConfiguration().orientation==Configuration.ORIENTATION_LANDSCAPE)
         setContentView(mainScreen);
+
+
+        //if only settings changed, new app list does not need to be fetched
+        if (SettingsActivity.SettingChanged) slowOnCreate = false;
+
+
         if (isSetAsHome) {
             drawerBox.setVisibility(View.INVISIBLE);
             TypeOut.typeoutBox.setVisibility(View.GONE);
@@ -127,20 +142,27 @@ public class LaunchpadActivity extends Activity {
         global.setFindString("");
         global.setResources(r);
 
-        //setup initial app list
-        //new GetAppList().initialize(); //needed only when "recents" feature is enabled
-        allAppItems = new GetAppList().all_appItems(basicPkgMgr);
-        filterBoxHandle.refreshFilterItems(allAppItems);
+        //setup initial app list. Not needed after doing screen rotate or after changing launcher settings
+        if (slowOnCreate) allAppItems = new GetAppList().all_appItems(basicPkgMgr);
+
+        Runnable runnable = new Runnable(){
+            public void run() {
+            //new GetAppList().initialize(); //needed only when "recents" feature is enabled
+            filterBoxHandle.refreshFilterItems(allAppItems);
+            new FilterBoxTouchListener(filterItems,typeoutView);
+            } //public void run()
+        }; // Runnable runnable = new Runnable()
+        Thread mythread = new Thread(runnable);
+        mythread.start();
 
         drawDrawerBox = new DrawDrawerBox (this, appGridView, allAppItems);
         drawDrawerBox.setListener();
 
+
         //setup listeners
         new KeypadTouchListener(typeoutView);
-        new FilterBoxTouchListener(filterItems,typeoutView);
         typeoutBoxHandle.setListener();
         clockoutHandle.setListener();
-
 
         //setup receivers
         IntentFilter Package_update_filter = new IntentFilter();
@@ -148,13 +170,12 @@ public class LaunchpadActivity extends Activity {
         Package_update_filter.addAction(Intent.ACTION_PACKAGE_REMOVED);
         Package_update_filter.addAction(Intent.ACTION_PACKAGE_CHANGED);
         Package_update_filter.addDataScheme("package");
-
         appUpdater = new RefreshAppItemReceiver();
         //registerReceiver(new RefreshAppItemReceiver(), Package_update_filter);
         registerReceiver(appUpdater, Package_update_filter);
 
-        new KeypadShortcuts().RetrieveSavedShortcuts(this);
 
+        new KeypadShortcuts().RetrieveSavedShortcuts(this);
         optionsHandle = new OptionsCall();
 
     }// protected void onCreate(Bundle savedInstanceState)
