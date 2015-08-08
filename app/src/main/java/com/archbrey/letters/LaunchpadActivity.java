@@ -30,6 +30,7 @@ import android.content.pm.ActivityInfo;
 //import com.archbrey.letters.Preferences.ClockSettings;
 import com.archbrey.letters.Preferences.SettingsActivity;
 
+
 //import android.util.Log;
 
 public class LaunchpadActivity extends Activity {
@@ -79,7 +80,6 @@ public class LaunchpadActivity extends Activity {
     private static boolean prepareToStop;
     private static Bundle reuseBundle;
 
-    private static Context mainContext;
 
     private static int screenMode;
     private static boolean slowOnCreate;
@@ -98,6 +98,8 @@ public class LaunchpadActivity extends Activity {
         mainActivity = this;
         prepareToStop = false;
         setAsHomeChanged = false;
+
+        global.setResources(r);
 
         AutoRescaleFonts();
 
@@ -140,7 +142,7 @@ public class LaunchpadActivity extends Activity {
         global.setGridView(appGridView);
         global.setPackageManager(basicPkgMgr);
         global.setFindString("");
-        global.setResources(r);
+
 
         //setup initial app list. Not needed after doing screen rotate or after changing launcher settings
         if (slowOnCreate) allAppItems = new GetAppList().all_appItems(basicPkgMgr);

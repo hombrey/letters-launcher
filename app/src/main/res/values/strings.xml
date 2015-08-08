@@ -41,6 +41,8 @@
     <string name="righthanded">Right handed</string>
     <string name="keyboardhere">Keyboard here in landscape</string>
 
+    <string statusbar="statusbar">statusbar</string>
+
     <string name="two">two</string>
     <string name="three">three</string>
     <string name="four">four</string>

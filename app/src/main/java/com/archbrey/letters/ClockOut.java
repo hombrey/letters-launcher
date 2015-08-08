@@ -10,7 +10,7 @@ import android.graphics.Point;
 import android.os.Handler;
 import android.provider.Settings;
 import android.support.v4.view.MotionEventCompat;
-import android.util.DisplayMetrics;
+//import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
@@ -23,8 +23,10 @@ import android.widget.TextView;
 //import com.archbrey.letters.Preferences.MainSettings;
 import com.archbrey.letters.Preferences.SettingsActivity;
 
+//import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 //import java.util.Date;
 
 public class ClockOut {
@@ -37,14 +39,15 @@ public class ClockOut {
     private static Context mainContext;
     private static Resources rClockout;
 
-    private GlobalHolder global;
 
-    private final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+  //  private final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+  //  private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 
     private float initialTouchX;
+    private float initialTouchY;
     private static int screenWidth;
+    private static int screenHeight;
    // private static int screenHeight;
 
     private static Handler msghandler;
@@ -53,8 +56,17 @@ public class ClockOut {
     private static Handler autoBrighthandler;
     private static Runnable enableAutoBright;
 
+    private static SimpleDateFormat dateFormat ;
+    private static SimpleDateFormat timeFormat ;
+
+    private static int touchOrientation; //0 for unset, 1 for vertical, 2 for horizontal
+
+    Locale loc;
+
 
     public ClockOut() {
+
+        GlobalHolder global;
 
         global = new GlobalHolder();
         mainContext = global.getMainContext();
@@ -62,6 +74,12 @@ public class ClockOut {
         clockView = new TextView(mainContext);
         dateView = new TextView(mainContext);
         clockoutBox = new RelativeLayout(mainContext);
+
+        rClockout = global.getResources();
+        loc = rClockout.getConfiguration().locale;
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd", loc);
+        timeFormat = new SimpleDateFormat("HH:mm", loc);
+
 
         msghandler = new Handler();
         lingerMsg = new Runnable() {
@@ -87,7 +105,7 @@ public class ClockOut {
 
         clockoutBox = getTypeoutBox;
 
-        rClockout = getR;
+        //rClockout = getR;
         int clockTextSize = 80;
         int dateTextSize = 20;
 
@@ -137,7 +155,7 @@ public class ClockOut {
         Point size = new Point();
         display.getSize(size);
         screenWidth = size.x;
-        int height = size.y;
+        screenHeight = size.y;
 
         return clockoutBox;
 
@@ -161,11 +179,10 @@ public class ClockOut {
             case Calendar.SATURDAY: dateView.append(rClockout.getString(R.string.sat)); break;
         } //switch (day)
 
-        DisplayMetrics metrics = new DisplayMetrics();
+       // DisplayMetrics metrics = new DisplayMetrics();
 
 
     } //public void refreshClock()
-
 
 
     public void setListener(){
@@ -205,42 +222,37 @@ public class ClockOut {
         ); //findToggleView.Key.setOnClickListener
 
 
-        LaunchpadActivity.clockoutBox.setOnClickListener(
-                new View.OnClickListener() {
-                    public void onClick(View v) { //perform action of click
+        LaunchpadActivity.clockoutBox.setOnLongClickListener(
+                new View.OnLongClickListener() {
+                    public boolean onLongClick(View v) { //perform action of click
 
-                        /*
-                        Intent intent = new Intent(Intent.ACTION_MAIN);
-                        intent.setClassName("com.google.android.googlequicksearchbox",
-                                "com.google.android.googlequicksearchbox.VoiceSearchActivity");
-                        try {
-                            mainContext.startActivity(intent);
-                        } catch (ActivityNotFoundException anfe) {
-                            // Log.d(TAG, "Google Voice Search is not found");
-                        } //try*/
+                        // implement gesture selection
 
-
+                        return true;
                     } //public void OnClick(View v)
                 } //new Button.OnClickListener()
         ); //findToggleView.Key.setOnClickListener
 
 
-        View.OnTouchListener clockScreenListener;
+
         LaunchpadActivity.clockoutBox.setOnTouchListener(
-                clockScreenListener = new View.OnTouchListener() {
+                new View.OnTouchListener() {
                     public boolean onTouch(View v, MotionEvent event) {
 
                         float currentX = event.getRawX();
-                        //float currentY = event.getRawY();
+                        float currentY = event.getRawY();
 
                         int action = MotionEventCompat.getActionMasked(event);
                         switch (action) {
                             case (MotionEvent.ACTION_DOWN):
                                 initialTouchX = currentX;
+                                initialTouchY = currentY;
                                 msghandler.removeCallbacks(lingerMsg);
+                                touchOrientation = 0; //reset to unknown touch orientatioin
                                 return false;
                             case (MotionEvent.ACTION_MOVE):
-                                determineBrightness(currentX);
+                                if ((touchOrientation==0)||(touchOrientation==2)) determineBrightness(currentX);
+                                if ((touchOrientation==0)||(touchOrientation==1)) determineVerticalGesture(currentY);
                                 return false;
                             case (MotionEvent.ACTION_UP):
                                 msghandler.postDelayed(lingerMsg, 500);
@@ -257,19 +269,47 @@ public class ClockOut {
     } //public void setListener()
 
 
+
+    private void determineVerticalGesture(float getCurrentY){
+
+    float movementY;
+    movementY = (getCurrentY - initialTouchY)/screenHeight;
+
+        if(Math.abs(movementY)>=0.05) {
+
+            touchOrientation = 1; //lock to only sense vertical movement
+
+
+            //determine if up or down
+            //determine if on left or right side
+            //just set variable. let a separate function handle the detected gesture
+            Intent calendarIntent = new Intent(Intent.ACTION_MAIN);
+            calendarIntent.addCategory(Intent.CATEGORY_APP_CALENDAR);
+            try {
+                mainContext.startActivity(calendarIntent);
+            } catch (ActivityNotFoundException anfe) {
+                // Log.d(TAG, "Google Voice Search is not found");
+            } //try - catch
+
+
+        }
+
+    }
+
+
     private void determineBrightness(float getCurrentX) {
 
         int curBrightness = android.provider.Settings.System.getInt(mainContext.getContentResolver(), android.provider.Settings.System.SCREEN_BRIGHTNESS,-1);
         float movementX;
-        float screenPosition;
+       // float screenPosition;
         float adjBrightness;
         int newBrightness;
         int newPercent;
-        int movPercent;
+       // int movPercent;
 
-        screenPosition = getCurrentX /screenWidth;
+        //screenPosition = getCurrentX /screenWidth;
         movementX = (getCurrentX - initialTouchX)/screenWidth;
-        movPercent = (int)(movementX*100);
+       // movPercent = (int)(movementX*100);
 
         float curPercent = ((float)curBrightness/255f);
 
@@ -278,6 +318,7 @@ public class ClockOut {
            // autoBrighthandler.removeCallbacks(enableAutoBright);
            // autoBrighthandler.postDelayed(enableAutoBright, 700);
 
+            touchOrientation = 2; //lock to only sense horizontal movement
             dateView.setText(rClockout.getString(R.string.display));
             adjBrightness = (curPercent+movementX);
             if (adjBrightness>=1) adjBrightness = 1;
