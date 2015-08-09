@@ -167,7 +167,7 @@ public class ClockOut {
         //rClockout = getR;
         int clockTextSize = 80;
         int dateTextSize = 20;
-        int gestureInfoSize = 10;
+        int gestureInfoSize = 12;
 
         int clockTop_margin = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,200,
@@ -176,6 +176,11 @@ public class ClockOut {
         int dateTop_margin = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP, 15,
                 getR.getDisplayMetrics());
+
+        int gestureInfo_margin = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, 10,
+                getR.getDisplayMetrics());
+
 
         clockView.setText("19:30");
         clockView.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -187,13 +192,13 @@ public class ClockOut {
         dateView.setTextSize(TypedValue.COMPLEX_UNIT_SP, dateTextSize);
         dateView.setTextColor(SettingsActivity.textColor);
 
-        rightGestures.setText("RIGHT");
+        rightGestures.setText(" ");
         rightGestures.setGravity(Gravity.RIGHT);
         rightGestures.setTextSize(TypedValue.COMPLEX_UNIT_SP, gestureInfoSize);
         rightGestures.setTextColor(SettingsActivity.textColor);
 
-        leftGestures.setText("LEFT");
-        leftGestures.setGravity(Gravity.RIGHT);
+        leftGestures.setText(" ");
+        leftGestures.setGravity(Gravity.LEFT);
         leftGestures.setTextSize(TypedValue.COMPLEX_UNIT_SP, gestureInfoSize);
         leftGestures.setTextColor(SettingsActivity.textColor);
 
@@ -219,13 +224,15 @@ public class ClockOut {
                 RelativeLayout.LayoutParams.WRAP_CONTENT, //width
                 RelativeLayout.LayoutParams.WRAP_CONTENT); //height
         leftGestureParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-        leftGestureParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        leftGestureParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        leftGestureParams.setMargins(gestureInfo_margin, 0, 0, gestureInfo_margin);
 
         RelativeLayout.LayoutParams rightGestureParams = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT, //width
                 RelativeLayout.LayoutParams.WRAP_CONTENT); //height
         rightGestureParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-        rightGestureParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        rightGestureParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        rightGestureParams.setMargins(0, 0, gestureInfo_margin, gestureInfo_margin);
 
         clockoutBox.setBackgroundColor(SettingsActivity.clockBack);
         clockoutBox.addView(clockView, clockviewParams);
@@ -233,7 +240,7 @@ public class ClockOut {
         clockoutBox.addView(leftGestures, leftGestureParams);
         clockoutBox.addView(rightGestures, rightGestureParams);
 
-        refreshClock();
+        //refreshClock();
 
         Display display = LaunchpadActivity.mainActivity.getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -264,6 +271,24 @@ public class ClockOut {
         } //switch (day)
 
        // DisplayMetrics metrics = new DisplayMetrics();
+
+
+        leftGestures.setText("\n");
+        if (gestureShortcuts[UP_LEFTSIDE].shortcutPackage.length()>5) leftGestures.append(String.valueOf(Character.toChars(8593))
+                                                                                            + " "
+                                                                                            + gestureShortcuts[UP_LEFTSIDE].shortcutLabel);
+        if (gestureShortcuts[DN_LEFTSIDE].shortcutPackage.length()>5) leftGestures.append("\n" + String.valueOf(Character.toChars(8595))
+                                                                                             + " "
+                                                                                             + gestureShortcuts[DN_LEFTSIDE].shortcutLabel);
+
+        rightGestures.setText("\n");
+        if (gestureShortcuts[UP_RIGHTSIDE].shortcutPackage.length()>5) rightGestures.append(gestureShortcuts[UP_RIGHTSIDE].shortcutLabel
+                                                    + " "
+                + String.valueOf(Character.toChars(8593)) );
+
+        if (gestureShortcuts[DN_RIGHTSIDE].shortcutPackage.length()>5) rightGestures.append("\n" +gestureShortcuts[DN_RIGHTSIDE].shortcutLabel
+                                                     + " "
+                                                    + String.valueOf(Character.toChars(8595)) );
 
 
     } //public void refreshClock()
@@ -316,19 +341,6 @@ public class ClockOut {
                 } //new Button.OnClickListener()
         ); //findToggleView.Key.setOnClickListener
 
-/*
-        LaunchpadActivity.clockoutBox.setOnLongClickListener(
-                new View.OnLongClickListener() {
-                    public boolean onLongClick(View v) { //perform action of click
-
-                        // implement gesture selection
-                        //popSelectBox ();
-                        return true;
-                    } //public void OnClick(View v)
-                } //new Button.OnClickListener()
-        ); //findToggleView.Key.setOnClickListener
-*/
-
 
         LaunchpadActivity.clockoutBox.setOnTouchListener(
                 new View.OnTouchListener() {
@@ -354,7 +366,8 @@ public class ClockOut {
                                 return true;
                             case (MotionEvent.ACTION_UP):
                                 msghandler.postDelayed(lingerMsg, 500);
-                                autoBrighthandler.removeCallbacks(enableAutoBright);
+                               // autoBrighthandler.removeCallbacks(enableAutoBright);
+                                popSelectHandler.removeCallbacks(triggerPopMenu);
                                 if (touchOrientation==1) evaluateGesture();
                                 return true;
                             default:
@@ -408,10 +421,11 @@ public class ClockOut {
         if (launchIntent != null) {
             global.getMainContext().startActivity(launchIntent);
 
-        } else //if (launchIntent.resolveActivity(pmForListener) != null)
+        } //if (launchIntent != null)
+       /* else //if (launchIntent.resolveActivity(pmForListener) != null)
         {
             shortcutPicker(swipeType);
-        } //else of  if (launchIntent.resolveActivity(pmForGesture) != null)
+        } //else of  if (launchIntent.resolveActivity(pmForGesture) != null)*/
 
 
     } //private void evaluateGesture()
