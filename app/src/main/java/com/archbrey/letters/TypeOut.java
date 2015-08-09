@@ -312,17 +312,16 @@ public class TypeOut {
                 filterEditHandle.DrawBox(mainContext);
             }//if (TypeOut.editMode==12)
 
-            if (TypeOut.editMode == 50) {
+            if (TypeOut.editMode >= 50) {
                 // ShortcutSelect();
-                int swipeType = ClockOut.swipeType;
 
-                ClockOut.gestureShortcuts[swipeType].shortcutLabel = " ";
-                ClockOut.gestureShortcuts[swipeType].shortcutPackage = " ";
+                ClockOut.gestureShortcuts[TypeOut.editMode].shortcutLabel = " ";
+                ClockOut.gestureShortcuts[TypeOut.editMode].shortcutPackage = " ";
                 //need to delete database
                 DBHelper dbHandler = new DBHelper(mainContext);
-                dbHandler.DeleteShorcut(swipeType);
+                dbHandler.DeleteShorcut(TypeOut.editMode);
 
-                LaunchpadActivity.clockoutHandle.shortcutPicker(swipeType);
+                LaunchpadActivity.clockoutHandle.shortcutPicker(TypeOut.editMode);
 
             }//if (TypeOut.editMode==11)
 

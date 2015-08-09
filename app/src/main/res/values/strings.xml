@@ -2,12 +2,12 @@
     <string name="app_name">Letters</string>
     <string name="app_preferences">Launcher Prefs</string>
 
-
     <string name="display">Display</string>
 
     <string name="tap_clock">Clock</string>
     <string name="right_side">on Right</string>
     <string name="left_side">on Left</string>
+    <string name="select_gesture">select gesture</string>
 
     <string name="mon">Monday</string>
     <string name="tue">Tuesday</string>
@@ -45,7 +45,7 @@
     <string name="righthanded">Right handed</string>
     <string name="keyboardhere">Keyboard here in landscape</string>
 
-    <string statusbar="statusbar">statusbar</string>
+    <string name="statusbar">statusbar</string>
 
     <string name="two">two</string>
     <string name="three">three</string>
