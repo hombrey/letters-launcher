@@ -178,6 +178,7 @@ public class LaunchpadActivity extends Activity {
 
 
         new KeypadShortcuts().RetrieveSavedShortcuts(this);
+        clockoutHandle.RetrieveSavedShortcuts(this);
         optionsHandle = new OptionsCall();
 
     }// protected void onCreate(Bundle savedInstanceState)
@@ -186,9 +187,14 @@ public class LaunchpadActivity extends Activity {
     @Override
     public void onBackPressed() {
 
-            if (TypeOut.editMode > 10) {
-                keypadBox.setVisibility(View.VISIBLE);
-                filterBox.setVisibility(View.VISIBLE);
+        keypadBox.setVisibility(View.VISIBLE);
+        filterBox.setVisibility(View.VISIBLE);
+
+
+            if (TypeOut.editMode > 10)
+            {
+               // keypadBox.setVisibility(View.VISIBLE);
+               // filterBox.setVisibility(View.VISIBLE);
                 TypeOut.findToggleView.setVisibility(View.VISIBLE);
                 TypeOut.editView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TypeOut.TextSize);
                 TypeOut.editView.setText("  "); //spacer to make the tap target larger
@@ -211,9 +217,7 @@ public class LaunchpadActivity extends Activity {
 
         if (!isSetAsHome) {
             drawerBox.setVisibility(View.VISIBLE);
-           // TypeOut.typeoutBox.setVisibility(View.VISIBLE);
             clockoutBox.setVisibility(View.GONE);
-           // if (TypeOut.editMode <= 10)  super.onBackPressed();
         } //if (!isSetAsHome)
 
     } //public void onBackPressed()
@@ -251,6 +255,7 @@ public class LaunchpadActivity extends Activity {
             drawDrawerBox.DrawBox(allAppItems);
         } //if (!isSetAsHome)
         else {
+
             if (setAsHomeChanged) {
                 onCreate(reuseBundle);
             }//if (setAsHomeChanged)
@@ -302,7 +307,7 @@ public class LaunchpadActivity extends Activity {
 
 
     @Override
-    protected void onStop(){
+    protected void onStop() {
         super.onStop();
         isForeground = false;
     } //protected void onStart()

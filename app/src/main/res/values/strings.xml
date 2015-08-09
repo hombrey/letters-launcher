@@ -5,6 +5,10 @@
 
     <string name="display">Display</string>
 
+    <string name="tap_clock">Clock</string>
+    <string name="right_side">on Right</string>
+    <string name="left_side">on Left</string>
+
     <string name="mon">Monday</string>
     <string name="tue">Tuesday</string>
     <string name="wed">Wednesday</string>

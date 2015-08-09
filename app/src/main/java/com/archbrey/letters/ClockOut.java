@@ -5,8 +5,11 @@ package com.archbrey.letters;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.graphics.Point;
+import android.net.Uri;
 import android.os.Handler;
 import android.provider.Settings;
 import android.support.v4.view.MotionEventCompat;
@@ -17,6 +20,7 @@ import android.view.Gravity;
 //import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -26,10 +30,13 @@ import com.archbrey.letters.Preferences.SettingsActivity;
 //import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 //import java.util.Date;
 
 public class ClockOut {
+
+    public static GlobalHolder global;
 
     public static RelativeLayout clockoutBox;
 
@@ -59,14 +66,25 @@ public class ClockOut {
     private static SimpleDateFormat dateFormat ;
     private static SimpleDateFormat timeFormat ;
 
+    private final int TAP_CLOCK = 50;
+    private final int UP_LEFTSIDE = 51;
+    private final int DN_LEFTSIDE = 52;
+    private final int UP_RIGHTSIDE = 53;
+    private final int DN_RIGHTSIDE = 54;
+
+
+    public static int swipeType;
+   // public static String gestureName;
+
     private static int touchOrientation; //0 for unset, 1 for vertical, 2 for horizontal
 
     Locale loc;
 
 
-    public ClockOut() {
+    private static AppItem[] allApps;
+    public static GestureShortcut[] gestureShortcuts;
 
-        GlobalHolder global;
+    public ClockOut() {
 
         global = new GlobalHolder();
         mainContext = global.getMainContext();
@@ -80,6 +98,29 @@ public class ClockOut {
         dateFormat = new SimpleDateFormat("yyyy-MM-dd", loc);
         timeFormat = new SimpleDateFormat("HH:mm", loc);
 
+        swipeType = 0;
+
+        gestureShortcuts = new GestureShortcut[55];
+        for (int inc=50; inc<=54; inc++){
+            gestureShortcuts[inc] = new GestureShortcut();
+            switch (inc) {
+                case TAP_CLOCK:
+                    gestureShortcuts[inc].typeName= rClockout.getString(R.string.tap_clock);
+                    break;
+                case UP_LEFTSIDE:
+                    gestureShortcuts[inc].typeName= String.valueOf(Character.toChars(8593)) + " " +rClockout.getString(R.string.left_side);
+                    break;
+                case DN_LEFTSIDE:
+                    gestureShortcuts[inc].typeName=String.valueOf(Character.toChars(8595)) + " " +rClockout.getString(R.string.left_side);
+                    break;
+                case UP_RIGHTSIDE:
+                    gestureShortcuts[inc].typeName=String.valueOf(Character.toChars(8593)) + " " + rClockout.getString(R.string.right_side);
+                    break;
+                case DN_RIGHTSIDE:
+                    gestureShortcuts[inc].typeName=String.valueOf(Character.toChars(8595)) + " " + rClockout.getString(R.string.right_side);
+                    break;
+            } //switch (inc)
+        } //for (int inc=50; inc<=54; inc++)
 
         msghandler = new Handler();
         lingerMsg = new Runnable() {
@@ -248,7 +289,7 @@ public class ClockOut {
                                 initialTouchX = currentX;
                                 initialTouchY = currentY;
                                 msghandler.removeCallbacks(lingerMsg);
-                                touchOrientation = 0; //reset to unknown touch orientatioin
+                                touchOrientation = 0; //reset to unknown touch orientation
                                 return false;
                             case (MotionEvent.ACTION_MOVE):
                                 if ((touchOrientation==0)||(touchOrientation==2)) determineBrightness(currentX);
@@ -257,6 +298,7 @@ public class ClockOut {
                             case (MotionEvent.ACTION_UP):
                                 msghandler.postDelayed(lingerMsg, 500);
                                 autoBrighthandler.removeCallbacks(enableAutoBright);
+                                if (touchOrientation==1) evaluateGesture();
                                 return false;
                             default:
                                 return true;
@@ -269,6 +311,57 @@ public class ClockOut {
     } //public void setListener()
 
 
+    public void RetrieveSavedShortcuts (Context getContext) {
+
+        allApps = global.getAllAppItems();
+        mainContext = getContext;
+        DBHelper dbHandler = new DBHelper(mainContext);
+
+        for (int inc=50; inc<=54; inc++) {
+
+            String shortcutFound = dbHandler.RetrievePackage(inc);
+
+            //assign " " by default and fill this up if shortcut exists
+            gestureShortcuts[inc].shortcutPackage = " ";
+            gestureShortcuts[inc].shortcutLabel = " ";
+            for (int appInc=0; appInc<allApps.length; appInc++) {
+
+                if (shortcutFound.equals(allApps[appInc].pkgname)  ){
+                    gestureShortcuts[inc].shortcutLabel = allApps[appInc].label;
+                    gestureShortcuts[inc].shortcutPackage = allApps[appInc].pkgname;
+                    break;
+                } //if (DrawKeypadBox.keypadButton[inc].ShortcutPackage.equals(allApps[appInc].pkgname)  )
+
+            } //(int appInc=0; appInc<allApps.length; appInc++)
+
+        } //for (int inc=50; inc<=54; inc++)
+
+    } // public class RetrieveSavedShortcuts ()
+
+    private void evaluateGesture(){
+
+        PackageManager pmForGesture;
+        pmForGesture = global.getPackageManager();
+        GestureShortcut launchGesture;
+
+        //gestureName=" ";
+
+        launchGesture = new GestureShortcut();
+        launchGesture = gestureShortcuts[swipeType];
+
+        Intent launchIntent = pmForGesture.getLaunchIntentForPackage(launchGesture.shortcutPackage);
+        if (launchIntent != null) {
+            global.getMainContext().startActivity(launchIntent);
+
+        } else //if (launchIntent.resolveActivity(pmForListener) != null)
+        {
+            shortcutPicker(swipeType);
+        } //else of  if (launchIntent.resolveActivity(pmForGesture) != null)
+
+
+    } //private void evaluateGesture()
+
+
 
     private void determineVerticalGesture(float getCurrentY){
 
@@ -279,22 +372,17 @@ public class ClockOut {
 
             touchOrientation = 1; //lock to only sense vertical movement
 
+            if(initialTouchX>screenWidth/2) { //if on right side
+                if (movementY>0) swipeType = DN_RIGHTSIDE;
+                if (movementY<0) swipeType = UP_RIGHTSIDE;
+            }else { //if on left side
+                if (movementY>0) swipeType = DN_LEFTSIDE;
+                if (movementY<0) swipeType = UP_LEFTSIDE;
+            }
 
-            //determine if up or down
-            //determine if on left or right side
-            //just set variable. let a separate function handle the detected gesture
-            Intent calendarIntent = new Intent(Intent.ACTION_MAIN);
-            calendarIntent.addCategory(Intent.CATEGORY_APP_CALENDAR);
-            try {
-                mainContext.startActivity(calendarIntent);
-            } catch (ActivityNotFoundException anfe) {
-                // Log.d(TAG, "Google Voice Search is not found");
-            } //try - catch
+        } //if(Math.abs(movementY)>=0.05)
 
-
-        }
-
-    }
+    } //private void determineVerticalGesture(float getCurrentY)
 
 
     private void determineBrightness(float getCurrentX) {
@@ -339,5 +427,53 @@ public class ClockOut {
     } //private void refreshBrightness(float getCurrentX)
 
 
+    public void shortcutPicker(int getSwypeType){
 
-}
+        TypeOut.editMode = 50;
+
+        LaunchpadActivity.keypadBox.setVisibility(View.GONE);
+        LaunchpadActivity.filterBox.setVisibility(View.INVISIBLE);
+        LaunchpadActivity.clockoutBox.setVisibility(View.GONE);
+        LaunchpadActivity.drawerBox.setVisibility(View.VISIBLE);
+        TypeOut.typeoutBox.setVisibility(View.VISIBLE);
+        TypeOut.findToggleView.setVisibility(View.GONE);
+        TypeOut.editView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+        TypeOut.typeoutView.setText(gestureShortcuts[swipeType].typeName);
+        if (gestureShortcuts[swipeType].shortcutPackage.length() >1) {
+            TypeOut.editView.setVisibility(View.VISIBLE);
+            TypeOut.typeoutView.append(" - ");
+            TypeOut.typeoutView.append(gestureShortcuts[swipeType].shortcutLabel );
+            TypeOut.editView.setText("  "); //make x button larger
+            TypeOut.editView.append(String.valueOf(Character.toChars(215))); //x button
+            TypeOut.editView.append(" "); //make x button larger
+        }//if (DrawKeypadBox.keypadButton[KeyPosition].ShortcutLabel.length()>1)
+        else {
+            TypeOut.typeoutView.append(" - " + rClockout.getString(R.string.unassigned));
+            TypeOut.editView.setText(" "); //x button not needed if unassigned
+        } //else of if (DrawKeypadBox.keypadButton[KeyPosition].ShortcutLabel.length()>1)
+
+        LaunchpadActivity.appGridView.setOnItemClickListener(new ClickSelectListener());
+
+    } //private void shorcutPicker(Integer getGesture)
+
+
+    private class ClickSelectListener implements AdapterView.OnItemClickListener{
+
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+            gestureShortcuts[swipeType].shortcutPackage = allApps[position].pkgname;
+            gestureShortcuts[swipeType].shortcutLabel = allApps[position].label;
+            shortcutPicker(swipeType);
+
+            DBHelper dbHandler = new DBHelper(mainContext);
+            dbHandler.AssignShorcut(swipeType, allApps[position].pkgname);
+
+        }// public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
+
+
+    } //private class ClickSelectListener implements AdapterView.OnItemClickListener
+
+
+
+} //public class ClockOut

@@ -66,7 +66,7 @@ public class OptionsCall {
                     break;
             } //switch (position)
 
-
+            LaunchpadActivity.hideDrawerAllApps = false;
         }// public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
     } //private class MenuClickListener implements AdapterView.OnItemClickListener
 
