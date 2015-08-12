@@ -341,8 +341,10 @@ public class ClockOut {
                 } //new Button.OnClickListener()
         ); //findToggleView.Key.setOnClickListener
 
+        //use the whole main screen instead of just the clock area to listen to gestures
+        //LaunchpadActivity.clockoutBox.setOnTouchListener(
+        LaunchpadActivity.mainScreen.setOnTouchListener(
 
-        LaunchpadActivity.clockoutBox.setOnTouchListener(
                 new View.OnTouchListener() {
                     public boolean onTouch(View v, MotionEvent event) {
 
@@ -434,13 +436,21 @@ public class ClockOut {
     private void determineVerticalGesture(float getCurrentY){
 
     float movementY;
+    int boxWidth;
+    int boxLocation[];
+    boxLocation = new int[2];
+
+    boxWidth = LaunchpadActivity.clockoutBox.getWidth();
+    LaunchpadActivity.clockoutBox.getLocationOnScreen(boxLocation);
+
     movementY = (getCurrentY - initialTouchY)/screenHeight;
 
-        if(Math.abs(movementY)>=0.05) {
+        if(Math.abs(movementY)>=0.075) {
             popSelectHandler.removeCallbacks(triggerPopMenu);
             touchOrientation = 1; //lock to only sense vertical movement
 
-            if(initialTouchX>screenWidth/2) { //if on right side
+           //if(initialTouchX>screenWidth/2) { //if on right side
+            if((initialTouchX-boxLocation[0])>boxWidth/2) { //if on right side
                 if (movementY>0) swipeType = DN_RIGHTSIDE;
                 if (movementY<0) swipeType = UP_RIGHTSIDE;
             }else { //if on left side

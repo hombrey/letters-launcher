@@ -238,6 +238,9 @@ public class TypeOut {
                             Intent launchIntent = pmForListener.getLaunchIntentForPackage(DrawKeypadBox.keypadButton[KeypadTouchListener.SelectedKeyButton].ShortcutPackage).setAction(Intent.ACTION_MAIN);
                             if (launchIntent.resolveActivity(pmForListener) != null) {
                                 global.getMainContext().startActivity(launchIntent);
+                                LaunchpadActivity.drawerBox.setVisibility(View.GONE);
+                                typeoutBox.setVisibility(View.GONE);
+                                LaunchpadActivity.clockoutBox.setVisibility(View.VISIBLE);
                             } //if (launchIntent.resolveActivity(pmForListener) != null)
 
 

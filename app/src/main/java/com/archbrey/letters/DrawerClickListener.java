@@ -23,11 +23,17 @@ public class DrawerClickListener implements OnItemClickListener  {
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
+
+
         Intent launchIntent = pmForListener.getLaunchIntentForPackage(appItemForListener[position].pkgname);
 
         if (launchIntent != null) {
             clickListenerContext.startActivity(launchIntent);
+            LaunchpadActivity.drawerBox.setVisibility(View.GONE);
+            LaunchpadActivity.typeoutBox.setVisibility(View.GONE);
+            LaunchpadActivity.clockoutBox.setVisibility(View.VISIBLE);
         } //if (launchIntent.resolveActivity(pmForListener) != null)
+
 
     }// public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
 

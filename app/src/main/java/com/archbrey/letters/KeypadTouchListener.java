@@ -143,13 +143,9 @@ public class KeypadTouchListener  {
                                         handler.postDelayed(mLongPressed, 500);
                                     } //if (keypadButton[SelectedKeyButton].ShortcutPackage.length()>1))
                                     return false;
-                             //   case (MotionEvent.ACTION_MOVE):
-                             //       return false;
                                 case (MotionEvent.ACTION_UP):
                                     handler.removeCallbacks(mLongPressed);
                                     global.setFindString(findString);
-                                 //   typeoutView.setText(findString);
-                                 //   global.setFindString(findString);
                                     if (longTouch.getStatus()) {
                                         launchShortcut();
                                         longTouch.reset();
@@ -305,6 +301,8 @@ public class KeypadTouchListener  {
 
             //if (!LaunchpadActivity.isSetAsHome)
             {
+                LaunchpadActivity.drawDrawerBox.DrawBox(GetAppList.allAppItems);
+                LaunchpadActivity.drawDrawerBox.setListener();
                 drawerBox.setVisibility(View.VISIBLE);
                 typeoutBox.setVisibility(View.VISIBLE);
                 LaunchpadActivity.clockoutBox.setVisibility(View.GONE);
@@ -337,16 +335,21 @@ public class KeypadTouchListener  {
         return returnAppItems;
     }// private void evaluateAction(String getCurrentLetter)
 
+
     private void launchShortcut(){
 
-      if (keypadButton[SelectedKeyButton].ShortcutPackage.length()>1) { //check if keypad has assigned shortcut
+    //if (keypadButton[SelectedKeyButton].ShortcutPackage.length()>1) { //check if keypad has assigned shortcut
+    //}//private void launchShortcut()
+
+
 
           Intent launchIntent = pmForListener.getLaunchIntentForPackage(keypadButton[SelectedKeyButton].ShortcutPackage).setAction(Intent.ACTION_MAIN);
 
-          //global.getMainContext().startActivity(launchIntent);
-
           if (launchIntent.resolveActivity(pmForListener) != null) {
               global.getMainContext().startActivity(launchIntent);
+              drawerBox.setVisibility(View.GONE);
+              typeoutBox.setVisibility(View.GONE);
+              LaunchpadActivity.clockoutBox.setVisibility(View.VISIBLE);
           }  //if (launchIntent.resolveActivity(pmForListener) != null)
 
           //  AppItem launched;
@@ -358,7 +361,7 @@ public class KeypadTouchListener  {
 
       } //if(keypadButton[SelectedKeyButton].ShortcutPackage.length()>1)
 
-    }//private void launchShortcut()
+
 
 
 

@@ -28,10 +28,11 @@ public class ColumnSettings {
         settingsContext = c;
 
 
-        menuItems = new String[3];
-        menuItems[0] =getR.getString(R.string.two);
-        menuItems[1] =getR.getString(R.string.three);
-        menuItems[2] =getR.getString(R.string.four);
+        menuItems = new String[4];
+        menuItems[0] ="one";
+        menuItems[1] =getR.getString(R.string.two);
+        menuItems[2] =getR.getString(R.string.three);
+        menuItems[3] =getR.getString(R.string.four);
 
         new SettingsDrawer(settingsContext, mainMenuBox, menuItems);
         setListener();
@@ -49,12 +50,15 @@ public class ColumnSettings {
             //noinspection SimplifiableIfStatement
             switch (position) {
                 case 0:
-                    SettingsActivity.drawerColumns = 2;
+                    SettingsActivity.drawerColumns = 1;
                     break;
                 case 1:
-                    SettingsActivity.drawerColumns = 3;
+                    SettingsActivity.drawerColumns = 2;
                     break;
                 case 2:
+                    SettingsActivity.drawerColumns = 3;
+                    break;
+                case 3:
                     SettingsActivity.drawerColumns = 4;
                     break;
                 default:

@@ -84,6 +84,8 @@ public class LaunchpadActivity extends Activity {
     private static int screenMode;
     private static boolean slowOnCreate;
 
+    public static boolean isSmallScreen;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -98,6 +100,7 @@ public class LaunchpadActivity extends Activity {
         mainActivity = this;
         prepareToStop = false;
         setAsHomeChanged = false;
+        isSmallScreen = false;
 
         global.setResources(r);
 
@@ -152,6 +155,8 @@ public class LaunchpadActivity extends Activity {
             //new GetAppList().initialize(); //needed only when "recents" feature is enabled
             filterBoxHandle.refreshFilterItems(allAppItems);
             new FilterBoxTouchListener(filterItems,typeoutView);
+            clockoutHandle.RetrieveSavedShortcuts(global.getMainContext());
+            clockoutHandle.setListener();
             } //public void run()
         }; // Runnable runnable = new Runnable()
         Thread mythread = new Thread(runnable);
@@ -164,7 +169,7 @@ public class LaunchpadActivity extends Activity {
         //setup listeners
         new KeypadTouchListener(typeoutView);
         typeoutBoxHandle.setListener();
-        clockoutHandle.setListener();
+        //clockoutHandle.setListener();
 
         //setup receivers
         IntentFilter Package_update_filter = new IntentFilter();
@@ -178,7 +183,6 @@ public class LaunchpadActivity extends Activity {
 
 
         new KeypadShortcuts().RetrieveSavedShortcuts(this);
-        clockoutHandle.RetrieveSavedShortcuts(this);
         optionsHandle = new OptionsCall();
 
     }// protected void onCreate(Bundle savedInstanceState)
@@ -414,11 +418,21 @@ public class LaunchpadActivity extends Activity {
 
     private void getPreferences(){
 
+        if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) ==
+                Configuration.SCREENLAYOUT_SIZE_SMALL) {
+            isSmallScreen = true;
+        } //if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK)
+
+
         colorScheme = prefs.getString("colorscheme", "black");
 
         Integer clockVisibility = prefs.getInt("clockVisibility",1);
 
-        Integer columns = prefs.getInt("column_num", 4);
+        Integer columns;
+
+        if (isSmallScreen) columns = prefs.getInt("column_num", 1);
+           else columns = prefs.getInt("column_num", 3);
+
         Integer textSize = prefs.getInt("drawerTextSize", 17);
 
         Integer keyHeight = prefs.getInt("keyboardHeight",38);
@@ -502,6 +516,8 @@ public class LaunchpadActivity extends Activity {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
         clockoutBoxParams.addRule(RelativeLayout.ABOVE, keypadBox.getId());
+
+
 
         RelativeLayout.LayoutParams drawerBoxParams = new RelativeLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -644,13 +660,16 @@ public class LaunchpadActivity extends Activity {
         final Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_HOME);
         final ResolveInfo res = getPackageManager().resolveActivity(intent, 0);
+
         if (res.activityInfo == null) {
             // should not happen. A home is always installed, isn't it?
         } if ("com.archbrey.letters".equals(res.activityInfo.packageName)) {
             return true;
         } else {
-            return false;
-        }
+            return false;}
+
+      //  return ( (res.activityInfo != null) || ("com.archbrey.letters".equals(res.activityInfo.packageName)) );
+
 
     } //private boolean IsHome()
 
@@ -670,6 +689,8 @@ public class LaunchpadActivity extends Activity {
         metrics.scaledDensity = configuration.fontScale * metrics.density;
         getBaseContext().getResources().updateConfiguration(configuration, metrics);
     } //private void AutoRescaleFonts()
+
+
 
     public class RefreshAppItemReceiver extends BroadcastReceiver {
 
