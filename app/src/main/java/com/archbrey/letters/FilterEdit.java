@@ -118,8 +118,18 @@ public class FilterEdit {
        // new DrawDrawerBox (mainContext, LaunchpadActivity.appGridView,removeArray);
         LaunchpadActivity.drawDrawerBox.DrawBox(removeArray);
         LaunchpadActivity.appGridView.setOnItemClickListener(new ClickRemoveListener());
+        LaunchpadActivity.appGridView.setOnItemLongClickListener(new MenuLongClickNuller());
 
     } //private void listAddItems()
+
+    public class MenuLongClickNuller implements AdapterView.OnItemLongClickListener {
+        @Override
+        public boolean onItemLongClick(AdapterView<?> adapterView, View viewItem, int pos, long l) {
+            //do nothing
+            return true;
+        } //public boolean onItemLongClick(AdapterView<?> adapterView, View viewItem, int pos, long l)
+    } // public class MenuLongClickNuller implements OnItemLongClickListener
+
 
 
     private class ClickAddListener implements AdapterView.OnItemClickListener{

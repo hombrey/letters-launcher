@@ -45,6 +45,7 @@ public class KeypadShortcuts {
         LaunchpadActivity.drawDrawerBox.DrawBox(allApps);
 
         LaunchpadActivity.appGridView.setOnItemClickListener(new ClickSelectListener());
+        LaunchpadActivity.appGridView.setOnItemLongClickListener(new MenuLongClickNuller());
 
     } //public GridView DrawBox (GridView getgridBox,Context c,Resources getR)
 
@@ -67,6 +68,15 @@ public class KeypadShortcuts {
 
 
     } //private class ClickSelectListener implements AdapterView.OnItemClickListener
+
+
+    public class MenuLongClickNuller implements AdapterView.OnItemLongClickListener {
+        @Override
+        public boolean onItemLongClick(AdapterView<?> adapterView, View viewItem, int pos, long l) {
+            //do nothing
+            return true;
+        } //public boolean onItemLongClick(AdapterView<?> adapterView, View viewItem, int pos, long l)
+    } // public class MenuLongClickNuller implements OnItemLongClickListener
 
 
     public void RetrieveSavedShortcuts (Context getContext) {

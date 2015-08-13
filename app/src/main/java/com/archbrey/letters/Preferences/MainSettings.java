@@ -49,7 +49,11 @@ public class MainSettings {
 
     } //public LinearLayout DrawBox ()
 
-    public void setListener() {mainMenuBox.setOnItemClickListener(new MenuClickListener());}
+    public void setListener() {
+        mainMenuBox.setOnItemClickListener(new MenuClickListener());
+        mainMenuBox.setOnItemLongClickListener(new MenuLongClickNuller());
+    } // public void setListener()
+
     private class MenuClickListener implements AdapterView.OnItemClickListener {
 
         @Override
@@ -101,6 +105,14 @@ public class MainSettings {
 
         }// public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
     } //private class MenuClickListener implements AdapterView.OnItemClickListener
+
+    public class MenuLongClickNuller implements AdapterView.OnItemLongClickListener {
+        @Override
+        public boolean onItemLongClick(AdapterView<?> adapterView, View viewItem, int pos, long l) {
+            //do nothing
+            return true;
+        } //public boolean onItemLongClick(AdapterView<?> adapterView, View viewItem, int pos, long l)
+    } // public class MenuLongClickListener implements OnItemLongClickListener
 
 
 } //public class MainSettings

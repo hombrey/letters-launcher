@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.archbrey.letters.LaunchpadActivity;
+import com.archbrey.letters.OptionsCall;
 import com.archbrey.letters.R;
 
 public class ClockSettings {
@@ -56,7 +57,10 @@ public class ClockSettings {
     } //public GridView DrawBox ()
 
 
-    public void setListener() {mainMenuBox.setOnItemClickListener(new MenuClickListener());}
+    public void setListener() {
+        mainMenuBox.setOnItemClickListener(new MenuClickListener());
+    } // public void setListener()
+
     private class MenuClickListener implements AdapterView.OnItemClickListener{
 
         @Override

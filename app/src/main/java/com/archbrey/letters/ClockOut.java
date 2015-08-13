@@ -535,8 +535,17 @@ public class ClockOut {
         LaunchpadActivity.drawDrawerBox.DrawBox(allApps);
 
         LaunchpadActivity.appGridView.setOnItemClickListener(new ClickSelectListener(getSwipeType));
+        LaunchpadActivity.appGridView.setOnItemLongClickListener(new MenuLongClickNuller());
 
     } //private void shorcutPicker(Integer getGesture)
+
+    public class MenuLongClickNuller implements AdapterView.OnItemLongClickListener {
+        @Override
+        public boolean onItemLongClick(AdapterView<?> adapterView, View viewItem, int pos, long l) {
+            //do nothing
+            return true;
+        } //public boolean onItemLongClick(AdapterView<?> adapterView, View viewItem, int pos, long l)
+    } // public class MenuLongClickNuller implements OnItemLongClickListener
 
 
     private class ClickSelectListener implements AdapterView.OnItemClickListener{
@@ -591,7 +600,10 @@ public class ClockOut {
 
     } //public LinearLayout DrawBox ()
 
-    public void setPopMenuListener() {LaunchpadActivity.appGridView.setOnItemClickListener(new PopMenuClickListener());}
+    public void setPopMenuListener() {
+        LaunchpadActivity.appGridView.setOnItemClickListener(new PopMenuClickListener());
+        LaunchpadActivity.appGridView.setOnItemLongClickListener(new MenuLongClickNuller());
+    } //public void setPopMenuListener()
 
 
     private class PopMenuClickListener implements AdapterView.OnItemClickListener {

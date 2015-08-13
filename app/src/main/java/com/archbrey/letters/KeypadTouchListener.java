@@ -1,8 +1,6 @@
 package com.archbrey.letters;
 
 
-
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -199,14 +197,39 @@ public class KeypadTouchListener  {
 
 //-----------------------------   MENU KEY ------------------------------------------------------------
 
-
-
         DrawKeypadBox.menuButton.Key.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 drawerBox.setVisibility(View.VISIBLE);
                 typeoutBox.setVisibility(View.GONE);
                 LaunchpadActivity.clockoutBox.setVisibility(View.GONE);
-                LaunchpadActivity.optionsHandle.DrawBox(LaunchpadActivity.appGridView, global.getMainContext(), global.getResources());
+                LaunchpadActivity.optionsHandle.DrawPrimary(LaunchpadActivity.appGridView, global.getMainContext(), global.getResources());
+            }
+        } //new Button.OnClickListener()
+        );// menuButton.Key.setOnClickListener
+
+        DrawKeypadBox.menuButton.Key.setOnLongClickListener(
+                new Button.OnLongClickListener() {
+                    public boolean onLongClick(View v) { //perform action of click
+
+                        drawerBox.setVisibility(View.VISIBLE);
+                        typeoutBox.setVisibility(View.GONE);
+                        LaunchpadActivity.clockoutBox.setVisibility(View.GONE);
+                        LaunchpadActivity.optionsHandle.DrawSecondary(LaunchpadActivity.appGridView, global.getMainContext(), global.getResources());
+
+                        return true;
+                    } //public void OnClick(View v)
+                } //new Button.OnClickListener()
+
+        ); //myButtonTrigger.setOnLongClickListener
+
+
+//-----------------------------   CAPTURE CLICK ON AREAS WITHOUT BUTTONS ------------------------------------------------------------
+
+
+
+        LaunchpadActivity.keypadBox.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                    //do nothing
             }
         } //new Button.OnClickListener()
         );// menuButton.Key.setOnClickListener

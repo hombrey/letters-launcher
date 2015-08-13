@@ -2,8 +2,6 @@
     <string name="app_name">Letters</string>
     <string name="app_preferences">Launcher Prefs</string>
 
-    <string name="display">Display</string>
-
     <string name="tap_clock">Clock</string>
     <string name="right_side">on Right</string>
     <string name="left_side">on Left</string>
@@ -69,6 +67,18 @@
     <string name="action_launcher_settings">Launcher Settings</string>
     <string name="action_wallpaper">Change Wallpaper</string>
     <string name="chooser_wallpaper">Select wallpaper from</string>
+
+
+    <string name="apps">Apps</string>
+    <string name="sound">Sound</string>
+    <string name="bluetooth">Bluetooth</string>
+    <string name="date_time">Date &amp; Time</string>
+    <string name="display">Display</string>
+    <string name="security">Security</string>
+    <string name="storage">Storage</string>
+    <string name="system">-Main-</string>
+    <string name="wifi">Wifi</string>
+    <string name="wireless">Wireless</string>
 
     <string name="letter_Q">Q</string>
     <string name="letter_W">W</string>

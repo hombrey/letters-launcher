@@ -18,6 +18,7 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -345,7 +346,7 @@ public class LaunchpadActivity extends Activity {
         drawerBox.setVisibility(View.VISIBLE);
         typeoutBox.setVisibility(View.GONE);
         clockoutBox.setVisibility(View.GONE);
-        optionsHandle.DrawBox(appGridView, this, r);
+        optionsHandle.DrawPrimary(appGridView, this, r);
 
         return false;
     }//public boolean onCreateOptionsMenu(Menu menu)
@@ -429,14 +430,21 @@ public class LaunchpadActivity extends Activity {
         Integer clockVisibility = prefs.getInt("clockVisibility",1);
 
         Integer columns;
+        Integer keyHeight;
+        Integer fltHeight;
+        Integer textSize;
 
-        if (isSmallScreen) columns = prefs.getInt("column_num", 1);
-           else columns = prefs.getInt("column_num", 3);
-
-        Integer textSize = prefs.getInt("drawerTextSize", 17);
-
-        Integer keyHeight = prefs.getInt("keyboardHeight",38);
-        Integer fltHeight = prefs.getInt("filterHeight",7);
+        if (isSmallScreen) {
+            columns = prefs.getInt("column_num", 1);
+            keyHeight = prefs.getInt("keyboardHeight", 38);
+            fltHeight = prefs.getInt("filterHeight", 5);
+            textSize = prefs.getInt("drawerTextSize", 15);
+        } else {
+            keyHeight = prefs.getInt("keyboardHeight", 45);
+            fltHeight = prefs.getInt("filterHeight", 7);
+            columns = prefs.getInt("column_num", 3);
+            textSize = prefs.getInt("drawerTextSize", 19);
+            } //if (isSmallScreen)
 
         SettingsActivity.handedness = prefs.getString("handedness", "right");
 
@@ -689,7 +697,6 @@ public class LaunchpadActivity extends Activity {
         metrics.scaledDensity = configuration.fontScale * metrics.density;
         getBaseContext().getResources().updateConfiguration(configuration, metrics);
     } //private void AutoRescaleFonts()
-
 
 
     public class RefreshAppItemReceiver extends BroadcastReceiver {
