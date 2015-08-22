@@ -1,10 +1,10 @@
 package com.archbrey.letters;
 
-import android.widget.Button;
+import android.widget.TextView;
 
 public class KeypadButton {
 
-    Button Key;
+    TextView Key;
     String Letter;
     String ShortcutPackage;
     String ShortcutLabel;

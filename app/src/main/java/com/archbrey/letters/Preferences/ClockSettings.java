@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.archbrey.letters.LaunchpadActivity;
-import com.archbrey.letters.OptionsCall;
 import com.archbrey.letters.R;
 
 public class ClockSettings {

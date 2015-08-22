@@ -88,14 +88,8 @@ public class KeypadTouchListener  {
 
     public void setKeypadListener() {
 
-        int inc;
-        View.OnTouchListener[] KeypadListener;
-        KeypadListener = new View.OnTouchListener[36];
-
-
-        for (inc=0; inc<=35; inc++) {
-            keypadButton[inc].Key.setOnTouchListener(
-                    KeypadListener[inc] = new View.OnTouchListener() {
+        LaunchpadActivity.keypadBox.setOnTouchListener(
+                    new View.OnTouchListener() {
 
                         public boolean onTouch(View v, MotionEvent event) {
                             // Button b = (Button)v;
@@ -140,7 +134,7 @@ public class KeypadTouchListener  {
                                         typeoutView.append(keypadButton[SelectedKeyButton].ShortcutLabel);
                                         handler.postDelayed(mLongPressed, 500);
                                     } //if (keypadButton[SelectedKeyButton].ShortcutPackage.length()>1))
-                                    return false;
+                                    break;
                                 case (MotionEvent.ACTION_UP):
                                     handler.removeCallbacks(mLongPressed);
                                     global.setFindString(findString);
@@ -148,16 +142,13 @@ public class KeypadTouchListener  {
                                         launchShortcut();
                                         longTouch.reset();
                                     } // if (longTouch.getStatus())
-                                    return false;
-                                default:
-                                    return true;
+                                    break;
                             }//switch(action)
+                            return true;
                         } //public boolean onTouch(View v, MotionEvent event)
                     } //new OnTouchListener()
             );//keypadKeys[inc].setOnTouchListener
 
-
-        } //for (inc=0; inc<=35; inc++)
 
  //-----------------------------   DELETE KEY ------------------------------------------------------------
         delButton.Key.setOnClickListener(
@@ -221,19 +212,6 @@ public class KeypadTouchListener  {
                 } //new Button.OnClickListener()
 
         ); //myButtonTrigger.setOnLongClickListener
-
-
-//-----------------------------   CAPTURE CLICK ON AREAS WITHOUT BUTTONS ------------------------------------------------------------
-
-
-
-        LaunchpadActivity.keypadBox.setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View v) {
-                    //do nothing
-            }
-        } //new Button.OnClickListener()
-        );// menuButton.Key.setOnClickListener
-
 
 
     } //void setKeypadListener()

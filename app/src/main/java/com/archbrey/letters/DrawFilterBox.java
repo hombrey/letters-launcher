@@ -6,8 +6,9 @@ import android.content.res.Resources;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.ViewGroup;
-import android.widget.Button;
+//import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.archbrey.letters.Preferences.SettingsActivity;
 
@@ -49,7 +50,8 @@ public class DrawFilterBox {
         int filterTextSize = 16;
 
         for (int inc=0; inc<NumOfFilters; inc++) {
-            filterItems[inc].button = new Button(mainContext);
+            filterItems[inc].button = new TextView(mainContext);
+            filterItems[inc].button.setGravity(Gravity.CENTER);
             filterItems[inc].button.setText(filterItems[inc].Code);
             filterItems[inc].button.setTextColor(SettingsActivity.textColor);
             filterItems[inc].button.setTextSize(TypedValue.COMPLEX_UNIT_SP, filterTextSize);
@@ -67,7 +69,9 @@ public class DrawFilterBox {
         LinearLayout.LayoutParams filterButtonParams = new LinearLayout.LayoutParams (
                 filter_button_width,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
+               // filter_button_height);
         filterButtonParams.setMargins(0,filter_button_height,0,filter_button_height);
+
         filterButtonParams.gravity = Gravity.CENTER_VERTICAL;
         filterButtonParams.weight=0.1f;
 

@@ -1,9 +1,9 @@
 package com.archbrey.letters;
 
-import android.widget.Button;
+import android.widget.TextView;
 
 public class SideButton {
-    Button Key;
+    TextView Key;
     String Ascii;
 
 }

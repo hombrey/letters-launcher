@@ -59,13 +59,13 @@ public class FilterBoxTouchListener {
 
     public void setFilterBoxListener() {
 
-        View.OnTouchListener[] FilterItemListener;
-        FilterItemListener = new View.OnTouchListener[numofFilters];
+     //   View.OnTouchListener[] FilterItemListener;
+     //   FilterItemListener = new View.OnTouchListener[numofFilters];
 
-        for (int inc=0; inc<numofFilters; inc++) {
+      //  for (int inc=0; inc<numofFilters; inc++) {
 
-            filterItems[inc].button.setOnTouchListener(
-                    FilterItemListener[inc] = new View.OnTouchListener() {
+        LaunchpadActivity.filterBox.setOnTouchListener(
+                     new View.OnTouchListener() {
                         public boolean onTouch(View v, MotionEvent event) {
 
                             float currentX = event.getRawX();
@@ -92,25 +92,23 @@ public class FilterBoxTouchListener {
                                     //typeoutView.append(" ");
                                     //typeoutView.append(String.valueOf(filterPosition));
 
-                                    return false;
+                                    break;
                                 case (MotionEvent.ACTION_MOVE):
                                     typeoutView.setText(TouchedFilter);
                                     //typeoutView.append(" ");
                                     //typeoutView.append(String.valueOf(filterPosition));
-                                    return false;
+                                    break;
                                 case (MotionEvent.ACTION_UP):
                                     typeoutView.setText(TouchedFilter);
                                     callAppListeners(appItems);
-                                    return false;
-                                default:
-                                    return true;
+                                    break;
                             }//switch(action)
+                            return true;
                         } //public boolean onTouch(View v, MotionEvent event)
                     } //new OnTouchListener()
             );//filterItems[inc].button.setOnTouchListener
 
-
-        } //or (inc=0; inc<numofFilters; inc++)
+       // } //or (inc=0; inc<numofFilters; inc++)
 
     } //public void setFilterBoxListener()
 

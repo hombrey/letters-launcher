@@ -7,11 +7,11 @@ import android.content.res.Resources;
 //import android.graphics.Color;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.widget.Button;
+import android.widget.TextView;
 import android.widget.LinearLayout;
 
 import com.archbrey.letters.Preferences.SettingsActivity;
-//import android.widget.TextView;
+import android.widget.TextView;
 
 
 public class DrawKeypadBox  {
@@ -21,13 +21,13 @@ public class DrawKeypadBox  {
     LinearLayout keypadBottomRow;
     LinearLayout keypadNumberRow;
 
-    private static LinearLayout keypadBox;
+    public static LinearLayout keypadBox;
 
     private Resources rDrawBox;
 
     public static KeypadButton[] keypadButton ;
     public static SideButton menuButton;
-    private static SideButton delButton;
+    public static SideButton delButton;
     Context LaunchpadContext;
 
 
@@ -43,7 +43,7 @@ public class DrawKeypadBox  {
         keypadBox = mainkeypadBox;
 
         for (int inc=0; inc<=35; inc++) {
-            keypadButton[inc].Key = new Button(LaunchpadContext);
+            keypadButton[inc].Key = new TextView(LaunchpadContext);
         } //for (inc=0; inc<=35; inc++)
 
        // drawKeypadBox();
@@ -72,14 +72,22 @@ public class DrawKeypadBox  {
         int inc;
         for (inc=0; inc<=35; inc++) {
            keypadButton[inc].Key.setText(keypadButton[inc].Letter);
-           //keypadButton[inc].Key.setTextColor(rDrawBox.getColor(R.color.text_color));
+           keypadButton[inc].Key.setGravity(Gravity.CENTER);
            keypadButton[inc].Key.setTextColor(SettingsActivity.textColor);
            keypadButton[inc].Key.setBackgroundColor(SettingsActivity.backColor);
         } //for (inc=0; inc<=35; inc++)
 
 
         menuButton.Key.setText(menuButton.Ascii);
+        menuButton.Key.setGravity(Gravity.CENTER);
+        menuButton.Key.setTextColor(SettingsActivity.textColor);
+        menuButton.Key.setBackgroundColor(SettingsActivity.backerColor);
+
         delButton.Key.setText(delButton.Ascii);
+        delButton.Key.setGravity(Gravity.CENTER);
+        delButton.Key.setTextColor(SettingsActivity.textColor);
+        delButton.Key.setBackgroundColor(SettingsActivity.backerColor);
+
 
         int keypad_key_width = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP, 0,
@@ -170,8 +178,8 @@ public class DrawKeypadBox  {
         keypadButton = new KeypadButton[36];
         menuButton = new SideButton();
         delButton = new SideButton();
-        menuButton.Key = new Button(LaunchpadContext);
-        delButton.Key = new Button(LaunchpadContext);
+        menuButton.Key = new TextView(LaunchpadContext);
+        delButton.Key = new TextView(LaunchpadContext);
         //menuButton.Ascii = new String();
         //delButton.Ascii = new String();
 
@@ -200,6 +208,8 @@ public class DrawKeypadBox  {
       //  if (!LaunchpadActivity.isSetAsHome)
       //      delButton.Key.setText(String.valueOf(Character.toChars(8595))); //"down" button
       //  else
+        if (TypeOut.findStatus) delButton.Ascii=String.valueOf(Character.toChars(8656));//back button
+        else
             delButton.Ascii=String.valueOf(Character.toChars(8593)); //"up" button
 
     }//void assignKeys()

@@ -68,19 +68,19 @@ public class HeightSettings  {
             switch (position) {
                 case 0:
                     SettingsActivity.keyboardHeight = 38;
-                    SettingsActivity.filterHeight = 5;
+                    SettingsActivity.filterHeight = 10;
                     break;
                 case 1:
                     SettingsActivity.keyboardHeight = 45;
-                    SettingsActivity.filterHeight = 7;
+                    SettingsActivity.filterHeight = 15;
                     break;
                 case 2:
                     SettingsActivity.keyboardHeight = 52;
-                    SettingsActivity.filterHeight = 9;
+                    SettingsActivity.filterHeight = 20;
                     break;
                 case 3:
                     SettingsActivity.keyboardHeight = 60;
-                    SettingsActivity.filterHeight = 11;
+                    SettingsActivity.filterHeight = 20;
                     break;
                 default:
                     SettingsActivity.keyboardHeight = 45;

@@ -1,10 +1,10 @@
 package com.archbrey.letters;
 
-import android.widget.Button;
+import android.widget.TextView;
 
 public class FilterItem {
 
-    Button button;
+    TextView button;
     String Code;
     String Name;
     AppItem[] filteredPkgs;

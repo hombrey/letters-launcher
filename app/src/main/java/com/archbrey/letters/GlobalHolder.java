@@ -18,8 +18,6 @@ public class GlobalHolder {
     private static String findString;
     private static View drawerBox;
     private static RelativeLayout typeoutBox;
-   // private static LinearLayout fillerBox;
-    //private static SideButton menuButton;
     private static SideButton delButton;
     private static Resources rMain;
 

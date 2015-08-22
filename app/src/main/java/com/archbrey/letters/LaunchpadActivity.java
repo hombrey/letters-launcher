@@ -31,6 +31,8 @@ import android.content.pm.ActivityInfo;
 //import com.archbrey.letters.Preferences.ClockSettings;
 import com.archbrey.letters.Preferences.SettingsActivity;
 
+import java.lang.reflect.Type;
+
 
 //import android.util.Log;
 
@@ -67,6 +69,7 @@ public class LaunchpadActivity extends Activity {
     private static AppItem[] allAppItems;
 
     public static SharedPreferences prefs;
+    public static SharedPreferences.Editor prefsEditor;
     public static String prefName = "LettersPrefs";
 
     public static boolean hideDrawerAllApps;
@@ -109,6 +112,7 @@ public class LaunchpadActivity extends Activity {
 
         prefs = getSharedPreferences(prefName, MODE_PRIVATE);
         getPreferences();
+        prefsEditor = LaunchpadActivity.prefs.edit();
 
         mainScreen = new RelativeLayout(this);
         mainScreen.setGravity(Gravity.BOTTOM);
@@ -215,7 +219,7 @@ public class LaunchpadActivity extends Activity {
             clockoutHandle.refreshClock();
             drawerBox.setVisibility(View.INVISIBLE);
             TypeOut.typeoutBox.setVisibility(View.GONE);
-            typeoutBoxHandle.setFindStatus(false);
+            //typeoutBoxHandle.setFindStatus(false);
             TypeOut.typeoutView.setText("");
             hideDrawerAllApps = true; //this standardizes behavior when pressing home button
         }
@@ -273,7 +277,7 @@ public class LaunchpadActivity extends Activity {
         } // if (hideDrawerAllApps)
 
         global.setFindString("");
-        typeoutBoxHandle.setFindStatus(false); //stop search mode if length = 0;
+        //typeoutBoxHandle.setFindStatus(false); //stop search mode if length = 0;
         // filterBoxHandle.refreshRecentItems();
 
         if (SettingsActivity.SettingChanged) {
@@ -373,7 +377,7 @@ public class LaunchpadActivity extends Activity {
                 TypeOut.editView.setText("  "); //spacer to make the tap target larger
                 TypeOut.editView.append(String.valueOf(Character.toChars(177))); //plus minus button
                 TypeOut.editView.append("  "); //spacer to make the tap target larger
-                typeoutBoxHandle.setFindStatus(false);
+                //typeoutBoxHandle.setFindStatus(false);
                 TypeOut.typeoutView.setText("");
                 toggleHideAllApps();
 
@@ -437,11 +441,11 @@ public class LaunchpadActivity extends Activity {
         if (isSmallScreen) {
             columns = prefs.getInt("column_num", 1);
             keyHeight = prefs.getInt("keyboardHeight", 38);
-            fltHeight = prefs.getInt("filterHeight", 5);
+            fltHeight = prefs.getInt("filterHeight", 10);
             textSize = prefs.getInt("drawerTextSize", 15);
         } else {
             keyHeight = prefs.getInt("keyboardHeight", 45);
-            fltHeight = prefs.getInt("filterHeight", 7);
+            fltHeight = prefs.getInt("filterHeight", 15);
             columns = prefs.getInt("column_num", 3);
             textSize = prefs.getInt("drawerTextSize", 19);
             } //if (isSmallScreen)
@@ -481,7 +485,10 @@ public class LaunchpadActivity extends Activity {
         SettingsActivity.keyboardHeight = keyHeight;
         SettingsActivity.filterHeight = fltHeight;
 
+        TypeOut.findStatus = prefs.getBoolean("findStatus",false);
+
     } //private void setColorTheme()
+
 
     private void drawBoxes(){
 
@@ -525,8 +532,6 @@ public class LaunchpadActivity extends Activity {
                 LinearLayout.LayoutParams.MATCH_PARENT);
         clockoutBoxParams.addRule(RelativeLayout.ABOVE, keypadBox.getId());
 
-
-
         RelativeLayout.LayoutParams drawerBoxParams = new RelativeLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -546,7 +551,6 @@ public class LaunchpadActivity extends Activity {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         filterBoxParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-
 
         mainScreen.addView(filterBox, filterBoxParams);
         mainScreen.addView(keypadBox, keypadBoxParams);
@@ -624,8 +628,6 @@ public class LaunchpadActivity extends Activity {
             filterBoxParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             fillerParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         } //else of  if (SettingsActivity.handedness.equals("left"))
-
-
 
 
 
