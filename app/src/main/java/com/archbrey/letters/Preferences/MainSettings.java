@@ -21,7 +21,6 @@ public class MainSettings {
 
     }
 
-
     public GridView DrawBox (GridView getgridBox,Context c,Resources getR) {
 
         String[] menuItems;
@@ -32,15 +31,15 @@ public class MainSettings {
         settingsContext = c;
         rMainSettings = getR;
 
-        menuItems = new String[7];
+        menuItems = new String[8];
         menuItems[0]=getR.getString(R.string.color_scheme);
         menuItems[1]=getR.getString(R.string.custom_clock);
         menuItems[2]=getR.getString(R.string.change_columns);
         menuItems[3]=getR.getString(R.string.drawer_textsize);
-        menuItems[4] =getR.getString(R.string.custom_filter);
-        menuItems[5] =getR.getString(R.string.custom_keypad);
-        menuItems[6] =getR.getString(R.string.handedness);
-
+        menuItems[4] =getR.getString(R.string.enable_filter);
+        menuItems[5] =getR.getString(R.string.custom_filter);
+        menuItems[6] =getR.getString(R.string.custom_keypad);
+        menuItems[7] =getR.getString(R.string.handedness);
 
         new SettingsDrawer(settingsContext, mainMenuBox, menuItems);
         setListener();
@@ -82,18 +81,24 @@ public class MainSettings {
                     textSizeHandle = new DrawerTextSize();
                     textSizeHandle.DrawBox(mainMenuBox, settingsContext, rMainSettings);
                     break;
+
                 case 4:
+                    FilterEnable filterEnableHandle;
+                    filterEnableHandle = new FilterEnable();
+                    filterEnableHandle.DrawBox(mainMenuBox, settingsContext, rMainSettings);
+                    break;
+                case 5:
                     FilterLabels labelsHandle;
                     labelsHandle = new FilterLabels();
                     labelsHandle.DrawBox(mainMenuBox, settingsContext, rMainSettings);
                     break;
-                case 5:
+                case 6:
                     HeightSettings heightHandle;
                     heightHandle = new HeightSettings();
                     heightHandle.DrawBox(mainMenuBox, settingsContext, rMainSettings);
 
                     break;
-                case 6:
+                case 7:
                     LandscapeHandedness handednessHandle;
                     handednessHandle = new LandscapeHandedness();
                     handednessHandle.DrawBox(mainMenuBox, settingsContext, rMainSettings);

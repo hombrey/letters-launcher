@@ -79,8 +79,10 @@ public class DrawFilterBox {
         filterBox.setBackgroundColor(SettingsActivity.backerColor);
         filterBox.setGravity(Gravity.BOTTOM);
 
-
-        for (int inc=0; inc<NumOfFilters; inc++) {filterBox.addView(filterItems[inc].button, filterButtonParams);}
+        //allow user to remove filter bar from view via settings
+        if (SettingsActivity.filterEnabled)
+            for (int inc=0; inc<NumOfFilters; inc++) {filterBox.addView(filterItems[inc].button, filterButtonParams);}
+        else filterBox.removeAllViews();
 
     } //private void drawFilerBox()
 

@@ -5,6 +5,15 @@
     <color name="Blacker_transparent">#D0000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="Black_0">#00000000</color>
+    <color name="Black_2">#20000000</color>
+    <color name="Black_4">#40000000</color>
+    <color name="Black_6">#60000000</color>
+    <color name="Black_8">#80000000</color>
+    <color name="Black_A">#A0000000</color>
+    <color name="Black_D">#DD000000</color>
+    <color name="Black_F">#FF000000</color>
+
     <color name="grey50">#CC888888</color>
     <color name="transparent">#00000000</color>
 
@@ -12,5 +21,14 @@
     <color name="White_transparent">#80FFFFFF</color>
     <color name="Whiter_transparent">#D0FFFFFF</color>
     <color name="black">#FF000000</color>
+
+    <color name="White_0">#00FFFFFF</color>
+    <color name="White_2">#20FFFFFF</color>
+    <color name="White_4">#40FFFFFF</color>
+    <color name="White_6">#60FFFFFF</color>
+    <color name="White_8">#80FFFFFF</color>
+    <color name="White_A">#A0FFFFFF</color>
+    <color name="White_D">#DDFFFFFF</color>
+    <color name="White_F">#FFFFFFFF</color>
 
 </resources>

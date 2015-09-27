@@ -359,7 +359,7 @@ public class ClockOut {
                                 msghandler.removeCallbacks(lingerMsg);
                                 popSelectHandler.removeCallbacks(triggerPopMenu);
                                 touchOrientation = 0; //reset to unknown touch orientation
-                                popSelectHandler.postDelayed(triggerPopMenu, 500);
+                                popSelectHandler.postDelayed(triggerPopMenu, 1500);
                                 return true;
                             case (MotionEvent.ACTION_MOVE):
                                 //if (touchOrientation==0) popSelectHandler.postDelayed(triggerPopMenu, 500);

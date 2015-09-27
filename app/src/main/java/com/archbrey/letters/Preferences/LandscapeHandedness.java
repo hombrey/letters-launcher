@@ -37,8 +37,8 @@ public class LandscapeHandedness {
 
         String[] menuItems;
 
-        SettingsActivity.infoView.setText(getR.getString(R.string.custom_keypad));
-        SettingsActivity.menuArea = getR.getString(R.string.custom_keypad);
+        SettingsActivity.infoView.setText(getR.getString(R.string.handedness));
+        SettingsActivity.menuArea = getR.getString(R.string.handedness);
         SettingsActivity.menuLevel=1;
         mainMenuBox = getgridBox;
         settingsContext = c;

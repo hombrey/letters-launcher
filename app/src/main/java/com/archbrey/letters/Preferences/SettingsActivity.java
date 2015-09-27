@@ -79,6 +79,8 @@ public class SettingsActivity extends Activity {
     public static int keyboardHeight;
     public static int filterHeight;
 
+    public static boolean filterEnabled;
+
     public static int clockVisibility;
 
     public static String[] filterCodes;

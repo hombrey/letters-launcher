@@ -74,19 +74,19 @@ public class DrawKeypadBox  {
            keypadButton[inc].Key.setText(keypadButton[inc].Letter);
            keypadButton[inc].Key.setGravity(Gravity.CENTER);
            keypadButton[inc].Key.setTextColor(SettingsActivity.textColor);
-           keypadButton[inc].Key.setBackgroundColor(SettingsActivity.backColor);
+           keypadButton[inc].Key.setBackgroundColor(SettingsActivity.transparent);
         } //for (inc=0; inc<=35; inc++)
 
 
         menuButton.Key.setText(menuButton.Ascii);
         menuButton.Key.setGravity(Gravity.CENTER);
         menuButton.Key.setTextColor(SettingsActivity.textColor);
-        menuButton.Key.setBackgroundColor(SettingsActivity.backerColor);
+        menuButton.Key.setBackgroundColor(SettingsActivity.backColor);
 
         delButton.Key.setText(delButton.Ascii);
         delButton.Key.setGravity(Gravity.CENTER);
         delButton.Key.setTextColor(SettingsActivity.textColor);
-        delButton.Key.setBackgroundColor(SettingsActivity.backerColor);
+        delButton.Key.setBackgroundColor(SettingsActivity.backColor);
 
 
         int keypad_key_width = (int) TypedValue.applyDimension(
@@ -112,14 +112,12 @@ public class DrawKeypadBox  {
 
 
         keypadBox.setOrientation(LinearLayout.VERTICAL);
-        //keypadBox.setBackgroundColor(Color.BLUE);
         keypadBox.setBackgroundColor(SettingsActivity.backColor);
         keypadBox.setGravity(Gravity.BOTTOM);
 
         //==========TOP ROW=========================================================================================
         keypadTopRow = new LinearLayout(LaunchpadContext);
         keypadTopRow.setOrientation(LinearLayout.HORIZONTAL);
-        //keypadTopRow.setBackgroundColor(Color.BLUE);
         keypadTopRow.setGravity(Gravity.CENTER);
 
         for (inc=10; inc<=19; inc++) {keypadTopRow.addView(keypadButton[inc].Key, keypadKeysParams);}

@@ -59,10 +59,6 @@ public class FilterBoxTouchListener {
 
     public void setFilterBoxListener() {
 
-     //   View.OnTouchListener[] FilterItemListener;
-     //   FilterItemListener = new View.OnTouchListener[numofFilters];
-
-      //  for (int inc=0; inc<numofFilters; inc++) {
 
         LaunchpadActivity.filterBox.setOnTouchListener(
                      new View.OnTouchListener() {

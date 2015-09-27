@@ -20,10 +20,11 @@
     <string name="unassigned"> (unassigned) </string>
 
     <string name="settings">Settings</string>
-    <string name="color_scheme">Color Scheme</string>
+    <string name="color_scheme">Background Color</string>
     <string name="change_columns">Drawer Columns</string>
     <string name="drawer_textsize">Drawer Text Size</string>
     <string name="custom_filter">Filter Labels</string>
+    <string name="enable_filter">Filter bar</string>
     <string name="custom_keypad">Keypad Height</string>
     <string name="custom_clock">Clock Visibility</string>
     <string name="handedness">Landscape handedness</string>
@@ -31,6 +32,22 @@
 
     <string name="dark_scheme">Dark Scheme</string>
     <string name="light_scheme">Light Scheme</string>
+
+    <string name="dark_1">Dark 1</string>
+    <string name="dark_2">Dark 2</string>
+    <string name="dark_3">Dark 3</string>
+    <string name="dark_4">Dark 4</string>
+    <string name="dark_5">Dark 5</string>
+    <string name="dark_6">Dark 6</string>
+    <string name="dark_7">Dark 7</string>
+
+    <string name="light_1">Light 1</string>
+    <string name="light_2">Light 2</string>
+    <string name="light_3">Light 3</string>
+    <string name="light_4">Light 4</string>
+    <string name="light_5">Light 5</string>
+    <string name="light_6">Light 6</string>
+    <string name="light_7">Light 7</string>
 
     <string name="sample_clock">Sample Clock Display</string>
     <string name="clock_invisible">invisible</string>
@@ -68,7 +85,6 @@
     <string name="action_wallpaper">Change Wallpaper</string>
     <string name="chooser_wallpaper">Select wallpaper from</string>
 
-
     <string name="apps">Apps</string>
     <string name="sound">Sound</string>
     <string name="bluetooth">Bluetooth</string>
@@ -79,6 +95,13 @@
     <string name="system">-Main-</string>
     <string name="wifi">Wifi</string>
     <string name="wireless">Wireless</string>
+
+
+    <string name="enable">enable</string>
+    <string name="disable">disable</string>
+
+    <string name="enabled">ENABLED</string>
+    <string name="disabled">DISABLED</string>
 
     <string name="letter_Q">Q</string>
     <string name="letter_W">W</string>

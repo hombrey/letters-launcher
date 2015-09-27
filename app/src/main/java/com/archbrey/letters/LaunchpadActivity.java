@@ -18,20 +18,20 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
-import android.widget.AdapterView;
+//import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.content.res.Resources;
 import android.view.Gravity;
-import android.content.pm.ActivityInfo;
+//import android.content.pm.ActivityInfo;
 
 
 //import com.archbrey.letters.Preferences.ClockSettings;
 import com.archbrey.letters.Preferences.SettingsActivity;
 
-import java.lang.reflect.Type;
+//import java.lang.reflect.Type;
 
 
 //import android.util.Log;
@@ -429,7 +429,7 @@ public class LaunchpadActivity extends Activity {
         } //if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK)
 
 
-        colorScheme = prefs.getString("colorscheme", "black");
+        colorScheme = prefs.getString("colorscheme", "dark5");
 
         Integer clockVisibility = prefs.getInt("clockVisibility",1);
 
@@ -451,6 +451,7 @@ public class LaunchpadActivity extends Activity {
             } //if (isSmallScreen)
 
         SettingsActivity.handedness = prefs.getString("handedness", "right");
+        SettingsActivity.filterEnabled = prefs.getBoolean("FilterEnabled", true);
 
         SettingsActivity.filterCodes = new String[6];
 
@@ -461,21 +462,69 @@ public class LaunchpadActivity extends Activity {
         SettingsActivity.filterCodes[4] = prefs.getString("filter4", "Fun");
         SettingsActivity.filterCodes[5] = prefs.getString("filter5", "Sys");
 
-        SettingsActivity.textColor = r.getColor(R.color.white);
-        SettingsActivity.backColor = r.getColor(R.color.Black_transparent);
-        SettingsActivity.backerColor = r.getColor(R.color.Blacker_transparent);
         SettingsActivity.backSelectColor = r.getColor(R.color.grey50);
         SettingsActivity.transparent = r.getColor(R.color.transparent);
 
-        //SettingsActivity.clockBack = r.getColor(R.color.White_transparent);
+        //keep "black" and "white" color scheme to support transition from version 1.45 and below
+        if (colorScheme.equals("black")) {
+            SettingsActivity.textColor = r.getColor(R.color.white);
+            SettingsActivity.backColor = r.getColor(R.color.Black_transparent);
+            SettingsActivity.backerColor = r.getColor(R.color.Blacker_transparent);
+        } //if if colorScheme.equals("black")
 
         if (colorScheme.equals("white")) {
             SettingsActivity.textColor = r.getColor(R.color.black);
             SettingsActivity.backColor = r.getColor(R.color.White_transparent);
             SettingsActivity.backerColor = r.getColor(R.color.Whiter_transparent);
-            //SettingsActivity.backSelectColor = r.getColor(R.color.grey50);
         } //if if colorScheme.equals("white")
 
+        if (colorScheme.equals("dark1")) {SettingsActivity.textColor = r.getColor(R.color.white);SettingsActivity.backColor = r.getColor(R.color.Black_0);SettingsActivity.backerColor = r.getColor(R.color.Black_2);
+        } //if if colorScheme.equals("dark1")
+
+        if (colorScheme.equals("dark2")) {SettingsActivity.textColor = r.getColor(R.color.white);SettingsActivity.backColor = r.getColor(R.color.Black_2);SettingsActivity.backerColor = r.getColor(R.color.Black_4);
+        } //if if colorScheme.equals("")
+        
+        if (colorScheme.equals("dark3")) {SettingsActivity.textColor = r.getColor(R.color.white);SettingsActivity.backColor = r.getColor(R.color.Black_4);SettingsActivity.backerColor = r.getColor(R.color.Black_6);
+        } //if if colorScheme.equals("")
+
+        if (colorScheme.equals("dark4")) {SettingsActivity.textColor = r.getColor(R.color.white);SettingsActivity.backColor = r.getColor(R.color.Black_6);SettingsActivity.backerColor = r.getColor(R.color.Black_8);
+        } //if if colorScheme.equals("")
+
+        if (colorScheme.equals("dark5")) {SettingsActivity.textColor = r.getColor(R.color.white);SettingsActivity.backColor = r.getColor(R.color.Black_8);SettingsActivity.backerColor = r.getColor(R.color.Black_A);
+        } //if if colorScheme.equals("")
+
+        if (colorScheme.equals("dark6")) {SettingsActivity.textColor = r.getColor(R.color.white);SettingsActivity.backColor = r.getColor(R.color.Black_A);SettingsActivity.backerColor = r.getColor(R.color.Black_D);
+        } //if if colorScheme.equals("")
+
+        if (colorScheme.equals("dark7")) {SettingsActivity.textColor = r.getColor(R.color.white);SettingsActivity.backColor = r.getColor(R.color.Black_D);SettingsActivity.backerColor = r.getColor(R.color.Black_F);
+        } //if if colorScheme.equals("")
+
+        if (colorScheme.equals("white1")) {SettingsActivity.textColor = r.getColor(R.color.black);SettingsActivity.backColor = r.getColor(R.color.White_0);SettingsActivity.backerColor = r.getColor(R.color.White_2);
+        } //if if colorScheme.equals("")
+
+        if (colorScheme.equals("light2")) {SettingsActivity.textColor = r.getColor(R.color.black);SettingsActivity.backColor = r.getColor(R.color.White_2);SettingsActivity.backerColor = r.getColor(R.color.White_4);
+        } //if if colorScheme.equals("")
+
+
+        if (colorScheme.equals("light3")) {SettingsActivity.textColor = r.getColor(R.color.black);SettingsActivity.backColor = r.getColor(R.color.White_4);SettingsActivity.backerColor = r.getColor(R.color.White_6);
+        } //if if colorScheme.equals("")
+
+        if (colorScheme.equals("light4")) {SettingsActivity.textColor = r.getColor(R.color.black);SettingsActivity.backColor = r.getColor(R.color.White_6);SettingsActivity.backerColor = r.getColor(R.color.White_8);
+        } //if if colorScheme.equals("")
+
+        if (colorScheme.equals("light5")) {SettingsActivity.textColor = r.getColor(R.color.black);SettingsActivity.backColor = r.getColor(R.color.White_8);SettingsActivity.backerColor = r.getColor(R.color.White_A);
+        } //if if colorScheme.equals("")
+
+        if (colorScheme.equals("light6")) {SettingsActivity.textColor = r.getColor(R.color.black);SettingsActivity.backColor = r.getColor(R.color.White_A);SettingsActivity.backerColor = r.getColor(R.color.White_D);
+        } //if if colorScheme.equals("")
+
+        if (colorScheme.equals("light7")) {SettingsActivity.textColor = r.getColor(R.color.black);SettingsActivity.backColor = r.getColor(R.color.White_D);SettingsActivity.backerColor = r.getColor(R.color.White_F);
+        } //if if colorScheme.equals("")
+/*
+        SettingsActivity.textColor = r.getColor(R.color.white);
+        SettingsActivity.backColor = r.getColor(R.color.Black_6);
+        SettingsActivity.backerColor = r.getColor(R.color.Black_8);
+*/
         SettingsActivity.clockVisibility = clockVisibility;
         //new ClockSettings().setBackground();
         setClockBackground();
